@@ -4,7 +4,7 @@ import Skills from './components/Skills';
 
 function App() {
   return (
-    <div className="min-h-screen bg-[#fafafa]">
+    <div className="min-h-screen">
       <Navbar />
       <Home />
       <Skills />
