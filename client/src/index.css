@@ -3,48 +3,58 @@
 @tailwind utilities;
 
 @layer base {
-  body {
-    @apply antialiased bg-white text-[#111];
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-  }
+	body {
+		@apply antialiased bg-white text-[#111];
+		font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial,
+			sans-serif;
+	}
 }
 
 /* Background pattern */
 .bg-gradient-radial {
-  background: radial-gradient(circle at center, var(--tw-gradient-from) 0%, var(--tw-gradient-to) 100%);
+	background: radial-gradient(
+		circle at center,
+		var(--tw-gradient-from) 0%,
+		var(--tw-gradient-to) 100%
+	);
 }
 
 /* Navbar styles */
 .navbar {
-  @apply fixed top-0 left-0 w-full z-50;
-  background: rgba(255, 255, 255, 0.7);
-  border-bottom: 1px solid #eaeaea;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+	@apply fixed top-0 left-0 w-full z-50;
+	background: rgba(255, 255, 255, 0);
+	transition: all 0.3s ease-in-out;
+}
+
+.navbar.scrolled {
+	background: rgba(255, 255, 255, 0.8);
+	backdrop-filter: blur(10px);
+	-webkit-backdrop-filter: blur(10px);
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .navbar-container {
-  @apply max-w-[1400px] mx-auto px-6 py-4 flex justify-between items-center;
+	@apply max-w-[1400px] mx-auto px-6 py-4 flex justify-between items-center;
 }
 
 /* Button styles */
 .btn-primary {
-  @apply inline-flex items-center gap-2 px-6 py-3 rounded-full font-medium transition-all duration-200;
+	@apply inline-flex items-center gap-2 px-6 py-3 rounded-full font-medium transition-all duration-200;
 }
 
 /* Text highlight styles */
 .highlight {
-  @apply inline-block px-3 py-1 rounded-lg;
+	@apply inline-block px-3 py-1 rounded-lg;
 }
 
 .highlight-blue {
-  @apply bg-[#e8f3ff];
+	@apply bg-[#e8f3ff];
 }
 
 .highlight-black {
-  @apply bg-[#111] text-white;
+	@apply bg-[#111] text-white;
 }
 
 .highlight-gray {
-  @apply bg-gray-100;
+	@apply bg-gray-100;
 }
