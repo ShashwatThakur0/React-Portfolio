@@ -8,12 +8,66 @@
 		<style>
 			html,
 			body {
-				overflow-x: hidden;
+				overflow-x: hidden !important;
 				width: 100%;
 				margin: 0;
 				padding: 0;
+				max-width: 100vw;
+				position: relative;
+			}
+
+			#root {
+				overflow-x: hidden;
+				max-width: 100vw;
+			}
+
+			::-webkit-scrollbar {
+				width: 0px;
+				display: none;
+			}
+
+			* {
+				-ms-overflow-style: none; /* IE and Edge */
+				scrollbar-width: none; /* Firefox */
+				box-sizing: border-box;
+				max-width: 100vw;
 			}
 		</style>
+		<script>
+			// Global function to scroll to a section
+			window.scrollToSection = function (sectionId) {
+				const section = document.getElementById(sectionId);
+				if (section) {
+					const yOffset = -80;
+					const y =
+						section.getBoundingClientRect().top + window.pageYOffset + yOffset;
+
+					window.scrollTo({
+						top: y,
+						behavior: "smooth",
+					});
+				}
+			};
+
+			// Add direct click handler to the button after the page loads
+			window.addEventListener("load", function () {
+				setTimeout(function () {
+					// Find the "See what I can do" button
+					const buttons = document.querySelectorAll("button");
+					buttons.forEach((button) => {
+						if (button.textContent.includes("See what I can do")) {
+							// Replace the existing click handler
+							button.onclick = function (e) {
+								e.preventDefault();
+								e.stopPropagation();
+								window.scrollToSection("projects");
+								return false;
+							};
+						}
+					});
+				}, 500);
+			});
+		</script>
 	</head>
 	<body>
 		<div id="root"></div>

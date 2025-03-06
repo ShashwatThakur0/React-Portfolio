@@ -1,49 +1,38 @@
 import { motion } from "framer-motion";
-import { useEffect, useRef } from "react";
 import profilePic from "../assets/profilePic/Screenshot 2025-02-26 213047.png";
 
 const Home = () => {
-	// Create a ref for the button
-	const buttonRef = useRef(null);
+	// Direct approach for button click
+	const handleButtonClick = (e) => {
+		e.preventDefault();
+		e.stopPropagation();
 
-	// Set up the click handler using useEffect to ensure it's only set up once
-	useEffect(() => {
-		const button = buttonRef.current;
+		// Try multiple approaches to ensure it works
+		try {
+			// First try the global function
+			if (typeof window.scrollToSection === "function") {
+				window.scrollToSection("projects");
+				return;
+			}
 
-		const handleClick = (e) => {
-			e.preventDefault();
-
-			// Get the projects section by ID
+			// Fallback to direct DOM manipulation
 			const projectsSection = document.getElementById("projects");
-
 			if (projectsSection) {
-				// Calculate position
 				const yOffset = -80;
 				const y =
 					projectsSection.getBoundingClientRect().top +
 					window.pageYOffset +
 					yOffset;
 
-				// Scroll to the position
 				window.scrollTo({
 					top: y,
 					behavior: "smooth",
 				});
 			}
-		};
-
-		// Add event listener
-		if (button) {
-			button.addEventListener("click", handleClick);
+		} catch (error) {
+			console.error("Error scrolling to projects:", error);
 		}
-
-		// Clean up
-		return () => {
-			if (button) {
-				button.removeEventListener("click", handleClick);
-			}
-		};
-	}, []); // Empty dependency array means this runs once on mount
+	};
 
 	return (
 		<div className="relative min-h-screen bg-[#fafafa] overflow-hidden">
@@ -138,12 +127,13 @@ const Home = () => {
 							technologies and always open to exciting collaborations.
 						</p>
 						<div className="mt-2 flex justify-center md:justify-start gap-4">
-							<motion.a
-								ref={buttonRef}
-								href="#projects"
+							<motion.button
+								type="button"
+								id="seeProjectsButton"
 								className="inline-flex items-center gap-2 px-6 py-3 bg-[#98ff98] rounded-full font-medium hover:bg-[#7aff7a] hover:scale-105 transition-all duration-300 text-black shadow-lg hover:shadow-xl transform active:scale-95"
 								whileHover={{ scale: 1.05 }}
 								whileTap={{ scale: 0.95 }}
+								onClick={handleButtonClick}
 							>
 								See what I can do
 								<motion.span
@@ -154,7 +144,7 @@ const Home = () => {
 								>
 									→
 								</motion.span>
-							</motion.a>
+							</motion.button>
 						</div>
 					</div>
 				</div>

@@ -52,7 +52,43 @@ function App() {
 
 		window.addEventListener("scroll", handleScroll);
 		handleScroll();
-		return () => window.removeEventListener("scroll", handleScroll);
+
+		const buttonSetupTimeout = setTimeout(() => {
+			const button = document.getElementById("seeProjectsButton");
+			if (button) {
+				const directClickHandler = (e) => {
+					e.preventDefault();
+					e.stopPropagation();
+
+					const projectsSection = document.getElementById("projects");
+					if (projectsSection) {
+						const yOffset = -80;
+						const y =
+							projectsSection.getBoundingClientRect().top +
+							window.pageYOffset +
+							yOffset;
+
+						window.scrollTo({
+							top: y,
+							behavior: "smooth",
+						});
+					}
+
+					return false;
+				};
+
+				button.replaceWith(button.cloneNode(true));
+				const newButton = document.getElementById("seeProjectsButton");
+				if (newButton) {
+					newButton.addEventListener("click", directClickHandler, true);
+				}
+			}
+		}, 1500);
+
+		return () => {
+			window.removeEventListener("scroll", handleScroll);
+			clearTimeout(buttonSetupTimeout);
+		};
 	}, []);
 
 	return (
