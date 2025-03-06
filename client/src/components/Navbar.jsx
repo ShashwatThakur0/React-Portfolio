@@ -47,25 +47,25 @@ const Navbar = () => {
 				} space-x-8 ${scrolled ? "" : "max-w-7xl mx-auto"}`}
 			>
 				<a
-					href="#projects"
-					className={`text-sm font-medium transition-colors hover:text-gray-600 ${
-						scrolled ? "text-gray-800" : "text-gray-900"
+					href="#about"
+					className={`text-sm font-medium transition-colors hover:text-blue-400 ${
+						scrolled ? "text-gray-800" : "text-white"
 					}`}
 				>
 					About
 				</a>
 				<a
-					href="#about"
-					className={`text-sm font-medium transition-colors hover:text-gray-600 ${
-						scrolled ? "text-gray-800" : "text-gray-800"
+					href="#projects"
+					className={`text-sm font-medium transition-colors hover:text-blue-400 ${
+						scrolled ? "text-gray-800" : "text-white"
 					}`}
 				>
 					Projects
 				</a>
 				<a
 					href="mailto:shashwat.thakur02@gmail.com"
-					className={`text-sm font-medium transition-colors hover:text-gray-600 ${
-						scrolled ? "text-gray-800" : "text-gray-800"
+					className={`text-sm font-medium transition-colors hover:text-blue-400 ${
+						scrolled ? "text-gray-800" : "text-white"
 					}`}
 				>
 					Email me

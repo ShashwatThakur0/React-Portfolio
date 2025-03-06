@@ -1,8 +1,5 @@
-// Import animation libraries and React hooks
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useRef } from "react";
-
-// Import components for different sections of the portfolio
 import Navbar from "./components/Navbar";
 import Home from "./components/Home";
 import Skills from "./components/Skills";
@@ -10,32 +7,28 @@ import About from "./components/About";
 import Projects from "./components/Projects";
 import Contact from "./components/Contact";
 
-// Define animation variants for page transitions
 const pageVariants = {
-	// Initial state when component enters
 	initial: {
-		opacity: 0, // Start fully transparent
-		y: 20, // Start slightly below final position
-		scale: 0.98, // Start slightly smaller
+		opacity: 0,
+		y: 20,
+		scale: 0.98,
 	},
-	// Animated state when component is visible
 	animate: {
-		opacity: 1, // Fade in to full opacity
-		y: 0, // Move to final position
-		scale: 1, // Scale to full size
+		opacity: 1,
+		y: 0,
+		scale: 1,
 		transition: {
-			duration: 0.6, // Animation duration
-			ease: "easeOut", // Smooth easing function
+			duration: 0.6,
+			ease: "easeOut",
 		},
 	},
-	// Exit state when component leaves
 	exit: {
-		opacity: 0, // Fade out to transparent
-		y: -20, // Move slightly up
-		scale: 0.98, // Scale down slightly
+		opacity: 0,
+		y: -20,
+		scale: 0.98,
 		transition: {
-			duration: 0.4, // Exit animation duration
-			ease: "easeIn", // Smooth easing function
+			duration: 0.4,
+			ease: "easeIn",
 		},
 	},
 };
@@ -75,6 +68,7 @@ function App() {
 					className="relative z-10"
 				>
 					<motion.section
+						id="home"
 						ref={(el) => (sectionsRef.current[0] = el)}
 						key="home"
 						variants={pageVariants}
@@ -86,6 +80,7 @@ function App() {
 						<Home />
 					</motion.section>
 					<motion.section
+						id="about"
 						ref={(el) => (sectionsRef.current[1] = el)}
 						key="about"
 						variants={pageVariants}
@@ -97,6 +92,7 @@ function App() {
 						<About />
 					</motion.section>
 					<motion.section
+						id="skills"
 						ref={(el) => (sectionsRef.current[2] = el)}
 						key="skills"
 						variants={pageVariants}
@@ -108,6 +104,7 @@ function App() {
 						<Skills />
 					</motion.section>
 					<motion.section
+						id="projects"
 						ref={(el) => (sectionsRef.current[3] = el)}
 						key="projects"
 						variants={pageVariants}
@@ -119,6 +116,7 @@ function App() {
 						<Projects />
 					</motion.section>
 					<motion.section
+						id="contact"
 						ref={(el) => (sectionsRef.current[4] = el)}
 						key="contact"
 						variants={pageVariants}

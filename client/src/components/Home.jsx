@@ -97,19 +97,30 @@ const Home = () => {
 						<div className="mt-2 flex justify-center md:justify-start gap-4">
 							<motion.a
 								href="#projects"
-								className="inline-flex items-center gap-2 px-6 py-3 bg-[#98ff98] rounded-full font-medium hover:bg-[#7aff7a] transition-colors text-black"
+								className="inline-flex items-center gap-2 px-6 py-3 bg-[#98ff98] rounded-full font-medium hover:bg-[#7aff7a] hover:scale-105 transition-all duration-300 text-black shadow-lg hover:shadow-xl transform active:scale-95"
 								whileHover={{ scale: 1.05 }}
 								whileTap={{ scale: 0.95 }}
+								onClick={(e) => {
+									e.preventDefault();
+									const projectsSection = document.getElementById('projects');
+									if (projectsSection) {
+										projectsSection.scrollIntoView({
+											behavior: 'smooth',
+											block: 'start',
+											inline: 'nearest'
+										});
+									}
+								}}
 							>
 								See what I can do
-								<svg className="w-4 h-4" viewBox="0 0 16 16" fill="none">
-									<path
-										d="M1 8h14M8 1l7 7-7 7"
-										stroke="currentColor"
-										strokeWidth="2"
-										strokeLinecap="round"
-									/>
-								</svg>
+								<motion.span
+									className="inline-block"
+									initial={{ x: 0 }}
+									whileHover={{ x: 5 }}
+									transition={{ duration: 0.3 }}
+								>
+									→
+								</motion.span>
 							</motion.a>
 						</div>
 					</div>
