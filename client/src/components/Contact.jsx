@@ -1,39 +1,46 @@
+// Import necessary hooks and libraries
 import { useState, useRef } from "react";
-import { motion } from "framer-motion";
-import emailjs from "@emailjs/browser";
+import { motion } from "framer-motion"; // For animations
+import emailjs from "@emailjs/browser"; // For email functionality
 
+// Contact component for handling user messages
 const Contact = () => {
+	// Reference to the form element for EmailJS
 	const formRef = useRef();
+	// State to manage form input values
 	const [form, setForm] = useState({
-		name: "",
-		email: "",
-		message: "",
+		name: "", // User's name
+		email: "", // User's email
+		message: "", // User's message
 	});
-	const [loading, setLoading] = useState(false);
-	const [success, setSuccess] = useState(false);
+	// State to manage loading and success states
+	const [loading, setLoading] = useState(false); // Loading state during form submission
+	const [success, setSuccess] = useState(false); // Success state after form submission
 
+	// Handle input changes in the form
 	const handleChange = (e) => {
 		const { name, value } = e.target;
-		setForm({ ...form, [name]: value });
+		setForm({ ...form, [name]: value }); // Update form state with new values
 	};
 
+	// Handle form submission
 	const handleSubmit = (e) => {
-		e.preventDefault();
-		setLoading(true);
+		e.preventDefault(); // Prevent default form submission
+		setLoading(true); // Set loading state
 
-		// Replace with your EmailJS service details
+		// Send email using EmailJS service
 		emailjs
 			.send(
-				"YOUR_SERVICE_ID", // Create account on emailjs.com and get these details
-				"YOUR_TEMPLATE_ID",
+				"YOUR_SERVICE_ID", // Your EmailJS service ID
+				"YOUR_TEMPLATE_ID", // Your EmailJS template ID
 				{
-					from_name: form.name,
-					to_name: "Your Name",
-					from_email: form.email,
-					to_email: "your.email@example.com",
-					message: form.message,
+					from_name: form.name, // Sender's name
+					to_name: "Your Name", // Recipient's name
+					from_email: form.email, // Sender's email
+					to_email: "your.email@example.com", // Recipient's email
+					message: form.message, // Message content
 				},
-				"YOUR_PUBLIC_KEY"
+				"YOUR_PUBLIC_KEY" // Your EmailJS public key
 			)
 			.then(() => {
 				setLoading(false);
@@ -59,7 +66,9 @@ const Contact = () => {
 				transition={{ duration: 0.5 }}
 				className="max-w-2xl mx-auto"
 			>
-				<h2 className="text-4xl font-bold text-white mb-8 text-shadow">Contact Me</h2>
+				<h2 className="text-4xl font-bold text-white mb-8 text-shadow">
+					Contact Me
+				</h2>
 
 				{success ? (
 					<motion.div

@@ -1,35 +1,40 @@
+// Import required dependencies from framer-motion for animations and React for refs
 import { motion } from "framer-motion";
 import { useRef } from "react";
 
+// Define the skills data structure with categories, skill levels, and icons
 const skillsData = {
+	// Frontend Development category with related skills and proficiency levels
 	"Frontend Development": {
 		skills: [
-			{ name: "React.js", level: 90 },
-			{ name: "JavaScript", level: 85 },
-			{ name: "HTML5 & CSS3", level: 95 },
-			{ name: "Tailwind CSS", level: 88 },
-			{ name: "Responsive Design", level: 92 },
+			{ name: "React.js", level: 90 }, // Advanced React.js proficiency
+			{ name: "JavaScript", level: 85 }, // Strong JavaScript fundamentals
+			{ name: "HTML5 & CSS3", level: 95 }, // Expert in HTML5 and CSS3
+			{ name: "Tailwind CSS", level: 88 }, // Proficient in Tailwind CSS framework
+			{ name: "Responsive Design", level: 92 }, // Strong responsive design skills
 		],
-		icon: "💻",
+		icon: "💻", // Computer emoji representing frontend development
 	},
+	// Backend & Data category with data processing and backend skills
 	"Backend & Data": {
 		skills: [
-			{ name: "Python", level: 85 },
-			{ name: "Data Analysis", level: 80 },
-			{ name: "Facial Recognition", level: 75 },
-			{ name: "API Integration", level: 88 },
+			{ name: "Python", level: 85 }, // Strong Python programming skills
+			{ name: "Data Analysis", level: 80 }, // Proficient in data analysis
+			{ name: "Facial Recognition", level: 75 }, // Experience with facial recognition
+			{ name: "API Integration", level: 88 }, // Strong API integration skills
 		],
-		icon: "🔧",
+		icon: "🔧", // Wrench emoji representing backend tools
 	},
+	// Development Tools category with various development environment skills
 	"Development Tools": {
 		skills: [
-			{ name: "Git & GitHub", level: 92 },
-			{ name: "VS Code", level: 95 },
-			{ name: "npm", level: 88 },
-			{ name: "Vite", level: 85 },
-			{ name: "Command Line", level: 90 },
+			{ name: "Git & GitHub", level: 92 }, // Expert in version control
+			{ name: "VS Code", level: 95 }, // Mastery of VS Code editor
+			{ name: "npm", level: 88 }, // Proficient in package management
+			{ name: "Vite", level: 85 }, // Strong knowledge of Vite build tool
+			{ name: "Command Line", level: 90 }, // Advanced command line skills
 		],
-		icon: "🛠",
+		icon: "🛠", // Tools emoji representing development tools
 	},
 };
 

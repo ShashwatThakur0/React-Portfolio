@@ -1,20 +1,25 @@
+// Import required hooks and libraries
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import { fetchGithubProjects } from "../services/github";
+import { motion } from "framer-motion"; // For animations
+import { fetchGithubProjects } from "../services/github"; // GitHub API service
 
+// Projects component to display GitHub projects
 const Projects = () => {
-	const [projects, setProjects] = useState([]);
-	const [loading, setLoading] = useState(true);
+	// State for storing projects data and loading status
+	const [projects, setProjects] = useState([]); // Array of GitHub projects
+	const [loading, setLoading] = useState(true); // Loading state indicator
 
+	// Effect hook to fetch projects on component mount
 	useEffect(() => {
+		// Async function to load projects from GitHub
 		const loadProjects = async () => {
-			const githubProjects = await fetchGithubProjects();
-			setProjects(githubProjects);
-			setLoading(false);
+			const githubProjects = await fetchGithubProjects(); // Fetch projects
+			setProjects(githubProjects); // Update projects state
+			setLoading(false); // Set loading to false when done
 		};
 
-		loadProjects();
-	}, []);
+		loadProjects(); // Call the load function
+	}, []); // Empty dependency array means this runs once on mount
 
 	if (loading) {
 		return (
