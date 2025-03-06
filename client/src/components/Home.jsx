@@ -1,14 +1,57 @@
 import { motion } from "framer-motion";
+import { useEffect, useRef } from "react";
 import profilePic from "../assets/profilePic/Screenshot 2025-02-26 213047.png";
 
 const Home = () => {
+	// Create a ref for the button
+	const buttonRef = useRef(null);
+
+	// Set up the click handler using useEffect to ensure it's only set up once
+	useEffect(() => {
+		const button = buttonRef.current;
+
+		const handleClick = (e) => {
+			e.preventDefault();
+
+			// Get the projects section by ID
+			const projectsSection = document.getElementById("projects");
+
+			if (projectsSection) {
+				// Calculate position
+				const yOffset = -80;
+				const y =
+					projectsSection.getBoundingClientRect().top +
+					window.pageYOffset +
+					yOffset;
+
+				// Scroll to the position
+				window.scrollTo({
+					top: y,
+					behavior: "smooth",
+				});
+			}
+		};
+
+		// Add event listener
+		if (button) {
+			button.addEventListener("click", handleClick);
+		}
+
+		// Clean up
+		return () => {
+			if (button) {
+				button.removeEventListener("click", handleClick);
+			}
+		};
+	}, []); // Empty dependency array means this runs once on mount
+
 	return (
 		<div className="relative min-h-screen bg-[#fafafa] overflow-hidden">
 			{/* Background pattern */}
 			<div className="absolute inset-0 bg-gradient-radial from-gray-100 to-transparent opacity-40" />
 
 			{/* Main content */}
-			<div className="max-w-[1200px] mx-auto px-12 md:px-20 pt-40">
+			<div className="max-w-[1200px] mx-auto px-4 sm:px-6 md:px-12 lg:px-20 pt-40">
 				{/* Profile section */}
 				<div className="flex flex-col md:flex-row items-start gap-8">
 					{/* Left side - Profile image and social links */}
@@ -96,21 +139,11 @@ const Home = () => {
 						</p>
 						<div className="mt-2 flex justify-center md:justify-start gap-4">
 							<motion.a
+								ref={buttonRef}
 								href="#projects"
 								className="inline-flex items-center gap-2 px-6 py-3 bg-[#98ff98] rounded-full font-medium hover:bg-[#7aff7a] hover:scale-105 transition-all duration-300 text-black shadow-lg hover:shadow-xl transform active:scale-95"
 								whileHover={{ scale: 1.05 }}
 								whileTap={{ scale: 0.95 }}
-								onClick={(e) => {
-									e.preventDefault();
-									const projectsSection = document.getElementById('projects');
-									if (projectsSection) {
-										projectsSection.scrollIntoView({
-											behavior: 'smooth',
-											block: 'start',
-											inline: 'nearest'
-										});
-									}
-								}}
 							>
 								See what I can do
 								<motion.span

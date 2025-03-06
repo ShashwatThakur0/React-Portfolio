@@ -56,7 +56,7 @@ function App() {
 	}, []);
 
 	return (
-		<div className="min-h-screen overflow-x-hidden bg-gradient-to-b from-gray-900 via-black to-gray-900 text-white">
+		<div className="min-h-screen overflow-hidden max-w-[100vw] bg-gradient-to-b from-gray-900 via-black to-gray-900 text-white">
 			<Navbar />
 			<AnimatePresence mode="wait">
 				<motion.div
@@ -65,7 +65,7 @@ function App() {
 					animate="animate"
 					exit="exit"
 					variants={pageVariants}
-					className="relative z-10"
+					className="relative z-10 overflow-hidden"
 				>
 					<motion.section
 						id="home"
@@ -110,7 +110,11 @@ function App() {
 						variants={pageVariants}
 						className="section min-h-screen relative bg-gradient-to-b from-black via-gray-900 to-black"
 						initial={{ opacity: 0, y: 50, scale: 0.95 }}
-						style={{ opacity: 0, transform: "translateY(50px) scale(0.95)" }}
+						style={{
+							opacity: 0,
+							transform: "translateY(50px) scale(0.95)",
+							scrollMarginTop: "100px",
+						}}
 						transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
 					>
 						<Projects />
