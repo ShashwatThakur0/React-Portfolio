@@ -7,6 +7,7 @@ import About from "./components/About";
 import Projects from "./components/Projects";
 import Contact from "./components/Contact";
 
+// Animation variants for page transitions
 const pageVariants = {
 	initial: {
 		opacity: 0,
@@ -34,9 +35,11 @@ const pageVariants = {
 };
 
 function App() {
+	// Reference to all sections for scroll animations
 	const sectionsRef = useRef([]);
 
 	useEffect(() => {
+		// Handle scroll animation - reveals sections as they come into view
 		const handleScroll = () => {
 			sectionsRef.current.forEach((section) => {
 				if (!section) return;
@@ -50,44 +53,13 @@ function App() {
 			});
 		};
 
+		// Add scroll event listener
 		window.addEventListener("scroll", handleScroll);
-		handleScroll();
+		handleScroll(); // Initial check
 
-		const buttonSetupTimeout = setTimeout(() => {
-			const button = document.getElementById("seeProjectsButton");
-			if (button) {
-				const directClickHandler = (e) => {
-					e.preventDefault();
-					e.stopPropagation();
-
-					const projectsSection = document.getElementById("projects");
-					if (projectsSection) {
-						const yOffset = -80;
-						const y =
-							projectsSection.getBoundingClientRect().top +
-							window.pageYOffset +
-							yOffset;
-
-						window.scrollTo({
-							top: y,
-							behavior: "smooth",
-						});
-					}
-
-					return false;
-				};
-
-				button.replaceWith(button.cloneNode(true));
-				const newButton = document.getElementById("seeProjectsButton");
-				if (newButton) {
-					newButton.addEventListener("click", directClickHandler, true);
-				}
-			}
-		}, 1500);
-
+		// Clean up
 		return () => {
 			window.removeEventListener("scroll", handleScroll);
-			clearTimeout(buttonSetupTimeout);
 		};
 	}, []);
 
@@ -103,6 +75,7 @@ function App() {
 					variants={pageVariants}
 					className="relative z-10 overflow-hidden"
 				>
+					{/* Home Section */}
 					<motion.section
 						id="home"
 						ref={(el) => (sectionsRef.current[0] = el)}
@@ -115,6 +88,8 @@ function App() {
 					>
 						<Home />
 					</motion.section>
+
+					{/* About Section */}
 					<motion.section
 						id="about"
 						ref={(el) => (sectionsRef.current[1] = el)}
@@ -127,6 +102,8 @@ function App() {
 					>
 						<About />
 					</motion.section>
+
+					{/* Skills Section */}
 					<motion.section
 						id="skills"
 						ref={(el) => (sectionsRef.current[2] = el)}
@@ -139,6 +116,8 @@ function App() {
 					>
 						<Skills />
 					</motion.section>
+
+					{/* Projects Section */}
 					<motion.section
 						id="projects"
 						ref={(el) => (sectionsRef.current[3] = el)}
@@ -149,12 +128,14 @@ function App() {
 						style={{
 							opacity: 0,
 							transform: "translateY(50px) scale(0.95)",
-							scrollMarginTop: "100px",
+							scrollMarginTop: "100px", // Ensures proper scroll positioning
 						}}
 						transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
 					>
 						<Projects />
 					</motion.section>
+
+					{/* Contact Section */}
 					<motion.section
 						id="contact"
 						ref={(el) => (sectionsRef.current[4] = el)}

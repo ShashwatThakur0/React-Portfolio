@@ -69,6 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	}, 1000); // Wait for everything to be fully loaded
 });
 
+// Initialize the React application
 createRoot(document.getElementById("root")).render(
 	<StrictMode>
 		<App />

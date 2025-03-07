@@ -2,23 +2,27 @@ import { motion } from "framer-motion";
 import profilePic from "../assets/profilePic/Screenshot 2025-02-26 213047.png";
 
 const Home = () => {
-	// Direct approach for button click
+	/**
+	 * Handle the "See what I can do" button click
+	 * This function scrolls the page to the projects section
+	 *
+	 * @param {Event} e - The click event
+	 */
 	const handleButtonClick = (e) => {
 		e.preventDefault();
 		e.stopPropagation();
 
-		// Try multiple approaches to ensure it works
 		try {
-			// First try the global function
+			// Use the global scrollToSection function defined in index.html
 			if (typeof window.scrollToSection === "function") {
 				window.scrollToSection("projects");
 				return;
 			}
 
-			// Fallback to direct DOM manipulation
+			// Fallback: manually scroll to the projects section
 			const projectsSection = document.getElementById("projects");
 			if (projectsSection) {
-				const yOffset = -80;
+				const yOffset = -80; // Adjust for navbar height
 				const y =
 					projectsSection.getBoundingClientRect().top +
 					window.pageYOffset +
@@ -127,6 +131,7 @@ const Home = () => {
 							technologies and always open to exciting collaborations.
 						</p>
 						<div className="mt-2 flex justify-center md:justify-start gap-4">
+							{/* "See what I can do" button - scrolls to projects section */}
 							<motion.button
 								type="button"
 								id="seeProjectsButton"
