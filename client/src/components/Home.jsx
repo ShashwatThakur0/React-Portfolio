@@ -1,42 +1,89 @@
 import { motion } from "framer-motion";
 import profilePic from "../assets/profilePic/Screenshot 2025-02-26 213047.png";
+import { useEffect } from "react";
 
 const Home = () => {
-	/**
-	 * Handle the "See what I can do" button click
-	 * This function scrolls the page to the projects section
-	 *
-	 * @param {Event} e - The click event
-	 */
+	// Enhanced button click handler with multiple approaches
 	const handleButtonClick = (e) => {
 		e.preventDefault();
 		e.stopPropagation();
 
-		try {
-			// Use the global scrollToSection function defined in index.html
-			if (typeof window.scrollToSection === "function") {
-				window.scrollToSection("projects");
-				return;
-			}
+		console.log("Button clicked - attempting to scroll to projects section");
 
-			// Fallback: manually scroll to the projects section
-			const projectsSection = document.getElementById("projects");
-			if (projectsSection) {
-				const yOffset = -80; // Adjust for navbar height
-				const y =
-					projectsSection.getBoundingClientRect().top +
-					window.pageYOffset +
-					yOffset;
-
-				window.scrollTo({
-					top: y,
-					behavior: "smooth",
-				});
-			}
-		} catch (error) {
-			console.error("Error scrolling to projects:", error);
+		// Try multiple approaches to ensure it works
+		// Approach 1: Use the global function
+		if (typeof window.scrollToSection === "function") {
+			console.log("Using global scrollToSection function");
+			window.scrollToSection("projects");
+			return;
 		}
+
+		// Approach 2: Direct DOM manipulation
+		const projectsSection = document.getElementById("projects");
+		if (projectsSection) {
+			console.log("Using direct DOM manipulation");
+			const yOffset = -80;
+			const y =
+				projectsSection.getBoundingClientRect().top +
+				window.pageYOffset +
+				yOffset;
+			window.scrollTo({ top: y, behavior: "smooth" });
+			return;
+		}
+
+		// Approach 3: Fallback to a fixed position if section not found
+		console.log("Section not found, using fallback");
+		const viewportHeight = window.innerHeight;
+		window.scrollTo({ top: viewportHeight * 2, behavior: "smooth" });
 	};
+
+	// Add a direct event listener to the button after component mounts
+	useEffect(() => {
+		const setupButtonListener = () => {
+			const button = document.getElementById("seeProjectsButton");
+			if (button) {
+				console.log("Setting up direct click listener on button");
+				// Remove any existing listeners to avoid duplicates
+				const newButton = button.cloneNode(true);
+				button.parentNode.replaceChild(newButton, button);
+
+				// Add the new listener
+				newButton.addEventListener(
+					"click",
+					(e) => {
+						e.preventDefault();
+						e.stopPropagation();
+						console.log("Direct button click detected");
+
+						const projectsSection = document.getElementById("projects");
+						if (projectsSection) {
+							const yOffset = -80;
+							const y =
+								projectsSection.getBoundingClientRect().top +
+								window.pageYOffset +
+								yOffset;
+							window.scrollTo({ top: y, behavior: "smooth" });
+						} else {
+							// Fallback
+							window.scrollTo({
+								top: window.innerHeight * 2,
+								behavior: "smooth",
+							});
+						}
+
+						return false;
+					},
+					true
+				);
+			}
+		};
+
+		// Set up the listener after a short delay to ensure DOM is ready
+		const timerId = setTimeout(setupButtonListener, 500);
+
+		// Clean up
+		return () => clearTimeout(timerId);
+	}, []);
 
 	return (
 		<div className="relative min-h-screen bg-[#fafafa] overflow-hidden">
@@ -99,21 +146,33 @@ const Home = () => {
 					<div className="flex-1 text-center md:text-left md:pl-6">
 						<div className="text-4xl font-normal leading-tight text-black">
 							Hi! I'm{" "}
-							<span className="inline-block px-4 py-2 bg-[#CEDCEB] rounded-lg text-black">
-								Shashwat
-							</span>
+							<motion.span
+								className="inline-block px-4 py-2 bg-[#CEDCEB] rounded-full text-black shadow-md"
+								whileHover={{ scale: 1.05 }}
+								transition={{ duration: 0.3 }}
+							>
+								Shashwat Thakur
+							</motion.span>
 							<br />
 							<div className="mt-1 text-4xl">
 								a{" "}
-								<span className="inline-block px-3 py-2 bg-[#111] text-white rounded-lg">
+								<motion.span
+									className="inline-block px-3 py-1 bg-[#111] text-white rounded-full shadow-md"
+									whileHover={{ scale: 1.05 }}
+									transition={{ duration: 0.3 }}
+								>
 									Problem Solver
-								</span>
+								</motion.span>
 							</div>
 							<div className="mt-1 text-4xl">
 								who loves to{" "}
-								<span className="inline-block px-3 py-0 bg-[#CEDCEB] rounded-lg text-black">
+								<motion.span
+									className="inline-block px-3 py-1 bg-[#CEDCEB] rounded-full text-black shadow-md"
+									whileHover={{ scale: 1.05 }}
+									transition={{ duration: 0.3 }}
+								>
 									create
-								</span>
+								</motion.span>
 								<br />
 								and bring
 								<br />
@@ -123,15 +182,14 @@ const Home = () => {
 							</div>
 						</div>
 
-						<p className="mt-2 text-base text-gray-900 max-w-1xl leading-relaxed">
+						<p className="mt-1 text-base text-gray-900 max-w-1xl leading-relaxed">
 							I'm a curious developer who thrives at the intersection of web
 							development and data science. By combining clean code with
 							data-driven insights, I build solutions that not only work
 							flawlessly but also adapt and scale. Currently exploring new
 							technologies and always open to exciting collaborations.
 						</p>
-						<div className="mt-2 flex justify-center md:justify-start gap-4">
-							{/* "See what I can do" button - scrolls to projects section */}
+						<div className="mt-2 mb-16 flex justify-center md:justify-start gap-6">
 							<motion.button
 								type="button"
 								id="seeProjectsButton"
