@@ -1,9 +1,236 @@
 // Import required dependencies from framer-motion for animations and React for refs
-import { motion } from "framer-motion";
-import { useState } from "react";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { useState, useRef, useEffect } from "react";
+
+// 3D Tilt Card Component
+const TiltCard = ({ children, className }) => {
+	const cardRef = useRef(null);
+	const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+	const [isHovered, setIsHovered] = useState(false);
+
+	const handleMouseMove = (e) => {
+		if (!cardRef.current) return;
+		const rect = cardRef.current.getBoundingClientRect();
+		const x = (e.clientX - rect.left) / rect.width;
+		const y = (e.clientY - rect.top) / rect.height;
+		setMousePosition({ x, y });
+	};
+
+	return (
+		<motion.div
+			ref={cardRef}
+			onMouseMove={handleMouseMove}
+			onMouseEnter={() => setIsHovered(true)}
+			onMouseLeave={() => setIsHovered(false)}
+			style={{
+				transform: isHovered
+					? `
+              perspective(1000px)
+              rotateX(${(mousePosition.y - 0.5) * 10}deg)
+              rotateY(${(mousePosition.x - 0.5) * -10}deg)
+              translateZ(10px)
+            `
+					: "none",
+				transition: "transform 0.3s ease",
+			}}
+			className={className}
+		>
+			{children}
+			{isHovered && (
+				<div
+					className="absolute inset-0 pointer-events-none"
+					style={{
+						background: `
+              radial-gradient(
+                circle at ${mousePosition.x * 100}% ${mousePosition.y * 100}%,
+                rgba(152, 255, 152, 0.15) 0%,
+                transparent 50%
+              )
+            `,
+						zIndex: 1,
+					}}
+				/>
+			)}
+		</motion.div>
+	);
+};
+
+// Animated Skill Bar Component
+const SkillBar = ({ name, level, icon, projects, description, delay = 0 }) => {
+	const barRef = useRef(null);
+	const { scrollYProgress } = useScroll({
+		target: barRef,
+		offset: ["start end", "end center"],
+	});
+
+	const scaleX = useSpring(
+		useTransform(scrollYProgress, [0, 1], [0, level / 100]),
+		{
+			stiffness: 100,
+			damping: 30,
+		}
+	);
+
+	const [isHovered, setIsHovered] = useState(false);
+
+	return (
+		<motion.div
+			ref={barRef}
+			initial={{ opacity: 0, y: 20 }}
+			whileInView={{ opacity: 1, y: 0 }}
+			viewport={{ once: true }}
+			transition={{ duration: 0.5, delay }}
+			className="mb-8"
+			onMouseEnter={() => setIsHovered(true)}
+			onMouseLeave={() => setIsHovered(false)}
+		>
+			<div className="flex justify-between items-center mb-2">
+				<div className="flex items-center">
+					<motion.span
+						className="text-xl mr-2"
+						animate={{
+							scale: isHovered ? [1, 1.2, 1] : 1,
+							rotate: isHovered ? [0, 5, -5, 0] : 0,
+						}}
+						transition={{ duration: 0.5 }}
+					>
+						{icon}
+					</motion.span>
+					<span className="text-white font-medium">{name}</span>
+				</div>
+				<div className="flex items-center space-x-2">
+					<span className="text-[#98ff98] font-bold">{level}%</span>
+					<span className="text-gray-400 text-sm">({projects} projects)</span>
+				</div>
+			</div>
+
+			<div className="h-2 bg-white/10 rounded-full overflow-hidden">
+				<motion.div
+					className="h-full bg-gradient-to-r from-[#98ff98]/80 to-[#4ade80]/80"
+					style={{ scaleX, transformOrigin: "left" }}
+				/>
+			</div>
+
+			<motion.div
+				className="mt-2 text-sm text-gray-400"
+				initial={{ height: 0, opacity: 0 }}
+				animate={{
+					height: isHovered ? "auto" : 0,
+					opacity: isHovered ? 1 : 0,
+				}}
+				transition={{ duration: 0.3 }}
+			>
+				{description}
+			</motion.div>
+		</motion.div>
+	);
+};
+
+// Particle Animation Component
+const ParticleBackground = ({ category }) => {
+	const canvasRef = useRef(null);
+	const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+
+	useEffect(() => {
+		const canvas = canvasRef.current;
+		if (!canvas) return;
+
+		const ctx = canvas.getContext("2d");
+		const particles = [];
+		const particleCount = 30;
+
+		const resizeCanvas = () => {
+			const parent = canvas.parentElement;
+			if (!parent) return;
+
+			const { width, height } = parent.getBoundingClientRect();
+			canvas.width = width;
+			canvas.height = height;
+			setDimensions({ width, height });
+		};
+
+		window.addEventListener("resize", resizeCanvas);
+		resizeCanvas();
+
+		// Get color based on category
+		const getColor = () => {
+			switch (category) {
+				case "Frontend Development":
+					return "rgba(59, 130, 246, 0.5)"; // blue
+				case "Backend Development":
+					return "rgba(168, 85, 247, 0.5)"; // purple
+				case "Development Tools":
+					return "rgba(34, 197, 94, 0.5)"; // green
+				case "Soft Skills":
+					return "rgba(234, 179, 8, 0.5)"; // yellow
+				default:
+					return "rgba(152, 255, 152, 0.5)"; // default green
+			}
+		};
+
+		class Particle {
+			constructor() {
+				this.x = Math.random() * canvas.width;
+				this.y = Math.random() * canvas.height;
+				this.size = Math.random() * 3 + 1;
+				this.speedX = Math.random() * 1 - 0.5;
+				this.speedY = Math.random() * 1 - 0.5;
+				this.color = getColor();
+			}
+
+			update() {
+				this.x += this.speedX;
+				this.y += this.speedY;
+
+				if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+				if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+			}
+
+			draw() {
+				ctx.fillStyle = this.color;
+				ctx.beginPath();
+				ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+				ctx.fill();
+			}
+		}
+
+		const init = () => {
+			for (let i = 0; i < particleCount; i++) {
+				particles.push(new Particle());
+			}
+		};
+
+		const animate = () => {
+			ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+			for (let i = 0; i < particles.length; i++) {
+				particles[i].update();
+				particles[i].draw();
+			}
+
+			requestAnimationFrame(animate);
+		};
+
+		init();
+		animate();
+
+		return () => {
+			window.removeEventListener("resize", resizeCanvas);
+		};
+	}, [category]);
+
+	return (
+		<canvas
+			ref={canvasRef}
+			className="absolute inset-0 pointer-events-none z-0"
+		/>
+	);
+};
 
 const Skills = () => {
 	const [activeCategory, setActiveCategory] = useState("all");
+	const containerRef = useRef(null);
+	const [selectedSkill, setSelectedSkill] = useState(null);
 
 	const skillCategories = {
 		"Frontend Development": {
@@ -165,16 +392,25 @@ const Skills = () => {
 	};
 
 	return (
-		<div className="relative min-h-screen bg-gradient-to-b from-gray-900 via-black to-gray-900 py-24">
+		<div
+			ref={containerRef}
+			className="relative min-h-screen bg-gradient-to-b from-gray-900 via-black to-gray-900 py-24"
+		>
 			{/* Animated background */}
 			<div className="absolute inset-0 overflow-hidden pointer-events-none">
 				<div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiMyMjIiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PHBhdGggZD0iTTM2IDM0djZoNnYtNmgtNnptMCAwdjZoNnYtNmgtNnoiLz48L2c+PC9nPjwvc3ZnPg==')]"></div>
 				<motion.div
-					initial={{ opacity: 0 }}
-					animate={{ opacity: 0.1 }}
-					transition={{ duration: 2, repeat: Infinity, repeatType: "reverse" }}
-					className="absolute inset-0 bg-gradient-to-b from-transparent via-white/5 to-transparent"
-				></motion.div>
+					animate={{
+						background: [
+							"radial-gradient(circle at 0% 0%, rgba(152,255,152,0.1) 0%, transparent 50%)",
+							"radial-gradient(circle at 100% 100%, rgba(152,255,152,0.1) 0%, transparent 50%)",
+							"radial-gradient(circle at 0% 100%, rgba(152,255,152,0.1) 0%, transparent 50%)",
+							"radial-gradient(circle at 100% 0%, rgba(152,255,152,0.1) 0%, transparent 50%)",
+						],
+					}}
+					transition={{ duration: 10, repeat: Infinity }}
+					className="absolute inset-0"
+				/>
 			</div>
 
 			<div className="container mx-auto px-4 md:px-8 max-w-6xl relative z-10">
@@ -185,7 +421,7 @@ const Skills = () => {
 							initial={{ opacity: 0, y: 20 }}
 							animate={{ opacity: 1, y: 0 }}
 							transition={{ duration: 0.5 }}
-							className="inline-block px-4 py-1.5 bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-sm rounded-full text-sm text-white/90 font-medium mb-4 border border-white/10 hover:border-white/20 transition-colors"
+							className="inline-block px-4 py-1.5 bg-gradient-to-r from-[#98ff98]/20 to-[#4ade80]/20 backdrop-blur-sm rounded-full text-sm text-white/90 font-medium mb-4 border border-[#98ff98]/30"
 						>
 							WHAT I CAN DO
 						</motion.div>
@@ -201,19 +437,19 @@ const Skills = () => {
 							initial={{ opacity: 0, scaleX: 0 }}
 							animate={{ opacity: 1, scaleX: 1 }}
 							transition={{ duration: 0.5, delay: 0.2 }}
-							className="w-24 h-1.5 bg-gradient-to-r from-white/50 to-white/10 mx-auto mb-8 rounded-full"
-						></motion.div>
+							className="w-24 h-1.5 bg-gradient-to-r from-[#98ff98]/50 to-[#4ade80]/50 mx-auto mb-8 rounded-full"
+						/>
 					</div>
 
 					{/* Category Navigation */}
 					<div className="flex flex-wrap justify-center gap-4 mb-16">
 						<motion.button
-							whileHover={{ scale: 1.05 }}
+							whileHover={{ scale: 1.05, y: -2 }}
 							whileTap={{ scale: 0.95 }}
 							onClick={() => setActiveCategory("all")}
 							className={`px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
 								activeCategory === "all"
-									? "bg-white text-gray-900"
+									? "bg-[#98ff98] text-gray-900"
 									: "bg-white/10 text-white hover:bg-white/20"
 							}`}
 						>
@@ -222,12 +458,12 @@ const Skills = () => {
 						{Object.keys(skillCategories).map((category) => (
 							<motion.button
 								key={category}
-								whileHover={{ scale: 1.05 }}
+								whileHover={{ scale: 1.05, y: -2 }}
 								whileTap={{ scale: 0.95 }}
 								onClick={() => setActiveCategory(category)}
 								className={`px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
 									activeCategory === category
-										? "bg-white text-gray-900"
+										? "bg-[#98ff98] text-gray-900"
 										: "bg-white/10 text-white hover:bg-white/20"
 								}`}
 							>
@@ -237,87 +473,62 @@ const Skills = () => {
 					</div>
 
 					{/* Skills Grid */}
-					<div className="grid gap-8">
+					<div className="grid gap-12">
 						{(activeCategory === "all"
 							? Object.entries(skillCategories)
 							: [[activeCategory, skillCategories[activeCategory]]]
 						).map(
-							([
-								category,
-								{ icon, color, borderColor, description, skills },
-							]) => (
+							(
+								[category, { icon, color, borderColor, description, skills }],
+								categoryIndex
+							) => (
 								<motion.div
 									key={category}
-									initial={{ opacity: 0, y: 20 }}
-									animate={{ opacity: 1, y: 0 }}
-									transition={{ duration: 0.5 }}
-									className="space-y-8"
+									initial={{ opacity: 0, y: 30 }}
+									whileInView={{ opacity: 1, y: 0 }}
+									viewport={{ once: true }}
+									transition={{ duration: 0.5, delay: categoryIndex * 0.1 }}
+									className="relative"
 								>
-									<div className="flex items-center gap-4 mb-8">
-										<div className="text-4xl">{icon}</div>
-										<div>
-											<h3 className="text-2xl font-bold text-white">
-												{category}
-											</h3>
-											<p className="text-gray-400">{description}</p>
-										</div>
-									</div>
+									<div className="relative">
+										<ParticleBackground category={category} />
 
-									<div className="grid md:grid-cols-2 gap-6">
-										{skills.map((skill, index) => (
-											<motion.div
-												key={skill.name}
-												initial={{ opacity: 0, y: 20 }}
-												whileInView={{ opacity: 1, y: 0 }}
-												viewport={{ once: true }}
-												transition={{ duration: 0.5, delay: index * 0.1 }}
-												whileHover={{ scale: 1.02 }}
-												className={`p-6 rounded-2xl bg-gradient-to-br ${color} backdrop-blur-sm border ${borderColor} hover:border-white/20 transition-all duration-300 group`}
-											>
-												<div className="flex items-start gap-4">
-													<div className="text-3xl group-hover:scale-110 transition-transform duration-300">
-														{skill.icon}
-													</div>
-													<div className="flex-1 space-y-4">
-														<div>
-															<h4 className="text-xl font-bold text-white">
-																{skill.name}
-															</h4>
-															<p className="text-sm text-gray-300 mt-1">
-																{skill.description}
-															</p>
-														</div>
-
-														<div className="space-y-2">
-															<div className="flex justify-between text-sm">
-																<span className="text-gray-300">
-																	Proficiency
-																</span>
-																<span className="text-white font-medium">
-																	{skill.level}%
-																</span>
-															</div>
-															<div className="h-2 bg-white/10 rounded-full overflow-hidden">
-																<motion.div
-																	initial={{ width: 0 }}
-																	whileInView={{ width: `${skill.level}%` }}
-																	viewport={{ once: true }}
-																	transition={{ duration: 1, delay: 0.2 }}
-																	className="h-full bg-white/30 rounded-full"
-																/>
-															</div>
-														</div>
-
-														<div className="flex items-center gap-2 text-sm text-gray-300">
-															<span className="text-white font-medium">
-																{skill.projects}
-															</span>
-															Projects Completed
-														</div>
-													</div>
+										<TiltCard
+											className={`p-6 rounded-2xl bg-gradient-to-br ${color} backdrop-blur-sm border ${borderColor} hover:border-[#98ff98]/30 transition-all duration-300 mb-8`}
+										>
+											<div className="flex items-center gap-4">
+												<motion.div
+													className="text-4xl"
+													animate={{
+														rotate: [0, 10, -10, 0],
+														scale: [1, 1.1, 1],
+													}}
+													transition={{
+														duration: 3,
+														repeat: Infinity,
+														repeatType: "reverse",
+													}}
+												>
+													{icon}
+												</motion.div>
+												<div>
+													<h3 className="text-2xl font-bold text-white">
+														{category}
+													</h3>
+													<p className="text-gray-300 mt-1">{description}</p>
 												</div>
-											</motion.div>
-										))}
+											</div>
+										</TiltCard>
+
+										<div className="space-y-2">
+											{skills.map((skill, index) => (
+												<SkillBar
+													key={skill.name}
+													{...skill}
+													delay={index * 0.1}
+												/>
+											))}
+										</div>
 									</div>
 								</motion.div>
 							)
