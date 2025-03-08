@@ -604,9 +604,9 @@ html {
 .contact-card {
 	backdrop-filter: blur(12px);
 	-webkit-backdrop-filter: blur(12px);
-	background: rgba(255, 255, 255, 0.8);
-	border: 1px solid rgba(0, 0, 0, 0.1);
-	box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+	background: rgba(255, 255, 255, 0.95);
+	border: 1px solid rgba(0, 0, 0, 0.05);
+	box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
 }
 
 .contact-element {
@@ -654,44 +654,126 @@ html {
 }
 
 /* Modern Form Styles */
-.modern-input {
-	background: rgba(255, 255, 255, 0.9);
-	border: 1px solid rgba(0, 0, 0, 0.1);
-	backdrop-filter: blur(4px);
+.contact-card {
+	backdrop-filter: blur(12px);
+	-webkit-backdrop-filter: blur(12px);
+	background: rgba(255, 255, 255, 0.95);
+	border: 1px solid rgba(0, 0, 0, 0.05);
+	box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
+}
+
+/* Form Group Styles */
+.relative.group {
+	margin-bottom: 1.5rem;
+	position: relative;
+}
+
+/* Label Styles */
+.relative.group label {
+	font-weight: 500;
+	font-size: 0.875rem;
+	letter-spacing: -0.01em;
+	background: white !important;
+	z-index: 20 !important;
+	position: absolute;
+	padding: 0 0.5rem;
+}
+
+/* Input and Textarea Base Styles */
+.relative.group input,
+.relative.group textarea {
+	width: 100%;
+	background: rgba(255, 255, 255, 0.5);
+	border: 2px solid #f3f4f6;
+	border-radius: 0.75rem;
+	padding: 1rem;
+	font-size: 0.95rem;
+	line-height: 1.5;
+	color: #1a1a1a;
+	transition: all 0.2s ease;
+	z-index: 10;
+	position: relative;
+}
+
+/* Input and Textarea Focus Styles */
+.relative.group input:focus,
+.relative.group textarea:focus {
+	outline: none;
+	border-color: #98ff98;
+	box-shadow: 0 0 0 4px rgba(152, 255, 152, 0.1);
+}
+
+/* Input and Textarea Hover Styles */
+.relative.group input:hover,
+.relative.group textarea:hover {
+	border-color: #e5e7eb;
+}
+
+/* Label Animation */
+.relative.group label {
+	transform-origin: left top;
+	transition: all 0.2s ease;
+}
+
+/* Placeholder Enhancement */
+.relative.group input::placeholder,
+.relative.group textarea::placeholder {
+	color: #9ca3af;
+}
+
+/* Active State Enhancement */
+.relative.group:focus-within label {
+	color: #98ff98;
+	font-weight: 500;
+	z-index: 20 !important;
+}
+
+/* Form Container Enhancement */
+.contact-form {
+	background: white;
+	border-radius: 1rem;
+	overflow: hidden;
+}
+
+/* Submit Button Enhancement */
+.contact-form button[type="submit"] {
+	background: linear-gradient(to right, #98ff98, #7aff7a);
+	border: none;
+	padding: 1rem 2rem;
+	color: #1a1a1a;
+	font-weight: 500;
+	border-radius: 0.75rem;
 	transition: all 0.3s ease;
+	box-shadow: 0 4px 6px rgba(152, 255, 152, 0.1);
+}
+
+.contact-form button[type="submit"]:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 6px 12px rgba(152, 255, 152, 0.2);
+}
+
+.contact-form button[type="submit"]:active {
+	transform: translateY(0);
+}
+
+/* Success/Error Message Enhancement */
+.success-message,
+.error-message {
+	border-radius: 0.75rem;
+	padding: 1rem;
+	margin-top: 1rem;
+	font-size: 0.875rem;
+	line-height: 1.5;
+}
+
+.success-message {
+	background-color: rgba(152, 255, 152, 0.1);
+	border: 1px solid rgba(152, 255, 152, 0.2);
 	color: #1a1a1a;
 }
 
-.modern-input:focus {
-	background: rgba(255, 255, 255, 1);
-	border-color: rgba(152, 255, 152, 0.8);
-	box-shadow: 0 0 15px rgba(152, 255, 152, 0.3);
-	transform: translateY(-2px);
-}
-
-.modern-button {
-	position: relative;
-	overflow: hidden;
-	transition: all 0.3s ease;
-}
-
-/* Keep existing animations */
-@keyframes float-element {
-	0%,
-	100% {
-		transform: translateY(0px);
-	}
-	50% {
-		transform: translateY(-15px);
-	}
-}
-
-@keyframes glow-pulse {
-	0%,
-	100% {
-		filter: brightness(1) blur(0px);
-	}
-	50% {
-		filter: brightness(1.2) blur(1px);
-	}
+.error-message {
+	background-color: rgba(255, 152, 152, 0.1);
+	border: 1px solid rgba(255, 152, 152, 0.2);
+	color: #dc2626;
 }

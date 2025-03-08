@@ -343,10 +343,32 @@ const Contact = () => {
 							animate={{ opacity: 1, x: 0 }}
 							transition={{ duration: 0.5, delay: 0.4 }}
 						>
-							<div className="contact-card p-8">
-								<h3 className="text-2xl font-bold text-gray-900 mb-6 contact-glow">
-									Send Me a Message
-								</h3>
+							<div className="contact-card p-8 bg-white/95 backdrop-blur-lg shadow-xl rounded-2xl border border-gray-100">
+								<div className="flex items-center gap-3 mb-8">
+									<div className="w-12 h-12 rounded-full bg-[#98ff98]/20 flex items-center justify-center">
+										<svg
+											className="w-6 h-6 text-[#98ff98]"
+											fill="none"
+											stroke="currentColor"
+											viewBox="0 0 24 24"
+										>
+											<path
+												strokeLinecap="round"
+												strokeLinejoin="round"
+												strokeWidth="2"
+												d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+											/>
+										</svg>
+									</div>
+									<div>
+										<h3 className="text-2xl font-bold text-gray-900">
+											Send Me a Message
+										</h3>
+										<p className="text-gray-600 text-sm">
+											I'll get back to you as soon as possible
+										</p>
+									</div>
+								</div>
 
 								<form
 									ref={formRef}
@@ -354,68 +376,69 @@ const Contact = () => {
 									className="space-y-6"
 								>
 									{/* Name Input */}
-									<div className="relative">
+									<div className="relative group">
 										<motion.label
 											htmlFor="name"
-											className={`absolute left-3 transition-all duration-300 pointer-events-none ${
+											className={`absolute left-3 bg-white px-2 font-medium transition-all duration-300 z-20 ${
 												focusedInput === "name" || form.name
-													? "-top-2 text-xs bg-white px-1 text-[#98ff98]"
-													: "top-3 text-gray-500"
+													? "-top-2.5 text-sm text-[#98ff98]"
+													: "top-4 text-gray-400"
 											}`}
 										>
-											Your Name
+											Full Name
 										</motion.label>
 										<motion.input
 											type="text"
+											id="name"
 											name="name"
 											value={form.name}
 											onChange={handleChange}
 											onFocus={() => setFocusedInput("name")}
 											onBlur={() => setFocusedInput(null)}
 											required
-											className="modern-input w-full px-3 py-3 rounded-lg"
-											whileFocus={{ scale: 1.01 }}
+											className="block w-full px-4 py-4 mt-1 text-gray-900 bg-white/50 border-2 border-gray-100 rounded-xl focus:ring-0 focus:border-[#98ff98] transition-all duration-300 z-10"
 										/>
 									</div>
 
 									{/* Email Input */}
-									<div className="relative">
+									<div className="relative group">
 										<motion.label
 											htmlFor="email"
-											className={`absolute left-3 transition-all duration-300 pointer-events-none ${
+											className={`absolute left-3 bg-white px-2 font-medium transition-all duration-300 z-20 ${
 												focusedInput === "email" || form.email
-													? "-top-2 text-xs bg-white px-1 text-[#98ff98]"
-													: "top-3 text-gray-500"
+													? "-top-2.5 text-sm text-[#98ff98]"
+													: "top-4 text-gray-400"
 											}`}
 										>
-											Your Email
+											Email Address
 										</motion.label>
 										<motion.input
 											type="email"
+											id="email"
 											name="email"
 											value={form.email}
 											onChange={handleChange}
 											onFocus={() => setFocusedInput("email")}
 											onBlur={() => setFocusedInput(null)}
 											required
-											className="modern-input w-full px-3 py-3 rounded-lg"
-											whileFocus={{ scale: 1.01 }}
+											className="block w-full px-4 py-4 mt-1 text-gray-900 bg-white/50 border-2 border-gray-100 rounded-xl focus:ring-0 focus:border-[#98ff98] transition-all duration-300 z-10"
 										/>
 									</div>
 
 									{/* Message Input */}
-									<div className="relative">
+									<div className="relative group">
 										<motion.label
 											htmlFor="message"
-											className={`absolute left-3 transition-all duration-300 pointer-events-none ${
+											className={`absolute left-3 bg-white px-2 font-medium transition-all duration-300 z-20 ${
 												focusedInput === "message" || form.message
-													? "-top-2 text-xs bg-white px-1 text-[#98ff98]"
-													: "top-3 text-gray-500"
+													? "-top-2.5 text-sm text-[#98ff98]"
+													: "top-4 text-gray-400"
 											}`}
 										>
 											Your Message
 										</motion.label>
 										<motion.textarea
+											id="message"
 											name="message"
 											rows="5"
 											value={form.message}
@@ -423,22 +446,82 @@ const Contact = () => {
 											onFocus={() => setFocusedInput("message")}
 											onBlur={() => setFocusedInput(null)}
 											required
-											className="modern-input w-full px-3 py-3 rounded-lg resize-none"
-											whileFocus={{ scale: 1.01 }}
+											className="block w-full px-4 py-4 mt-1 text-gray-900 bg-white/50 border-2 border-gray-100 rounded-xl focus:ring-0 focus:border-[#98ff98] transition-all duration-300 z-10 resize-none"
 										/>
+										<div className="mt-2 flex items-start gap-2 text-xs text-gray-500">
+											<svg
+												className="w-4 h-4 text-[#98ff98] mt-0.5"
+												fill="none"
+												stroke="currentColor"
+												viewBox="0 0 24 24"
+											>
+												<path
+													strokeLinecap="round"
+													strokeLinejoin="round"
+													strokeWidth="2"
+													d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+												/>
+											</svg>
+											<span>
+												Feel free to be as detailed as you'd like. The more
+												information you provide, the better I can understand
+												your needs.
+											</span>
+										</div>
 									</div>
 
 									{/* Submit Button */}
 									<motion.button
 										type="submit"
 										disabled={loading}
-										className="modern-button w-full py-3 px-6 bg-gradient-to-r from-[#98ff98] to-[#7aff7a] text-gray-900 font-medium rounded-lg"
-										whileHover={{ scale: 1.02 }}
+										className="relative w-full px-8 py-4 mt-4 text-gray-900 bg-gradient-to-r from-[#98ff98] to-[#7aff7a] rounded-xl font-medium shadow-lg shadow-[#98ff98]/20 hover:shadow-xl hover:shadow-[#98ff98]/30 transform transition-all duration-300 overflow-hidden group disabled:opacity-70"
+										whileHover={{ scale: 1.01 }}
 										whileTap={{ scale: 0.98 }}
 									>
-										<span className="relative z-10">
-											{loading ? "Sending..." : "Send Message"}
+										<span className="relative z-10 flex items-center justify-center gap-2">
+											{loading ? (
+												<>
+													<svg
+														className="animate-spin h-5 w-5"
+														fill="none"
+														viewBox="0 0 24 24"
+													>
+														<circle
+															className="opacity-25"
+															cx="12"
+															cy="12"
+															r="10"
+															stroke="currentColor"
+															strokeWidth="4"
+														/>
+														<path
+															className="opacity-75"
+															fill="currentColor"
+															d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+														/>
+													</svg>
+													<span>Sending Message...</span>
+												</>
+											) : (
+												<>
+													<span>Send Message</span>
+													<svg
+														className="w-5 h-5 transform group-hover:translate-x-1 transition-transform"
+														fill="none"
+														stroke="currentColor"
+														viewBox="0 0 24 24"
+													>
+														<path
+															strokeLinecap="round"
+															strokeLinejoin="round"
+															strokeWidth="2"
+															d="M14 5l7 7m0 0l-7 7m7-7H3"
+														/>
+													</svg>
+												</>
+											)}
 										</span>
+										<div className="absolute inset-0 bg-white/20 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
 									</motion.button>
 
 									{/* Success/Error Messages */}
@@ -448,10 +531,10 @@ const Contact = () => {
 												initial={{ opacity: 0, y: -10 }}
 												animate={{ opacity: 1, y: 0 }}
 												exit={{ opacity: 0, y: -10 }}
-												className="contact-card p-4 text-gray-900 flex items-center gap-2"
+												className="p-4 rounded-xl bg-[#98ff98]/10 border border-[#98ff98]/30 flex items-start gap-3"
 											>
 												<svg
-													className="w-5 h-5 text-[#98ff98]"
+													className="w-6 h-6 text-[#98ff98] mt-0.5"
 													fill="none"
 													stroke="currentColor"
 													viewBox="0 0 24 24"
@@ -460,10 +543,18 @@ const Contact = () => {
 														strokeLinecap="round"
 														strokeLinejoin="round"
 														strokeWidth="2"
-														d="M5 13l4 4L19 7"
+														d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
 													/>
 												</svg>
-												<span>Message sent successfully!</span>
+												<div>
+													<p className="font-medium text-gray-900">
+														Message sent successfully!
+													</p>
+													<p className="text-sm text-gray-600 mt-1">
+														Thank you for reaching out. I'll get back to you as
+														soon as possible.
+													</p>
+												</div>
 											</motion.div>
 										)}
 										{error && (
@@ -471,9 +562,27 @@ const Contact = () => {
 												initial={{ opacity: 0, y: -10 }}
 												animate={{ opacity: 1, y: 0 }}
 												exit={{ opacity: 0, y: -10 }}
-												className="text-red-500 text-sm"
+												className="p-4 rounded-xl bg-red-50 border border-red-200 flex items-start gap-3"
 											>
-												{error}
+												<svg
+													className="w-6 h-6 text-red-500 mt-0.5"
+													fill="none"
+													stroke="currentColor"
+													viewBox="0 0 24 24"
+												>
+													<path
+														strokeLinecap="round"
+														strokeLinejoin="round"
+														strokeWidth="2"
+														d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+													/>
+												</svg>
+												<div>
+													<p className="font-medium text-red-700">
+														Message could not be sent
+													</p>
+													<p className="text-sm text-red-600 mt-1">{error}</p>
+												</div>
 											</motion.div>
 										)}
 									</AnimatePresence>
