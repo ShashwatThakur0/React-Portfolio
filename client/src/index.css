@@ -128,7 +128,8 @@ nav.fixed.bg-white\/90 {
 
 .page-exit-active {
 	opacity: 0;
-	transform: translateY(-20px);
+	transform: translateY(20px);
+	transition: opacity 300ms, transform 300ms;
 }
 
 /* Smooth scroll animations */
@@ -194,6 +195,56 @@ html {
 	text-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
 }
 
-.page-exit-active {
-	opacity: 0;
+/* Hide scrollbar for carousel */
+.hide-scrollbar {
+	-ms-overflow-style: none; /* IE and Edge */
+	scrollbar-width: none; /* Firefox */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+	display: none; /* Chrome, Safari and Opera */
+	width: 0;
+	height: 0;
+}
+
+/* Add 3D perspective for project cards */
+.preserve-3d {
+	transform-style: preserve-3d;
+}
+
+/* Add glass morphism effect */
+.glass-morphism {
+	background: rgba(255, 255, 255, 0.05);
+	backdrop-filter: blur(10px);
+	-webkit-backdrop-filter: blur(10px);
+	border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Add subtle hover animations */
+.hover-lift {
+	transition: transform 0.3s ease;
+}
+
+.hover-lift:hover {
+	transform: translateY(-5px);
+}
+
+/* Add custom scrollbar for other elements */
+.custom-scrollbar::-webkit-scrollbar {
+	width: 6px;
+	height: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+	background: rgba(255, 255, 255, 0.05);
+	border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+	background: rgba(152, 255, 152, 0.3);
+	border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+	background: rgba(152, 255, 152, 0.5);
 }
