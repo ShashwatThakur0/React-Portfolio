@@ -2,85 +2,104 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import emailjs from "@emailjs/browser";
+import Particles from "react-tsparticles";
+import { loadSlim } from "tsparticles-slim";
 
-const ParticleBackground = () => {
-	useEffect(() => {
-		const canvas = document.getElementById("particle-canvas");
-		const ctx = canvas.getContext("2d");
-		let particles = [];
-		let animationFrameId;
+// Simple Particles Component
+const SimpleParticles = () => {
+	const [isLoaded, setIsLoaded] = useState(false);
 
-		const resizeCanvas = () => {
-			canvas.width = window.innerWidth;
-			canvas.height = window.innerHeight;
-		};
-
-		window.addEventListener("resize", resizeCanvas);
-		resizeCanvas();
-
-		class Particle {
-			constructor() {
-				this.x = Math.random() * canvas.width;
-				this.y = Math.random() * canvas.height;
-				this.size = Math.random() * 5 + 1;
-				this.speedX = Math.random() * 3 - 1.5;
-				this.speedY = Math.random() * 3 - 1.5;
-				this.color = `rgba(152, 255, 152, ${Math.random() * 0.5})`;
-			}
-
-			update() {
-				this.x += this.speedX;
-				this.y += this.speedY;
-
-				if (this.size > 0.2) this.size -= 0.1;
-
-				if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
-				if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
-			}
-
-			draw() {
-				ctx.fillStyle = this.color;
-				ctx.beginPath();
-				ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-				ctx.fill();
-			}
+	const particlesInit = async (main) => {
+		try {
+			await loadSlim(main);
+			setIsLoaded(true);
+		} catch (error) {
+			console.error("Failed to initialize particles:", error);
 		}
+	};
 
-		const init = () => {
-			particles = [];
-			for (let i = 0; i < 50; i++) {
-				particles.push(new Particle());
-			}
-		};
-
-		const animate = () => {
-			ctx.clearRect(0, 0, canvas.width, canvas.height);
-			particles.forEach((particle, index) => {
-				particle.update();
-				particle.draw();
-				if (particle.size <= 0.2) {
-					particles.splice(index, 1);
-					particles.push(new Particle());
-				}
-			});
-			animationFrameId = requestAnimationFrame(animate);
-		};
-
-		init();
-		animate();
-
-		return () => {
-			window.removeEventListener("resize", resizeCanvas);
-			cancelAnimationFrame(animationFrameId);
-		};
-	}, []);
+	const options = {
+		fullScreen: {
+			enable: false,
+		},
+		background: {
+			color: {
+				value: "transparent",
+			},
+		},
+		fpsLimit: 120,
+		particles: {
+			color: {
+				value: "#4a5568",
+			},
+			links: {
+				color: "#4a5568",
+				distance: 150,
+				enable: true,
+				opacity: 0.3,
+				width: 1,
+			},
+			move: {
+				direction: "none",
+				enable: true,
+				outModes: {
+					default: "bounce",
+				},
+				random: false,
+				speed: 1,
+				straight: false,
+			},
+			number: {
+				density: {
+					enable: true,
+					area: 800,
+				},
+				value: 80,
+			},
+			opacity: {
+				value: 0.3,
+			},
+			shape: {
+				type: "circle",
+			},
+			size: {
+				value: { min: 1, max: 3 },
+			},
+		},
+		detectRetina: true,
+		interactivity: {
+			events: {
+				onClick: {
+					enable: true,
+					mode: "push",
+				},
+				onHover: {
+					enable: true,
+					mode: "repulse",
+				},
+				resize: true,
+			},
+			modes: {
+				push: {
+					quantity: 4,
+				},
+				repulse: {
+					distance: 100,
+					duration: 0.4,
+				},
+			},
+		},
+	};
 
 	return (
-		<canvas
-			id="particle-canvas"
-			className="absolute inset-0 pointer-events-none"
-			style={{ opacity: 0.6 }}
-		/>
+		<div className="absolute inset-0 z-0">
+			<Particles
+				id="tsparticles"
+				init={particlesInit}
+				options={options}
+				className="absolute inset-0 w-full h-full"
+			/>
+		</div>
 	);
 };
 
@@ -129,6 +148,10 @@ const Contact = () => {
 					email: "",
 					message: "",
 				});
+
+				setTimeout(() => {
+					setSuccess(false);
+				}, 5000);
 			})
 			.catch((error) => {
 				setLoading(false);
@@ -138,20 +161,22 @@ const Contact = () => {
 	};
 
 	return (
-		<div className="relative min-h-screen bg-[#fafafa] py-24 overflow-hidden">
-			{/* Animated background */}
-			<ParticleBackground />
-			<div className="absolute inset-0 bg-gradient-radial from-gray-100 to-transparent opacity-40" />
+		<div
+			id="contact"
+			className="relative min-h-screen py-24 overflow-hidden bg-[#fafafa]"
+		>
+			{/* Background animation */}
+			<SimpleParticles />
 
 			<div className="container mx-auto px-4 md:px-8 max-w-6xl relative z-10">
-				<div className="space-y-24">
+				<div className="space-y-16">
 					{/* Section Header */}
 					<div className="text-center">
 						<motion.div
 							initial={{ opacity: 0, y: 20 }}
 							animate={{ opacity: 1, y: 0 }}
 							transition={{ duration: 0.5 }}
-							className="inline-block px-4 py-1.5 bg-gradient-to-r from-[#98ff98]/20 to-[#7aff7a]/20 backdrop-blur-sm rounded-full text-sm text-gray-800 font-medium mb-4 border border-[#98ff98]/30 hover:border-[#98ff98]/50 transition-all duration-300 hover:scale-105"
+							className="inline-block px-4 py-1.5 contact-card text-sm text-gray-800 font-medium mb-4 hover:scale-105 contact-element"
 						>
 							GET IN TOUCH
 						</motion.div>
@@ -159,16 +184,23 @@ const Contact = () => {
 							initial={{ opacity: 0, y: 20 }}
 							animate={{ opacity: 1, y: 0 }}
 							transition={{ duration: 0.5, delay: 0.1 }}
-							className="text-6xl font-bold tracking-tight text-gray-900 mb-4"
+							className="text-4xl md:text-6xl font-bold tracking-tight text-gray-900 mb-4 contact-glow"
 						>
 							Let's Connect
 						</motion.h2>
-						<motion.div
-							initial={{ opacity: 0, scaleX: 0 }}
-							animate={{ opacity: 1, scaleX: 1 }}
-							transition={{ duration: 0.5, delay: 0.2 }}
-							className="w-24 h-1.5 bg-gradient-to-r from-[#98ff98] to-[#7aff7a] mx-auto mb-8 rounded-full"
-						></motion.div>
+						<motion.p
+							initial={{ opacity: 0, y: 20 }}
+							animate={{ opacity: 1, y: 0 }}
+							transition={{ duration: 0.5, delay: 0.3 }}
+							className="max-w-2xl mx-auto text-gray-600 text-lg"
+						>
+							Have a question or want to work together? I'd love to hear from
+							you!
+							<br />
+							<span className="text-sm italic mt-2 inline-block">
+								(Move your mouse around to interact with the background!)
+							</span>
+						</motion.p>
 					</div>
 
 					{/* Main Content */}
@@ -181,14 +213,12 @@ const Contact = () => {
 							className="space-y-8"
 						>
 							<div className="space-y-6">
-								<h3 className="text-2xl font-bold text-gray-900">
+								<h3 className="text-2xl font-bold text-gray-900 contact-glow">
 									Let's Build Something Amazing Together
 								</h3>
 								<p className="text-gray-600 leading-relaxed">
 									I'm always open to discussing new projects, creative ideas, or
-									opportunities to be part of your visions. Whether you have a
-									question or just want to say hi, I'll try my best to get back
-									to you!
+									opportunities to be part of your visions.
 								</p>
 							</div>
 
@@ -196,12 +226,13 @@ const Contact = () => {
 								{/* Contact Methods */}
 								<motion.div
 									whileHover={{ scale: 1.02 }}
-									className="p-6 bg-white rounded-2xl border border-gray-200 hover:border-[#98ff98]/50 hover:shadow-[0_0_20px_rgba(152,255,152,0.2)] transition-all duration-500"
+									className="p-6 contact-card contact-element"
 								>
 									<h4 className="text-lg font-semibold text-gray-900 mb-4">
 										Contact Information
 									</h4>
 									<div className="space-y-4">
+										{/* Contact links with modern styling */}
 										<motion.a
 											href="mailto:shashwat.thakur02@gmail.com"
 											className="flex items-center gap-4 text-gray-600 hover:text-gray-900 transition-all duration-300 group"
@@ -251,7 +282,7 @@ const Contact = () => {
 											</span>
 										</motion.a>
 										<motion.a
-											href="https://instagram.com/_.shashwat._thakur"
+											href="https://linkedin.com/in/yourprofile"
 											target="_blank"
 											rel="noopener noreferrer"
 											className="flex items-center gap-4 text-gray-600 hover:text-gray-900 transition-all duration-300 group"
@@ -263,28 +294,44 @@ const Contact = () => {
 													fill="currentColor"
 													viewBox="0 0 24 24"
 												>
-													<path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+													<path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
 												</svg>
 											</div>
 											<span className="group-hover:text-[#98ff98] transition-colors duration-300">
-												Instagram
+												LinkedIn
 											</span>
 										</motion.a>
 									</div>
 								</motion.div>
 
-								{/* Working Hours */}
+								{/* Availability Card */}
 								<motion.div
 									whileHover={{ scale: 1.02 }}
-									className="p-6 bg-white rounded-2xl border border-gray-200 hover:border-[#98ff98]/50 hover:shadow-[0_0_20px_rgba(152,255,152,0.2)] transition-all duration-500"
+									className="p-6 contact-card contact-element"
 								>
-									<h4 className="text-lg font-semibold text-gray-900 mb-4">
-										Availability
-									</h4>
+									<div className="flex items-center gap-4 mb-4">
+										<div className="w-10 h-10 rounded-full bg-[#98ff98]/20 flex items-center justify-center">
+											<svg
+												className="w-5 h-5 text-gray-800"
+												fill="none"
+												stroke="currentColor"
+												viewBox="0 0 24 24"
+											>
+												<path
+													strokeLinecap="round"
+													strokeLinejoin="round"
+													strokeWidth="2"
+													d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+												/>
+											</svg>
+										</div>
+										<h4 className="text-lg font-semibold text-gray-900">
+											Current Availability
+										</h4>
+									</div>
 									<p className="text-gray-600">
-										I'm typically available Monday through Friday, 9:00 AM to
-										6:00 PM IST. I'll respond to your message as soon as
-										possible!
+										I'm currently available for freelance work and open to
+										discussing new opportunities.
 									</p>
 								</motion.div>
 							</div>
@@ -294,25 +341,117 @@ const Contact = () => {
 						<motion.div
 							initial={{ opacity: 0, x: 20 }}
 							animate={{ opacity: 1, x: 0 }}
-							transition={{ duration: 0.5, delay: 0.3 }}
+							transition={{ duration: 0.5, delay: 0.4 }}
 						>
-							<AnimatePresence mode="wait">
-								{success ? (
-									<motion.div
-										initial={{ opacity: 0, y: 20 }}
-										animate={{ opacity: 1, y: 0 }}
-										exit={{ opacity: 0, y: -20 }}
-										className="p-8 bg-white rounded-2xl border border-gray-200 shadow-lg hover:border-[#98ff98]/50 hover:shadow-[0_0_20px_rgba(152,255,152,0.2)] transition-all duration-500"
+							<div className="contact-card p-8">
+								<h3 className="text-2xl font-bold text-gray-900 mb-6 contact-glow">
+									Send Me a Message
+								</h3>
+
+								<form
+									ref={formRef}
+									onSubmit={handleSubmit}
+									className="space-y-6"
+								>
+									{/* Name Input */}
+									<div className="relative">
+										<motion.label
+											htmlFor="name"
+											className={`absolute left-3 transition-all duration-300 pointer-events-none ${
+												focusedInput === "name" || form.name
+													? "-top-2 text-xs bg-white px-1 text-[#98ff98]"
+													: "top-3 text-gray-500"
+											}`}
+										>
+											Your Name
+										</motion.label>
+										<motion.input
+											type="text"
+											name="name"
+											value={form.name}
+											onChange={handleChange}
+											onFocus={() => setFocusedInput("name")}
+											onBlur={() => setFocusedInput(null)}
+											required
+											className="modern-input w-full px-3 py-3 rounded-lg"
+											whileFocus={{ scale: 1.01 }}
+										/>
+									</div>
+
+									{/* Email Input */}
+									<div className="relative">
+										<motion.label
+											htmlFor="email"
+											className={`absolute left-3 transition-all duration-300 pointer-events-none ${
+												focusedInput === "email" || form.email
+													? "-top-2 text-xs bg-white px-1 text-[#98ff98]"
+													: "top-3 text-gray-500"
+											}`}
+										>
+											Your Email
+										</motion.label>
+										<motion.input
+											type="email"
+											name="email"
+											value={form.email}
+											onChange={handleChange}
+											onFocus={() => setFocusedInput("email")}
+											onBlur={() => setFocusedInput(null)}
+											required
+											className="modern-input w-full px-3 py-3 rounded-lg"
+											whileFocus={{ scale: 1.01 }}
+										/>
+									</div>
+
+									{/* Message Input */}
+									<div className="relative">
+										<motion.label
+											htmlFor="message"
+											className={`absolute left-3 transition-all duration-300 pointer-events-none ${
+												focusedInput === "message" || form.message
+													? "-top-2 text-xs bg-white px-1 text-[#98ff98]"
+													: "top-3 text-gray-500"
+											}`}
+										>
+											Your Message
+										</motion.label>
+										<motion.textarea
+											name="message"
+											rows="5"
+											value={form.message}
+											onChange={handleChange}
+											onFocus={() => setFocusedInput("message")}
+											onBlur={() => setFocusedInput(null)}
+											required
+											className="modern-input w-full px-3 py-3 rounded-lg resize-none"
+											whileFocus={{ scale: 1.01 }}
+										/>
+									</div>
+
+									{/* Submit Button */}
+									<motion.button
+										type="submit"
+										disabled={loading}
+										className="modern-button w-full py-3 px-6 bg-gradient-to-r from-[#98ff98] to-[#7aff7a] text-gray-900 font-medium rounded-lg"
+										whileHover={{ scale: 1.02 }}
+										whileTap={{ scale: 0.98 }}
 									>
-										<div className="text-center space-y-4">
+										<span className="relative z-10">
+											{loading ? "Sending..." : "Send Message"}
+										</span>
+									</motion.button>
+
+									{/* Success/Error Messages */}
+									<AnimatePresence>
+										{success && (
 											<motion.div
-												initial={{ scale: 0 }}
-												animate={{ scale: 1 }}
-												transition={{ type: "spring", duration: 0.5 }}
-												className="w-16 h-16 bg-[#98ff98]/20 rounded-full flex items-center justify-center mx-auto"
+												initial={{ opacity: 0, y: -10 }}
+												animate={{ opacity: 1, y: 0 }}
+												exit={{ opacity: 0, y: -10 }}
+												className="contact-card p-4 text-gray-900 flex items-center gap-2"
 											>
 												<svg
-													className="w-8 h-8 text-[#98ff98]"
+													className="w-5 h-5 text-[#98ff98]"
 													fill="none"
 													stroke="currentColor"
 													viewBox="0 0 24 24"
@@ -324,160 +463,22 @@ const Contact = () => {
 														d="M5 13l4 4L19 7"
 													/>
 												</svg>
+												<span>Message sent successfully!</span>
 											</motion.div>
-											<h3 className="text-2xl font-bold text-gray-900">
-												Message Sent!
-											</h3>
-											<p className="text-gray-600">
-												Thank you for reaching out. I'll get back to you soon!
-											</p>
-											<motion.button
-												whileHover={{ scale: 1.05 }}
-												whileTap={{ scale: 0.95 }}
-												onClick={() => setSuccess(false)}
-												className="px-6 py-3 bg-[#98ff98]/10 text-gray-900 rounded-lg hover:bg-[#98ff98]/20 transition-all duration-300"
-											>
-												Send Another Message
-											</motion.button>
-										</div>
-									</motion.div>
-								) : (
-									<motion.form
-										ref={formRef}
-										onSubmit={handleSubmit}
-										initial={{ opacity: 0 }}
-										animate={{ opacity: 1 }}
-										exit={{ opacity: 0 }}
-										className="p-8 bg-white rounded-2xl border border-gray-200 shadow-lg space-y-6 hover:border-[#98ff98]/50 hover:shadow-[0_0_20px_rgba(152,255,152,0.2)] transition-all duration-500"
-									>
+										)}
 										{error && (
 											<motion.div
 												initial={{ opacity: 0, y: -10 }}
 												animate={{ opacity: 1, y: 0 }}
-												className="p-4 bg-red-50 border border-red-200 rounded-lg text-red-600 text-sm"
+												exit={{ opacity: 0, y: -10 }}
+												className="text-red-500 text-sm"
 											>
 												{error}
 											</motion.div>
 										)}
-
-										<div>
-											<label
-												htmlFor="name"
-												className="block text-sm font-medium text-gray-700 mb-2"
-											>
-												Your Name
-											</label>
-											<motion.div
-												animate={{
-													scale: focusedInput === "name" ? 1.02 : 1,
-													borderColor:
-														focusedInput === "name" ? "#98ff98" : "transparent",
-												}}
-											>
-												<input
-													type="text"
-													name="name"
-													id="name"
-													value={form.name}
-													onChange={handleChange}
-													onFocus={() => setFocusedInput("name")}
-													onBlur={() => setFocusedInput(null)}
-													required
-													className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:border-[#98ff98] focus:ring-1 focus:ring-[#98ff98] transition-all duration-300"
-													placeholder="John Doe"
-												/>
-											</motion.div>
-										</div>
-
-										<div>
-											<label
-												htmlFor="email"
-												className="block text-sm font-medium text-gray-700 mb-2"
-											>
-												Your Email
-											</label>
-											<motion.div
-												animate={{
-													scale: focusedInput === "email" ? 1.02 : 1,
-													borderColor:
-														focusedInput === "email"
-															? "#98ff98"
-															: "transparent",
-												}}
-											>
-												<input
-													type="email"
-													name="email"
-													id="email"
-													value={form.email}
-													onChange={handleChange}
-													onFocus={() => setFocusedInput("email")}
-													onBlur={() => setFocusedInput(null)}
-													required
-													className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:border-[#98ff98] focus:ring-1 focus:ring-[#98ff98] transition-all duration-300"
-													placeholder="john@example.com"
-												/>
-											</motion.div>
-										</div>
-
-										<div>
-											<label
-												htmlFor="message"
-												className="block text-sm font-medium text-gray-700 mb-2"
-											>
-												Your Message
-											</label>
-											<motion.div
-												animate={{
-													scale: focusedInput === "message" ? 1.02 : 1,
-													borderColor:
-														focusedInput === "message"
-															? "#98ff98"
-															: "transparent",
-												}}
-											>
-												<textarea
-													name="message"
-													id="message"
-													value={form.message}
-													onChange={handleChange}
-													onFocus={() => setFocusedInput("message")}
-													onBlur={() => setFocusedInput(null)}
-													required
-													rows={6}
-													className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:border-[#98ff98] focus:ring-1 focus:ring-[#98ff98] transition-all duration-300 resize-none"
-													placeholder="Hello, I'd like to talk about..."
-												/>
-											</motion.div>
-										</div>
-
-										<motion.button
-											type="submit"
-											disabled={loading}
-											whileHover={{ scale: 1.02 }}
-											whileTap={{ scale: 0.98 }}
-											className="w-full px-8 py-4 bg-gradient-to-r from-[#98ff98] to-[#7aff7a] text-gray-900 rounded-lg font-medium relative overflow-hidden group disabled:opacity-70 disabled:cursor-not-allowed transition-all duration-300 hover:shadow-[0_0_20px_rgba(152,255,152,0.4)]"
-										>
-											<motion.div
-												className="absolute inset-0 bg-white/20"
-												initial={{ scale: 0 }}
-												whileHover={{ scale: 1 }}
-												transition={{ duration: 0.3 }}
-											/>
-											<span className="relative">
-												{loading ? (
-													<div className="flex items-center justify-center">
-														<div className="w-5 h-5 border-2 border-gray-600/30 border-t-gray-600 rounded-full animate-spin mr-2" />
-														Sending...
-													</div>
-												) : (
-													"Send Message"
-												)}
-											</span>
-										</motion.button>
-									</motion.form>
-								)}
-							</AnimatePresence>
+									</AnimatePresence>
+								</form>
+							</div>
 						</motion.div>
 					</div>
 				</div>

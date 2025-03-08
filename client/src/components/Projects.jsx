@@ -8,6 +8,8 @@ import {
 	useSpring,
 } from "framer-motion";
 import { fetchGithubProjects } from "../services/github"; // GitHub API service
+import Particles from "react-tsparticles";
+import { loadSlim } from "tsparticles-slim";
 
 const ProjectCard = ({ project, index, isSelected, onClick }) => {
 	const cardRef = useRef(null);
@@ -612,6 +614,104 @@ const ProjectModal = ({ project, onClose }) => {
 	);
 };
 
+// Simple Particles Component
+const SimpleParticles = () => {
+	const [isLoaded, setIsLoaded] = useState(false);
+
+	const particlesInit = async (main) => {
+		try {
+			await loadSlim(main);
+			setIsLoaded(true);
+		} catch (error) {
+			console.error("Failed to initialize particles:", error);
+		}
+	};
+
+	const options = {
+		fullScreen: {
+			enable: false,
+		},
+		background: {
+			color: {
+				value: "transparent",
+			},
+		},
+		fpsLimit: 120,
+		particles: {
+			color: {
+				value: "#4a5568",
+			},
+			links: {
+				color: "#4a5568",
+				distance: 150,
+				enable: true,
+				opacity: 0.3,
+				width: 1,
+			},
+			move: {
+				direction: "none",
+				enable: true,
+				outModes: {
+					default: "bounce",
+				},
+				random: false,
+				speed: 1,
+				straight: false,
+			},
+			number: {
+				density: {
+					enable: true,
+					area: 800,
+				},
+				value: 80,
+			},
+			opacity: {
+				value: 0.3,
+			},
+			shape: {
+				type: "circle",
+			},
+			size: {
+				value: { min: 1, max: 3 },
+			},
+		},
+		detectRetina: true,
+		interactivity: {
+			events: {
+				onClick: {
+					enable: true,
+					mode: "push",
+				},
+				onHover: {
+					enable: true,
+					mode: "repulse",
+				},
+				resize: true,
+			},
+			modes: {
+				push: {
+					quantity: 4,
+				},
+				repulse: {
+					distance: 100,
+					duration: 0.4,
+				},
+			},
+		},
+	};
+
+	return (
+		<div className="absolute inset-0 z-0">
+			<Particles
+				id="tsparticles-projects"
+				init={particlesInit}
+				options={options}
+				className="absolute inset-0 w-full h-full"
+			/>
+		</div>
+	);
+};
+
 // Projects component to display GitHub projects
 const Projects = () => {
 	// State for storing projects data and loading status
@@ -793,27 +893,9 @@ const Projects = () => {
 	}
 
 	return (
-		<div
-			id="projects"
-			ref={containerRef}
-			className="relative min-h-screen bg-gradient-to-b from-gray-900 via-black to-gray-900 py-24"
-		>
-			{/* Modern Animated Background */}
-			<div className="absolute inset-0 overflow-hidden">
-				<div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiMyMjIiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PHBhdGggZD0iTTM2IDM0djZoNnYtNmgtNnptMCAwdjZoNnYtNmgtNnoiLz48L2c+PC9nPjwvc3ZnPg==')]" />
-				<motion.div
-					animate={{
-						background: [
-							"radial-gradient(circle at 0% 0%, rgba(152,255,152,0.1) 0%, transparent 50%)",
-							"radial-gradient(circle at 100% 100%, rgba(152,255,152,0.1) 0%, transparent 50%)",
-							"radial-gradient(circle at 0% 100%, rgba(152,255,152,0.1) 0%, transparent 50%)",
-							"radial-gradient(circle at 100% 0%, rgba(152,255,152,0.1) 0%, transparent 50%)",
-						],
-					}}
-					transition={{ duration: 10, repeat: Infinity }}
-					className="absolute inset-0"
-				/>
-			</div>
+		<div id="projects" className="relative min-h-screen py-24 overflow-hidden">
+			{/* Background animation */}
+			<SimpleParticles />
 
 			<div className="container mx-auto px-4 md:px-8 max-w-6xl relative z-10">
 				<div className="space-y-16">
@@ -925,7 +1007,7 @@ const Projects = () => {
 					</div>
 
 					{/* View Toggle and Filters */}
-					<div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-8">
+					<div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
 						<div className="flex items-center space-x-4">
 							<h3 className="text-xl font-bold text-white">All Projects</h3>
 							<div className="flex p-1 bg-white/10 rounded-lg">
@@ -977,31 +1059,6 @@ const Projects = () => {
 										/>
 									</svg>
 								</motion.button>
-							</div>
-						</div>
-
-						<div className="w-full md:w-auto">
-							<div className="relative">
-								<input
-									type="text"
-									placeholder="Search projects..."
-									className="w-full md:w-64 px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-[#98ff98]/50"
-								/>
-								<div className="absolute right-3 top-2.5 text-white/50">
-									<svg
-										className="w-5 h-5"
-										fill="none"
-										stroke="currentColor"
-										viewBox="0 0 24 24"
-									>
-										<path
-											strokeLinecap="round"
-											strokeLinejoin="round"
-											strokeWidth="2"
-											d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-										/>
-									</svg>
-								</div>
 							</div>
 						</div>
 					</div>
