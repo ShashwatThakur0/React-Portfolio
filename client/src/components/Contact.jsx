@@ -5,9 +5,6 @@ import emailjs from "@emailjs/browser";
 import Particles from "react-tsparticles";
 import { loadSlim } from "tsparticles-slim";
 
-// Initialize EmailJS with your public key
-emailjs.init(import.meta.env.VITE_EMAILJS_PUBLIC_KEY);
-
 // Simple Particles Component
 const SimpleParticles = () => {
 	const [isLoaded, setIsLoaded] = useState(false);
@@ -118,6 +115,20 @@ const Contact = () => {
 	const [success, setSuccess] = useState(false);
 	const [error, setError] = useState("");
 	const [focusedInput, setFocusedInput] = useState(null);
+	const [emailjsReady, setEmailjsReady] = useState(false);
+
+	useEffect(() => {
+		// Initialize EmailJS
+		try {
+			console.log("Initializing EmailJS...");
+			emailjs.init(import.meta.env.VITE_EMAILJS_PUBLIC_KEY);
+			setEmailjsReady(true);
+			console.log("EmailJS initialized successfully");
+		} catch (error) {
+			console.error("Failed to initialize EmailJS:", error);
+			setError("Failed to initialize email service. Please try again later.");
+		}
+	}, []);
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -127,16 +138,39 @@ const Contact = () => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+
+		if (!emailjsReady) {
+			setError("Email service is not ready yet. Please try again in a moment.");
+			return;
+		}
+
 		setLoading(true);
 		setError("");
 
 		try {
+			// Verify environment variables are loaded
+			console.log("Checking EmailJS configuration...");
+			if (
+				!import.meta.env.VITE_EMAILJS_SERVICE_ID ||
+				!import.meta.env.VITE_EMAILJS_TEMPLATE_ID ||
+				!import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+			) {
+				throw new Error(
+					"EmailJS configuration is missing. Please check your environment variables."
+				);
+			}
+
 			const templateParams = {
-				to_name: "Shashwat",
 				user_name: form.name,
-				message: form.message,
 				from_email: form.email,
+				message: form.message,
+				to_name: "Shashwat",
 			};
+
+			console.log("Sending email with params:", {
+				serviceId: import.meta.env.VITE_EMAILJS_SERVICE_ID,
+				templateId: import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+			});
 
 			const result = await emailjs.send(
 				import.meta.env.VITE_EMAILJS_SERVICE_ID,
@@ -144,7 +178,7 @@ const Contact = () => {
 				templateParams
 			);
 
-			console.log("EmailJS Response:", result);
+			console.log("Email sent successfully:", result);
 
 			setLoading(false);
 			setSuccess(true);
@@ -158,9 +192,19 @@ const Contact = () => {
 				setSuccess(false);
 			}, 5000);
 		} catch (error) {
-			console.error("EmailJS Error:", error);
+			console.error("Detailed EmailJS Error:", {
+				error: error,
+				message: error.message,
+				text: error.text,
+				stack: error.stack,
+			});
+
 			setLoading(false);
-			setError(error.text || "Failed to send message. Please try again later.");
+			setError(
+				error.text ||
+					error.message ||
+					"Failed to send message. Please try again later or contact directly at shashwat.thakur02@gmail.com"
+			);
 		}
 	};
 
