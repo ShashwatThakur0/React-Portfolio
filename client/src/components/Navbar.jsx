@@ -105,16 +105,6 @@ const Navbar = () => {
 						Projects
 					</a>
 					<a
-						href="mailto:shashwat.thakur02@gmail.com"
-						className={`text-sm font-medium transition-colors ${
-							scrolled
-								? "text-gray-700 hover:text-black"
-								: "text-gray-300 hover:text-white"
-						}`}
-					>
-						Contact
-					</a>
-					<a
 						href="#contact"
 						className={`px-5 py-2 text-sm font-medium rounded-full transition-all ${
 							scrolled
