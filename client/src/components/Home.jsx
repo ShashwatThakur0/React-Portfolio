@@ -140,7 +140,7 @@ const Home = () => {
 							</p>
 						</div>
 						<div className="mt-1 text-sm text-gray-700">
-							Available for opportunities
+							~Available for opportunities~
 						</div>
 					</div>
 
