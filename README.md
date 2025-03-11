@@ -1,99 +1,108 @@
-# Modern Portfolio Website
+# Shashwat Thakur - Portfolio
 
-A modern, responsive portfolio website built with React and Vite that automatically showcases your GitHub projects.
+A modern, responsive portfolio website showcasing my projects and skills. Built with React, Vite, and modern web technologies.
 
-## 🌟 Features
+🔗 [View Live Demo](https://shashwatth-portfolio.vercel.app/)
 
-- ⚡️ **Lightning Fast**: Built with Vite for optimal performance
-- 🎨 **Modern UI**: Clean design with Tailwind CSS
-- 🔄 **Real-time GitHub Integration**: Automatically displays your latest projects
-- 📱 **Fully Responsive**: Works perfectly on all devices
-- ✨ **Smooth Animations**: Beautiful transitions with Framer Motion
-- 📧 **Contact Form**: Easy to reach out via EmailJS
-- 🌙 **Modern Stack**: React 18 with latest best practices
+## ✨ Features
+
+- 🎨 **Modern UI/UX**: Sleek design with smooth animations and transitions
+- 📱 **Fully Responsive**: Perfect viewing experience across all devices
+- ⚡ **High Performance**: Built with Vite for lightning-fast loading
+- 🔄 **Dynamic Projects**: Automatic GitHub repository integration
+- 🎭 **Interactive Elements**: Engaging user experience with Framer Motion
+- 📧 **Contact Form**: Easy communication through EmailJS integration
+- 🌟 **Particle Effects**: Beautiful interactive backgrounds
+- 🎯 **Smooth Scrolling**: Netflix-style section navigation
 
 ## 🛠️ Tech Stack
 
-- **Frontend Framework**: React with Vite
+- **Frontend**: React 18 with Vite
 - **Styling**: Tailwind CSS
 - **Animations**: Framer Motion
-- **Routing**: React Router DOM
-- **Contact Form**: EmailJS
-- **Project Data**: GitHub REST API
+- **State Management**: React Hooks
+- **Email Service**: EmailJS
+- **Deployment**: Vercel
+- **Version Control**: Git & GitHub
 
-## 🚀 Quick Start
+## 🚀 Getting Started
 
-1. Clone the repository
+1. **Clone the repository**
 ```bash
-git clone https://github.com/ShashwatThakur0/React-Portfolio.git
+git clone https://github.com/shashwatthakur0/React-Portfolio.git
 cd React-Portfolio
 ```
 
-2. Install dependencies
+2. **Install dependencies**
 ```bash
 cd client
 npm install
 ```
 
-3. Configure
-- Replace `GITHUB_USERNAME` in `src/services/github.js` with your GitHub username
-- Set up EmailJS:
-  1. Create an account at [EmailJS](https://www.emailjs.com/)
-  2. Get your service ID, template ID, and user ID
-  3. Update these in the Contact component
+3. **Set up environment variables**
+Create a `.env` file in the client directory:
+```env
+VITE_EMAILJS_PUBLIC_KEY=your_public_key
+VITE_EMAILJS_SERVICE_ID=your_service_id
+VITE_EMAILJS_TEMPLATE_ID=your_template_id
+```
 
-4. Start the development server
+4. **Start development server**
 ```bash
 npm run dev
 ```
 
-5. Open http://localhost:5173 in your browser
+Visit `http://localhost:5173` to view the site.
 
-## 📝 Project Structure
+## 📂 Project Structure
 
 ```
-client/
-├── public/          # Static files
-├── src/
-│   ├── components/  # React components
-│   ├── services/    # API services (GitHub)
-│   ├── App.jsx      # Main app component
-│   └── main.jsx     # Entry point
-└── index.html       # HTML template
+React-Portfolio/
+├── client/
+│   ├── public/          # Static assets
+│   ├── src/
+│   │   ├── components/  # React components
+│   │   ├── assets/      # Images and resources
+│   │   ├── App.jsx      # Main app component
+│   │   └── main.jsx     # Entry point
+│   ├── index.html       # HTML template
+│   └── package.json     # Dependencies
+└── vercel.json          # Vercel configuration
 ```
 
-## 🎨 Customization
+## 🎨 Key Components
 
-1. **Personal Information**: Update your name and details in `Home.jsx`
-2. **Projects**: They're automatically fetched from your GitHub
-3. **Styling**: Customize colors and theme in `tailwind.config.js`
-4. **Content**: Modify text in respective components
+- **Navbar**: Smooth scrolling navigation
+- **Home**: Dynamic introduction section
+- **About**: Professional background and skills
+- **Projects**: GitHub repository showcase
+- **Contact**: EmailJS integrated contact form
+- **Particles**: Interactive background effects
 
-## 📱 Features
+## 🚀 Deployment
 
-### Home Page
-- Professional introduction
-- Call-to-action buttons
-- Smooth animations
+This portfolio is deployed on Vercel with automatic deployments on push to main branch.
 
-### Projects Section
-- Real-time GitHub repository display
-- Project stars and forks count
-- Live demo links (if available)
-- Primary language tags
+### Deployment Configuration
+- Automatic deployments from GitHub
+- Custom domain configuration
+- Environment variables management
+- Build and deployment optimization
 
-### Contact Form
-- Name, email, and message fields
-- Email notification system
-- Success/error handling
+## 📝 Environment Variables
 
-## 📤 Deployment
+Required environment variables for the project:
+- `VITE_EMAILJS_PUBLIC_KEY`
+- `VITE_EMAILJS_SERVICE_ID`
+- `VITE_EMAILJS_TEMPLATE_ID`
 
-Deploy your portfolio using:
-- [Vercel](https://vercel.com/) (Recommended)
-- [Netlify](https://www.netlify.com/)
-- [GitHub Pages](https://pages.github.com/)
+## 🤝 Contributing
+
+Feel free to fork this repository and customize it for your own use. If you find any bugs or have suggestions, please open an issue.
 
 ## 📄 License
 
-This project is open source and available under my permission.
+This project is open source and available under the MIT License.
+
+
+Built with ❤️ by Shashwat Thakur

@@ -5,6 +5,9 @@ import emailjs from "@emailjs/browser";
 import Particles from "react-tsparticles";
 import { loadSlim } from "tsparticles-slim";
 
+// Initialize EmailJS with your public key
+emailjs.init(import.meta.env.VITE_EMAILJS_PUBLIC_KEY);
+
 // Simple Particles Component
 const SimpleParticles = () => {
 	const [isLoaded, setIsLoaded] = useState(false);
@@ -129,16 +132,15 @@ const Contact = () => {
 
 		emailjs
 			.send(
-				"YOUR_SERVICE_ID",
-				"YOUR_TEMPLATE_ID",
+				import.meta.env.VITE_EMAILJS_SERVICE_ID,
+				import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
 				{
 					from_name: form.name,
 					to_name: "Shashwat Thakur",
 					from_email: form.email,
 					to_email: "shashwat.thakur02@gmail.com",
 					message: form.message,
-				},
-				"YOUR_PUBLIC_KEY"
+				}
 			)
 			.then(() => {
 				setLoading(false);
