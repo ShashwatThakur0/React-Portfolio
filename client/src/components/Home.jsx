@@ -136,10 +136,12 @@ const Home = () => {
 								Shashwat Thakur
 							</h2>
 							<p className="text-sm text-gray-700">
-								Web developer | Data Science
+								Full Stack Developer | Data Science Enthusiast
 							</p>
 						</div>
-						<div className="mt-1 text-sm text-gray-700">(PRESENT)</div>
+						<div className="mt-1 text-sm text-gray-700">
+							Available for opportunities
+						</div>
 					</div>
 
 					{/* Right side - Main heading and description */}
