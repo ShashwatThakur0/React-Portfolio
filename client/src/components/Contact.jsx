@@ -125,46 +125,43 @@ const Contact = () => {
 		setError("");
 	};
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
 		setLoading(true);
 		setError("");
 
-		// Template parameters - updated to match email template variables
-		const templateParams = {
-			user_name: form.name,
-			user_email: form.email,
-			message: form.message,
-		};
+		try {
+			const templateParams = {
+				to_name: "Shashwat",
+				user_name: form.name,
+				message: form.message,
+				from_email: form.email,
+			};
 
-		emailjs
-			.send(
+			const result = await emailjs.send(
 				import.meta.env.VITE_EMAILJS_SERVICE_ID,
 				import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-				templateParams,
-				import.meta.env.VITE_EMAILJS_PUBLIC_KEY
-			)
-			.then((response) => {
-				console.log("SUCCESS!", response.status, response.text);
-				setLoading(false);
-				setSuccess(true);
-				setForm({
-					name: "",
-					email: "",
-					message: "",
-				});
+				templateParams
+			);
 
-				setTimeout(() => {
-					setSuccess(false);
-				}, 5000);
-			})
-			.catch((error) => {
-				console.error("FAILED...", error);
-				setLoading(false);
-				setError(
-					"Failed to send message. Please try again. Error: " + error.text
-				);
+			console.log("EmailJS Response:", result);
+
+			setLoading(false);
+			setSuccess(true);
+			setForm({
+				name: "",
+				email: "",
+				message: "",
 			});
+
+			setTimeout(() => {
+				setSuccess(false);
+			}, 5000);
+		} catch (error) {
+			console.error("EmailJS Error:", error);
+			setLoading(false);
+			setError(error.text || "Failed to send message. Please try again later.");
+		}
 	};
 
 	return (

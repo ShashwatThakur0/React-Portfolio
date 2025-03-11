@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Portfolio Contact Form</title>
+	</head>
+	<body>
+		<div
+			style="
+				font-family: Arial, sans-serif;
+				max-width: 600px;
+				margin: 0 auto;
+				padding: 20px;
+			"
+		>
+			<div
+				style="
+					background-color: #98ff98;
+					padding: 20px;
+					border-radius: 8px;
+					margin-bottom: 20px;
+				"
+			>
+				<h2 style="margin: 0; color: #333">New Contact Form Message</h2>
+			</div>
+
+			<div
+				style="
+					background-color: #f8f9fa;
+					padding: 20px;
+					border-radius: 8px;
+					margin-bottom: 20px;
+				"
+			>
+				<p style="margin-bottom: 10px"><strong>Name:</strong> {{user_name}}</p>
+				<p style="margin-bottom: 10px">
+					<strong>Email:</strong> {{user_email}}
+				</p>
+				<p style="margin-bottom: 10px"><strong>Message:</strong></p>
+				<p
+					style="
+						background-color: white;
+						padding: 15px;
+						border-radius: 4px;
+						margin-top: 5px;
+					"
+				>
+					{{message}}
+				</p>
+			</div>
+
+			<div style="color: #666; font-size: 12px">
+				<p>This message was sent from your portfolio contact form.</p>
+				<p>Reply to this email to respond to {{user_name}}.</p>
+			</div>
+		</div>
+	</body>
+</html>
