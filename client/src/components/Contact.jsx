@@ -130,19 +130,22 @@ const Contact = () => {
 		setLoading(true);
 		setError("");
 
+		// Template parameters - updated to match email template variables
+		const templateParams = {
+			user_name: form.name,
+			user_email: form.email,
+			message: form.message,
+		};
+
 		emailjs
 			.send(
 				import.meta.env.VITE_EMAILJS_SERVICE_ID,
 				import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-				{
-					from_name: form.name,
-					to_name: "Shashwat Thakur",
-					from_email: form.email,
-					to_email: "shashwat.thakur02@gmail.com",
-					message: form.message,
-				}
+				templateParams,
+				import.meta.env.VITE_EMAILJS_PUBLIC_KEY
 			)
-			.then(() => {
+			.then((response) => {
+				console.log("SUCCESS!", response.status, response.text);
 				setLoading(false);
 				setSuccess(true);
 				setForm({
@@ -156,9 +159,11 @@ const Contact = () => {
 				}, 5000);
 			})
 			.catch((error) => {
+				console.error("FAILED...", error);
 				setLoading(false);
-				setError("Failed to send message. Please try again.");
-				console.error(error);
+				setError(
+					"Failed to send message. Please try again. Error: " + error.text
+				);
 			});
 	};
 
