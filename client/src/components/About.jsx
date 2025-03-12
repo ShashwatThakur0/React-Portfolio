@@ -309,29 +309,12 @@ const About = () => {
 			animate={{ opacity: 1 }}
 			transition={{ duration: 1 }}
 		>
-			{/* Animated background with parallax and interactive effects */}
-			<div className="absolute inset-0 overflow-hidden pointer-events-none">
+			{/* Background with parallax effect */}
+			<div className="absolute inset-0 overflow-hidden">
 				<motion.div
 					className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiMyMjIiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PHBhdGggZD0iTTM2IDM0djZoNnYtNmgtNnptMCAwdjZoNnYtNmgtNnoiLz48L2c+PC9nPjwvc3ZnPg==')]"
-					style={{
-						y: backgroundY,
-						filter: "blur(1px)",
-					}}
+					style={{ y: backgroundY, opacity: 0.5 }}
 				/>
-				<motion.div
-					animate={{
-						background: [
-							"radial-gradient(circle at 0% 0%, rgba(152,255,152,0.3) 0%, transparent 50%)",
-							"radial-gradient(circle at 100% 100%, rgba(152,255,152,0.3) 0%, transparent 50%)",
-							"radial-gradient(circle at 0% 100%, rgba(152,255,152,0.3) 0%, transparent 50%)",
-							"radial-gradient(circle at 100% 0%, rgba(152,255,152,0.3) 0%, transparent 50%)",
-						],
-					}}
-					transition={{ duration: 8, repeat: Infinity }}
-					className="absolute inset-0"
-				/>
-
-				{/* Interactive gradient that follows mouse */}
 				<motion.div
 					className="absolute inset-0"
 					style={{
@@ -341,69 +324,40 @@ const About = () => {
 						opacity: 0.8,
 					}}
 				/>
-
-				{/* Floating particles with glow effect */}
-				<div className="absolute inset-0">
-					{[...Array(15)].map((_, i) => (
-						<motion.div
-							key={i}
-							className="absolute rounded-full"
-							style={{
-								left: `${Math.random() * 100}%`,
-								top: `${Math.random() * 100}%`,
-								width: `${Math.random() * 10 + 5}px`,
-								height: `${Math.random() * 10 + 5}px`,
-								background: "rgba(152, 255, 152, 0.3)",
-								boxShadow: "0 0 10px 2px rgba(152, 255, 152, 0.3)",
-								filter: "blur(1px)",
-							}}
-							animate={{
-								y: [0, -150, 0],
-								x: [0, Math.random() * 100 - 50, 0],
-								opacity: [0, 0.8, 0],
-								scale: [0, 1, 0],
-							}}
-							transition={{
-								duration: 8 + Math.random() * 7,
-								repeat: Infinity,
-								delay: i * 0.7,
-							}}
-						/>
-					))}
-				</div>
 			</div>
 
 			<div className="container mx-auto px-4 md:px-8 max-w-6xl relative z-10">
-				<div className="space-y-24">
+				<div className="space-y-32">
 					{/* Section Header with staggered animation */}
-					<div className="text-center">
+					<div className="text-center mb-8">
 						<ScrollReveal delay={0.1} direction="up">
-							<div className="inline-block px-4 py-1.5 bg-gradient-to-r from-[#98ff98]/20 to-[#4ade80]/20 backdrop-blur-sm rounded-full text-sm text-white/90 font-medium mb-4 border border-[#98ff98]/30">
-								PROFESSIONAL PROFILE
-							</div>
+							<motion.div
+								initial={{ opacity: 0, y: 20 }}
+								animate={{ opacity: 1, y: 0 }}
+								transition={{ duration: 0.5 }}
+								className="inline-block px-4 py-1.5 bg-gradient-to-r from-[#98ff98]/20 to-[#4ade80]/20 backdrop-blur-sm rounded-full text-sm text-white/90 font-medium mb-4 border border-[#98ff98]/30"
+							>
+								ABOUT ME
+							</motion.div>
 						</ScrollReveal>
 
 						<ScrollReveal delay={0.2} direction="up">
 							<motion.h2
-								className="text-6xl font-bold tracking-tight text-white mb-4"
-								whileHover={{
-									textShadow: "0 0 15px rgba(152, 255, 152, 0.5)",
-									color: "rgba(152, 255, 152, 1)",
-									transition: { duration: 0.3 },
-								}}
+								initial={{ opacity: 0, y: 20 }}
+								animate={{ opacity: 1, y: 0 }}
+								transition={{ duration: 0.5, delay: 0.1 }}
+								className="text-5xl md:text-6xl font-bold tracking-tight text-white mb-6"
 							>
-								About Me
+								My Journey
 							</motion.h2>
 						</ScrollReveal>
 
-						<ScrollReveal delay={0.3} direction="scale">
+						<ScrollReveal delay={0.3} direction="up">
 							<motion.div
+								initial={{ opacity: 0, scaleX: 0 }}
+								animate={{ opacity: 1, scaleX: 1 }}
+								transition={{ duration: 0.5, delay: 0.2 }}
 								className="w-24 h-1.5 bg-gradient-to-r from-[#98ff98]/50 to-[#4ade80]/50 mx-auto mb-8 rounded-full"
-								whileHover={{
-									width: "150px",
-									boxShadow: "0 0 10px rgba(152, 255, 152, 0.5)",
-								}}
-								transition={{ type: "spring", stiffness: 300, damping: 20 }}
 							/>
 						</ScrollReveal>
 					</div>
@@ -411,10 +365,10 @@ const About = () => {
 					{/* Profile Content with scroll reveal */}
 					<div ref={profileRef} className="max-w-4xl mx-auto">
 						<ScrollReveal delay={0.1} direction="up">
-							<div className="bg-white/5 backdrop-blur-md rounded-2xl p-8 border border-white/10 hover:border-[#98ff98]/30 transition-all duration-500 shadow-xl">
-								<div className="space-y-6">
+							<div className="bg-white/5 backdrop-blur-md rounded-2xl p-8 md:p-10 border border-white/10 hover:border-[#98ff98]/30 transition-all duration-500 shadow-xl">
+								<div className="space-y-8">
 									<ScrollReveal delay={0.2} direction="up">
-										<p className="text-xl text-gray-300 leading-relaxed font-light relative">
+										<p className="text-xl md:text-2xl text-gray-300 leading-relaxed font-light relative">
 											{/* Add a highlight animation */}
 											{profileInView && (
 												<motion.div
@@ -461,7 +415,7 @@ const About = () => {
 									</ScrollReveal>
 
 									<ScrollReveal delay={0.3} direction="up">
-										<p className="text-gray-400 leading-relaxed">
+										<p className="text-lg md:text-xl text-gray-400 leading-relaxed">
 											My journey in software development began with a curiosity
 											about how websites work, which led me to explore HTML,
 											CSS, and JavaScript. As I delved deeper into the world of
@@ -471,7 +425,7 @@ const About = () => {
 									</ScrollReveal>
 
 									<ScrollReveal delay={0.4} direction="up">
-										<p className="text-gray-400 leading-relaxed">
+										<p className="text-lg md:text-xl text-gray-400 leading-relaxed">
 											Today, I specialize in building modern web applications
 											using React, Node.js, and MongoDB, with a focus on
 											performance, accessibility, and user experience. I'm
@@ -487,87 +441,53 @@ const About = () => {
 					{/* Stats Section with staggered reveal */}
 					<div
 						ref={statsRef}
-						className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16"
+						className={`relative ${
+							statsInView ? "opacity-100" : "opacity-0"
+						} transition-opacity duration-1000`}
 					>
-						{stats.map((stat, index) => (
-							<ScrollReveal
-								key={stat.label}
-								delay={0.1 + index * 0.15}
-								direction={index % 2 === 0 ? "left" : "right"}
-							>
-								<TiltCard className="group relative bg-white/5 backdrop-blur-lg rounded-2xl overflow-hidden border border-white/10 hover:border-[#98ff98]/30 transition-all duration-500 p-6 text-center">
-									{/* Add a flash effect when card comes into view */}
-									{statsInView && (
-										<motion.div
-											className="absolute inset-0 bg-gradient-to-br from-[#98ff98]/30 to-transparent"
-											initial={{ opacity: 0 }}
-											animate={{ opacity: [0, 0.8, 0] }}
-											transition={{ duration: 1.5, delay: 0.2 + index * 0.2 }}
-										/>
-									)}
+						<div className="text-center mb-16">
+							<h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
+								Professional Stats
+							</h3>
+							<p className="text-lg text-gray-400 max-w-2xl mx-auto">
+								A snapshot of my professional achievements and milestones.
+							</p>
+						</div>
 
-									<motion.div
-										initial={{ scale: 0, rotate: -30 }}
-										animate={
-											statsInView
-												? { scale: 1, rotate: 0 }
-												: { scale: 0, rotate: -30 }
-										}
-										transition={{
-											type: "spring",
-											stiffness: 260,
-											damping: 20,
-											delay: 0.2 + index * 0.2,
-										}}
-										className="text-3xl mb-2"
-										whileHover={{
-											scale: 1.3,
-											rotate: [0, -10, 10, 0],
-											transition: { duration: 0.5 },
-										}}
-									>
-										{stat.icon}
-									</motion.div>
-									<motion.div
-										className="text-3xl font-bold text-white mb-1"
-										initial={{ opacity: 0, y: 20 }}
-										animate={
-											statsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
-										}
-										transition={{ duration: 0.7, delay: 0.4 + index * 0.2 }}
-									>
-										<AnimatedCounter value={stat.value} />
-									</motion.div>
-									<motion.div
-										className="text-sm text-gray-400"
-										initial={{ opacity: 0, y: 10 }}
-										animate={
-											statsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }
-										}
-										transition={{ duration: 0.7, delay: 0.5 + index * 0.2 }}
-									>
-										{stat.label}
-									</motion.div>
+						<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+							{stats.map((stat, index) => (
+								<TiltCard
+									key={index}
+									className="p-8 rounded-2xl bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm border border-gray-700/50 hover:border-[#98ff98]/30 transition-all duration-300"
+								>
+									<div className="text-center">
+										<div className="w-20 h-20 rounded-full bg-[#98ff98]/10 flex items-center justify-center mx-auto mb-6">
+											<span className="text-4xl">{stat.icon}</span>
+										</div>
+										<div className="relative">
+											<AnimatedCounter
+												value={stat.value}
+												duration={2}
+												className="text-5xl font-bold text-white mb-3"
+											/>
 
-									{/* Add a hover effect glow */}
-									<motion.div
-										className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-gradient-to-br from-[#98ff98]/10 to-transparent rounded-2xl"
-										transition={{ duration: 0.3 }}
-									/>
+											<p className="text-lg text-gray-400">{stat.label}</p>
+										</div>
+									</div>
 								</TiltCard>
-							</ScrollReveal>
-						))}
+							))}
+						</div>
 					</div>
 
 					{/* Skills Section */}
-					<div ref={skillsRef} className="max-w-4xl mx-auto">
+					<div ref={skillsRef} className="max-w-4xl mx-auto mt-24">
 						<ScrollReveal delay={0.1} direction="up">
-							<h3 className="text-3xl font-bold text-white mb-8 relative">
+							<h3 className="text-3xl md:text-4xl font-bold text-white mb-12 relative text-center">
 								Professional Skills
 								{/* Animated underline */}
 								{skillsInView && (
 									<motion.div
-										className="absolute -bottom-2 left-0 h-1 bg-gradient-to-r from-[#98ff98] to-transparent"
+										className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 h-1 bg-gradient-to-r from-[#98ff98] to-transparent"
 										initial={{ width: 0 }}
 										animate={{ width: "40%" }}
 										transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
@@ -576,51 +496,54 @@ const About = () => {
 							</h3>
 						</ScrollReveal>
 
-						<div className="space-y-6">
+						<div className="space-y-8 px-4">
 							{skills.map((skill, index) => (
 								<ScrollReveal
 									key={skill.name}
 									delay={0.2 + index * 0.1}
 									direction="right"
 								>
-									<ProgressBar
-										value={skill.level}
-										label={skill.name}
-										color={skill.color}
-									/>
+									<div className="mb-8">
+										<ProgressBar
+											value={skill.level}
+											label={skill.name}
+											color={skill.color}
+										/>
+									</div>
 								</ScrollReveal>
 							))}
 						</div>
 					</div>
 
 					{/* Timeline Section with scroll reveal */}
-					<div ref={timelineRef} className="space-y-8">
-						<ScrollReveal delay={0.1} direction="up">
-							<h3 className="text-3xl font-bold text-white mb-12 relative inline-block">
-								Experience & Education
-								{/* Animated underline */}
-								{timelineInView && (
-									<motion.div
-										className="absolute -bottom-2 left-0 h-1 bg-gradient-to-r from-[#98ff98] to-transparent"
-										initial={{ width: 0 }}
-										animate={{ width: "100%" }}
-										transition={{ duration: 1.2, delay: 0.3, ease: "easeOut" }}
-									/>
-								)}
-								{/* Add a subtle glow effect */}
-								{timelineInView && (
-									<motion.div
-										className="absolute -inset-4 rounded-lg bg-[#98ff98]/5 -z-10"
-										initial={{ opacity: 0 }}
-										animate={{ opacity: 1 }}
-										transition={{ duration: 0.8, delay: 0.4 }}
-									/>
-								)}
+					<div
+						ref={timelineRef}
+						className={`relative ${
+							timelineInView ? "opacity-100" : "opacity-0"
+						} transition-opacity duration-1000`}
+					>
+						<div className="text-center mb-16">
+							<h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
+								Education & Experience
 							</h3>
-						</ScrollReveal>
+							<p className="text-lg text-gray-400 max-w-2xl mx-auto">
+								My professional journey and educational background that have
+								shaped my skills and expertise.
+							</p>
+						</div>
 
-						<div className="space-y-16 relative" ref={timelineScrollRef}>
-							{/* Timeline Line with animation that grows with scroll */}
+						<div ref={timelineScrollRef} className="relative max-w-4xl mx-auto">
+							{/* Timeline line */}
+							<div
+								className="absolute left-10 top-0 bottom-0 w-0.5 bg-gray-800/50"
+								style={{
+									height: "100%",
+									transform: "translateX(-50%)",
+									zIndex: 4,
+								}}
+							/>
+
+							{/* Add animated timeline line that grows with scroll */}
 							<motion.div
 								className="absolute left-10 top-0 bottom-0 w-1"
 								style={{
@@ -632,16 +555,6 @@ const About = () => {
 									height: "100%",
 									borderRadius: "4px",
 									zIndex: 5,
-								}}
-							/>
-
-							{/* Add a subtle background line for contrast */}
-							<div
-								className="absolute left-10 top-0 bottom-0 w-0.5 bg-gray-800/50"
-								style={{
-									height: "100%",
-									transform: "translateX(-50%)",
-									zIndex: 4,
 								}}
 							/>
 
@@ -668,40 +581,17 @@ const About = () => {
 								}}
 							/>
 
-							<motion.div
-								className="absolute left-10 top-0 w-2 h-2 rounded-full bg-white transform -translate-x-1/2 z-6"
-								style={{
-									boxShadow: "0 0 10px rgba(255, 255, 255, 0.8)",
-									y: ["0%", "100%"],
-									opacity: [0, 1, 0],
-								}}
-								transition={{
-									y: {
-										duration: 12,
-										repeat: Infinity,
-										ease: "linear",
-										delay: 2,
-									},
-									opacity: {
-										duration: 12,
-										repeat: Infinity,
-										times: [0, 0.1, 1],
-										ease: "linear",
-										delay: 2,
-									},
-								}}
-							/>
-
+							{/* Timeline items */}
 							{timeline.map((item, index) => (
 								<ScrollReveal
 									key={item.title}
 									delay={0.2 + index * 0.2}
 									direction="left"
-									className="relative pl-20"
+									className="relative pl-20 mb-24"
 								>
 									{/* Timeline Dot with pulse effect - improved alignment */}
 									<motion.div
-										className={`absolute left-10 top-8 w-6 h-6 rounded-full bg-gradient-to-br ${item.color} border-2 border-white/30 transform -translate-x-1/2 z-10 flex items-center justify-center`}
+										className={`absolute left-10 top-8 w-8 h-8 rounded-full bg-gradient-to-br ${item.color} border-2 border-white/30 transform -translate-x-1/2 z-10 flex items-center justify-center`}
 										whileHover={{
 											scale: 1.5,
 											boxShadow: "0 0 20px rgba(152, 255, 152, 0.5)",
@@ -727,7 +617,7 @@ const About = () => {
 									>
 										{/* Inner dot for more modern look */}
 										<motion.div
-											className="w-2 h-2 rounded-full bg-white"
+											className="w-3 h-3 rounded-full bg-white"
 											animate={{
 												scale: [1, 1.5, 1],
 												opacity: [0.5, 1, 0.5],
@@ -756,7 +646,7 @@ const About = () => {
 									/>
 
 									<TiltCard
-										className={`p-6 rounded-xl bg-gradient-to-br ${item.color} backdrop-blur-sm border border-white/10 hover:border-[#98ff98]/30 transition-all duration-500 shadow-lg overflow-hidden group ml-2`}
+										className={`p-8 md:p-10 rounded-xl bg-gradient-to-br ${item.color} backdrop-blur-sm border border-white/10 hover:border-[#98ff98]/30 transition-all duration-500 shadow-lg overflow-hidden group ml-2`}
 									>
 										{/* Add a subtle animated gradient overlay */}
 										<motion.div
@@ -780,68 +670,11 @@ const About = () => {
 											}}
 										/>
 
-										{/* Add a subtle particle effect */}
-										<motion.div
-											className="absolute inset-0 overflow-hidden opacity-20 pointer-events-none"
-											initial={{ opacity: 0 }}
-											animate={{ opacity: 0.2 }}
-											transition={{ duration: 1 }}
-										>
-											{Array.from({ length: 5 }).map((_, i) => (
-												<motion.div
-													key={i}
-													className="absolute w-1 h-1 rounded-full bg-white"
-													initial={{
-														x: Math.random() * 100 + "%",
-														y: Math.random() * 100 + "%",
-														scale: 0,
-													}}
-													animate={{
-														x: [
-															Math.random() * 100 + "%",
-															Math.random() * 100 + "%",
-															Math.random() * 100 + "%",
-														],
-														y: [
-															Math.random() * 100 + "%",
-															Math.random() * 100 + "%",
-															Math.random() * 100 + "%",
-														],
-														scale: [0, 1.5, 0],
-													}}
-													transition={{
-														duration: 8,
-														repeat: Infinity,
-														delay: i * 1.5,
-														ease: "linear",
-													}}
-												/>
-											))}
-										</motion.div>
-
-										{/* Add a subtle shine effect on hover */}
-										<motion.div
-											className="absolute inset-0 opacity-0 group-hover:opacity-100 pointer-events-none"
-											style={{
-												background:
-													"linear-gradient(45deg, transparent 40%, rgba(255, 255, 255, 0.1) 50%, transparent 60%)",
-												backgroundSize: "200% 100%",
-											}}
-											animate={{
-												backgroundPosition: ["200% 0%", "-100% 0%"],
-											}}
-											transition={{
-												duration: 1.5,
-												ease: "easeInOut",
-												repeat: 0,
-											}}
-										/>
-
-										<div className="flex items-start justify-between mb-4 relative z-10">
+										<div className="flex items-start justify-between mb-8 relative z-10">
 											<div className="w-full">
-												<motion.div className="flex items-center flex-wrap gap-2 mb-2">
+												<motion.div className="flex items-center flex-wrap gap-3 mb-6">
 													<motion.h4
-														className="text-xl font-bold text-white"
+														className="text-2xl md:text-3xl font-bold text-white"
 														whileHover={{
 															color: "rgba(152, 255, 152, 0.9)",
 															textShadow: "0 0 8px rgba(152, 255, 152, 0.3)",
@@ -849,9 +682,9 @@ const About = () => {
 													>
 														{item.title}
 													</motion.h4>
-													<div className="flex items-center gap-2 ml-auto">
+													<div className="flex items-center gap-3 ml-auto">
 														<motion.span
-															className="text-xs font-normal bg-black/30 px-2 py-0.5 rounded-full text-gray-300"
+															className="text-sm font-normal bg-black/30 px-3 py-1 rounded-full text-gray-300"
 															whileHover={{
 																backgroundColor: "rgba(152, 255, 152, 0.2)",
 															}}
@@ -860,7 +693,7 @@ const About = () => {
 														</motion.span>
 														{/* Add the year as a badge */}
 														<motion.span
-															className="text-xs font-normal bg-black/50 px-2 py-0.5 rounded-full text-white/80"
+															className="text-sm font-normal bg-black/50 px-3 py-1 rounded-full text-white/80"
 															whileHover={{
 																backgroundColor: "rgba(152, 255, 152, 0.2)",
 															}}
@@ -869,12 +702,12 @@ const About = () => {
 														</motion.span>
 													</div>
 												</motion.div>
-												<p className="text-gray-300 leading-relaxed">
+												<p className="text-lg md:text-xl text-gray-300 leading-relaxed mb-6">
 													{item.description}
 												</p>
 											</div>
 											<motion.div
-												className="text-3xl bg-black/20 p-2 rounded-full ml-4 flex-shrink-0 group-hover:bg-black/40 transition-all duration-300"
+												className="text-4xl bg-black/20 p-4 rounded-full ml-6 flex-shrink-0 group-hover:bg-black/40 transition-all duration-300"
 												animate={
 													timelineInView
 														? {
@@ -900,12 +733,12 @@ const About = () => {
 										</div>
 
 										{/* Skills/Keywords */}
-										<div className="mt-4">
-											<div className="flex flex-wrap gap-2">
+										<div className="mt-8">
+											<div className="flex flex-wrap gap-4">
 												{item.skills.map((skill, i) => (
 													<motion.span
 														key={skill}
-														className="inline-block px-3 py-1 bg-black/30 text-xs font-medium text-white/80 rounded-full border border-white/10 group-hover:border-[#98ff98]/30 transition-all duration-300"
+														className="inline-block px-4 py-2 bg-black/30 text-base font-medium text-white/80 rounded-full border border-white/10 group-hover:border-[#98ff98]/30 transition-all duration-300"
 														initial={{ opacity: 0, y: 20 }}
 														animate={
 															timelineInView

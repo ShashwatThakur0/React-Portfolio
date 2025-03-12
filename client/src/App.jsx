@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useCallback } from "react";
 import Navbar from "./components/Navbar";
 import Home from "./components/Home";
 import Skills from "./components/Skills";
@@ -35,28 +35,41 @@ const pageVariants = {
 
 function App() {
 	const sectionsRef = useRef([]);
+	const ticking = useRef(false);
+	const lastScrollY = useRef(0);
+
+	// Throttled scroll handler using requestAnimationFrame for better performance
+	const handleScroll = useCallback(() => {
+		lastScrollY.current = window.scrollY;
+
+		if (!ticking.current) {
+			requestAnimationFrame(() => {
+				sectionsRef.current.forEach((section) => {
+					if (!section) return;
+					const rect = section.getBoundingClientRect();
+					const isInView =
+						rect.top < window.innerHeight * 0.75 && rect.bottom > 0;
+					if (isInView) {
+						section.style.opacity = "1";
+						section.style.transform = "translateY(0) scale(1)";
+					}
+				});
+				ticking.current = false;
+			});
+
+			ticking.current = true;
+		}
+	}, []);
 
 	useEffect(() => {
-		const handleScroll = () => {
-			sectionsRef.current.forEach((section) => {
-				if (!section) return;
-				const rect = section.getBoundingClientRect();
-				const isInView =
-					rect.top < window.innerHeight * 0.75 && rect.bottom > 0;
-				if (isInView) {
-					section.style.opacity = "1";
-					section.style.transform = "translateY(0) scale(1)";
-				}
-			});
-		};
-
-		window.addEventListener("scroll", handleScroll);
+		// Use passive: true for better scroll performance
+		window.addEventListener("scroll", handleScroll, { passive: true });
 		handleScroll();
 
 		return () => {
 			window.removeEventListener("scroll", handleScroll);
 		};
-	}, []);
+	}, [handleScroll]);
 
 	return (
 		<div className="min-h-screen overflow-hidden max-w-[100vw] bg-gradient-to-b from-gray-900 via-black to-gray-900 text-white">

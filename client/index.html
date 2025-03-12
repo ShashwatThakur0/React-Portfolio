@@ -32,9 +32,29 @@
 				box-sizing: border-box;
 				max-width: 100vw;
 			}
+
+			/* Performance optimizations */
+			.section {
+				content-visibility: auto;
+				contain-intrinsic-size: 1px 100vh;
+			}
+
+			/* Hardware acceleration for animations */
+			.animate-gpu {
+				transform: translateZ(0);
+				backface-visibility: hidden;
+				perspective: 1000px;
+				will-change: transform;
+			}
 		</style>
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
 		<script>
-			// Enhanced global function to scroll to a section
+			// Performance monitoring
+			window.performance.mark("script-start");
+
+			// Enhanced global function to scroll to a section with optimized scrolling
 			window.scrollToSection = function (sectionId) {
 				console.log("Global scrollToSection called for:", sectionId);
 
@@ -45,10 +65,16 @@
 					const yOffset = -80;
 					const y =
 						section.getBoundingClientRect().top + window.pageYOffset + yOffset;
-					window.scrollTo({
-						top: y,
-						behavior: "smooth",
-					});
+
+					// Use the optimized scroll function from main.jsx if available
+					if (typeof window.smoothScrollTo === "function") {
+						window.smoothScrollTo(y);
+					} else {
+						window.scrollTo({
+							top: y,
+							behavior: "smooth",
+						});
+					}
 					return true;
 				}
 
@@ -63,10 +89,16 @@
 							sectionRetry.getBoundingClientRect().top +
 							window.pageYOffset +
 							yOffset;
-						window.scrollTo({
-							top: y,
-							behavior: "smooth",
-						});
+
+						// Use the optimized scroll function from main.jsx if available
+						if (typeof window.smoothScrollTo === "function") {
+							window.smoothScrollTo(y);
+						} else {
+							window.scrollTo({
+								top: y,
+								behavior: "smooth",
+							});
+						}
 						return true;
 					}
 
@@ -87,7 +119,8 @@
 				return false;
 			};
 
-			// Set up direct button handler when page loads
+			// Set up direct button handler when page loads - with debouncing
+			let buttonClickTimeout;
 			window.addEventListener("load", function () {
 				console.log("Window loaded, setting up button handlers");
 				setTimeout(function () {
@@ -97,15 +130,34 @@
 						projectsButton.onclick = function (e) {
 							e.preventDefault();
 							e.stopPropagation();
-							console.log("Button clicked via direct handler");
-							window.scrollToSection("projects");
+
+							// Debounce the click handler
+							clearTimeout(buttonClickTimeout);
+							buttonClickTimeout = setTimeout(() => {
+								console.log("Button clicked via direct handler");
+								window.scrollToSection("projects");
+							}, 50);
+
 							return false;
 						};
 					} else {
 						console.log("Projects button not found on initial load");
 					}
 				}, 1000);
+
+				// Mark the end of script execution for performance monitoring
+				window.performance.mark("script-end");
+				window.performance.measure(
+					"script-execution",
+					"script-start",
+					"script-end"
+				);
 			});
+
+			// Add passive event listeners for better scroll performance
+			window.addEventListener("touchstart", function () {}, { passive: true });
+			window.addEventListener("touchmove", function () {}, { passive: true });
+			window.addEventListener("wheel", function () {}, { passive: true });
 		</script>
 	</head>
 	<body>

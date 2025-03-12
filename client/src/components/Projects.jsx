@@ -1,5 +1,5 @@
 // Import required hooks and libraries
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import {
 	motion,
 	AnimatePresence,
@@ -8,14 +8,26 @@ import {
 	useSpring,
 } from "framer-motion";
 import { fetchGithubProjects } from "../services/github"; // GitHub API service
-import Particles from "react-tsparticles";
-import { loadSlim } from "tsparticles-slim";
+
+// Debounce function to limit frequent function calls
+const debounce = (func, wait) => {
+	let timeout;
+	return function executedFunction(...args) {
+		const later = () => {
+			clearTimeout(timeout);
+			func(...args);
+		};
+		clearTimeout(timeout);
+		timeout = setTimeout(later, wait);
+	};
+};
 
 const ProjectCard = ({ project, index, isSelected, onClick }) => {
 	const cardRef = useRef(null);
 	const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 	const [isHovered, setIsHovered] = useState(false);
 	const [showDetails, setShowDetails] = useState(false);
+	const requestRef = useRef(null);
 
 	// Motion values for parallax effect
 	const x = useMotionValue(0);
@@ -28,38 +40,63 @@ const ProjectCard = ({ project, index, isSelected, onClick }) => {
 	const rotateXSpring = useSpring(rotateX, springConfig);
 	const rotateYSpring = useSpring(rotateY, springConfig);
 
-	const handleMouseMove = (e) => {
-		if (!cardRef.current) return;
-		const rect = cardRef.current.getBoundingClientRect();
+	// Optimized mouse move handler with requestAnimationFrame
+	const handleMouseMove = useCallback(
+		debounce((e) => {
+			if (!cardRef.current) return;
 
-		// Calculate mouse position relative to card center
-		const centerX = rect.left + rect.width / 2;
-		const centerY = rect.top + rect.height / 2;
-		const mouseX = e.clientX - centerX;
-		const mouseY = e.clientY - centerY;
+			if (requestRef.current) {
+				cancelAnimationFrame(requestRef.current);
+			}
 
-		// Update motion values
-		x.set(mouseX);
-		y.set(mouseY);
+			requestRef.current = requestAnimationFrame(() => {
+				const rect = cardRef.current.getBoundingClientRect();
 
-		// Update state for other effects
-		setMousePosition({
-			x: (e.clientX - rect.left) / rect.width,
-			y: (e.clientY - rect.top) / rect.height,
-		});
-	};
+				// Calculate mouse position relative to card center
+				const centerX = rect.left + rect.width / 2;
+				const centerY = rect.top + rect.height / 2;
+				const mouseX = e.clientX - centerX;
+				const mouseY = e.clientY - centerY;
+
+				// Update motion values
+				x.set(mouseX);
+				y.set(mouseY);
+
+				// Update state for other effects
+				setMousePosition({
+					x: (e.clientX - rect.left) / rect.width,
+					y: (e.clientY - rect.top) / rect.height,
+				});
+			});
+		}, 10),
+		[x, y]
+	);
 
 	const handleMouseLeave = () => {
 		setIsHovered(false);
 		// Reset position with spring animation
 		x.set(0);
 		y.set(0);
+
+		if (requestRef.current) {
+			cancelAnimationFrame(requestRef.current);
+			requestRef.current = null;
+		}
 	};
 
 	const toggleDetails = (e) => {
 		e.stopPropagation();
 		setShowDetails(!showDetails);
 	};
+
+	// Clean up animation frame on unmount
+	useEffect(() => {
+		return () => {
+			if (requestRef.current) {
+				cancelAnimationFrame(requestRef.current);
+			}
+		};
+	}, []);
 
 	return (
 		<motion.div
@@ -78,6 +115,8 @@ const ProjectCard = ({ project, index, isSelected, onClick }) => {
 				transformPerspective: 1200,
 				transformStyle: "preserve-3d",
 				cursor: "pointer",
+				willChange: "transform",
+				backfaceVisibility: "hidden",
 			}}
 			className={`group relative bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-2xl overflow-hidden border border-white/10 hover:border-white/20 transition-all duration-500 ${
 				isSelected ? "ring-2 ring-[#98ff98] scale-[1.02]" : ""
@@ -95,6 +134,7 @@ const ProjectCard = ({ project, index, isSelected, onClick }) => {
 							transparent 50%
 						)
 					`,
+					willChange: "background",
 				}}
 			/>
 
@@ -614,104 +654,6 @@ const ProjectModal = ({ project, onClose }) => {
 	);
 };
 
-// Simple Particles Component
-const SimpleParticles = () => {
-	const [isLoaded, setIsLoaded] = useState(false);
-
-	const particlesInit = async (main) => {
-		try {
-			await loadSlim(main);
-			setIsLoaded(true);
-		} catch (error) {
-			console.error("Failed to initialize particles:", error);
-		}
-	};
-
-	const options = {
-		fullScreen: {
-			enable: false,
-		},
-		background: {
-			color: {
-				value: "transparent",
-			},
-		},
-		fpsLimit: 120,
-		particles: {
-			color: {
-				value: "#4a5568",
-			},
-			links: {
-				color: "#4a5568",
-				distance: 150,
-				enable: true,
-				opacity: 0.3,
-				width: 1,
-			},
-			move: {
-				direction: "none",
-				enable: true,
-				outModes: {
-					default: "bounce",
-				},
-				random: false,
-				speed: 1,
-				straight: false,
-			},
-			number: {
-				density: {
-					enable: true,
-					area: 800,
-				},
-				value: 80,
-			},
-			opacity: {
-				value: 0.3,
-			},
-			shape: {
-				type: "circle",
-			},
-			size: {
-				value: { min: 1, max: 3 },
-			},
-		},
-		detectRetina: true,
-		interactivity: {
-			events: {
-				onClick: {
-					enable: true,
-					mode: "push",
-				},
-				onHover: {
-					enable: true,
-					mode: "repulse",
-				},
-				resize: true,
-			},
-			modes: {
-				push: {
-					quantity: 4,
-				},
-				repulse: {
-					distance: 100,
-					duration: 0.4,
-				},
-			},
-		},
-	};
-
-	return (
-		<div className="absolute inset-0 z-0">
-			<Particles
-				id="tsparticles-projects"
-				init={particlesInit}
-				options={options}
-				className="absolute inset-0 w-full h-full"
-			/>
-		</div>
-	);
-};
-
 // Projects component to display GitHub projects
 const Projects = () => {
 	// State for storing projects data and loading status
@@ -728,87 +670,217 @@ const Projects = () => {
 	useEffect(() => {
 		// Async function to load projects from GitHub
 		const loadProjects = async () => {
-			const githubProjects = await fetchGithubProjects(); // Fetch projects
-			setProjects(githubProjects); // Update projects state
+			try {
+				setLoading(true);
+				console.log("Fetching GitHub projects...");
+				const githubProjects = await fetchGithubProjects(); // Fetch projects
+				console.log("Fetched projects:", githubProjects);
 
-			// Extract unique categories from projects
-			const allTechnologies = [
-				...new Set(githubProjects.flatMap((project) => project.technologies)),
-			].filter(Boolean);
+				if (githubProjects && githubProjects.length > 0) {
+					setProjects(githubProjects); // Update projects state
 
-			// Group technologies into categories
-			const techCategories = {
-				Frontend: [
-					"React",
-					"Vue",
-					"Angular",
-					"JavaScript",
-					"TypeScript",
-					"HTML",
-					"CSS",
-					"TailwindCSS",
-					"Bootstrap",
-				],
-				Backend: [
-					"Node.js",
-					"Express",
-					"Django",
-					"Flask",
-					"PHP",
-					"Laravel",
-					"Spring",
-					"ASP.NET",
-				],
-				Database: [
-					"MongoDB",
-					"MySQL",
-					"PostgreSQL",
-					"SQLite",
-					"Firebase",
-					"Supabase",
-				],
-				Mobile: ["React Native", "Flutter", "Swift", "Kotlin"],
-				DevOps: [
-					"Docker",
-					"Kubernetes",
-					"AWS",
-					"Azure",
-					"GCP",
-					"CI/CD",
-					"GitHub Actions",
-				],
-				Other: [],
-			};
+					// Extract unique categories from projects
+					const allTechnologies = [
+						...new Set(
+							githubProjects.flatMap((project) => project.technologies)
+						),
+					].filter(Boolean);
 
-			// Create category objects
-			const categoryObjects = Object.entries(techCategories)
-				.map(([name, techs]) => ({
-					name,
-					technologies: techs.filter((tech) => allTechnologies.includes(tech)),
-					count: techs.filter((tech) => allTechnologies.includes(tech)).length,
-				}))
-				.filter((cat) => cat.count > 0);
+					// Group technologies into categories
+					const techCategories = {
+						Frontend: [
+							"React",
+							"Vue",
+							"Angular",
+							"JavaScript",
+							"TypeScript",
+							"HTML",
+							"CSS",
+							"TailwindCSS",
+							"Bootstrap",
+						],
+						Backend: [
+							"Node.js",
+							"Express",
+							"Django",
+							"Flask",
+							"PHP",
+							"Laravel",
+							"Spring",
+							"ASP.NET",
+						],
+						Database: [
+							"MongoDB",
+							"MySQL",
+							"PostgreSQL",
+							"SQLite",
+							"Firebase",
+							"Supabase",
+						],
+						Mobile: ["React Native", "Flutter", "Swift", "Kotlin"],
+						DevOps: [
+							"Docker",
+							"Kubernetes",
+							"AWS",
+							"Azure",
+							"GCP",
+							"CI/CD",
+							"GitHub Actions",
+						],
+						Other: [],
+					};
 
-			// Add "Other" category for uncategorized technologies
-			const categorizedTechs = Object.values(techCategories).flat();
-			const otherTechs = allTechnologies.filter(
-				(tech) => !categorizedTechs.includes(tech)
-			);
+					// Create category objects
+					const categoryObjects = Object.entries(techCategories)
+						.map(([name, techs]) => ({
+							name,
+							technologies: techs.filter((tech) =>
+								allTechnologies.includes(tech)
+							),
+							count: techs.filter((tech) => allTechnologies.includes(tech))
+								.length,
+						}))
+						.filter((cat) => cat.count > 0);
 
-			if (otherTechs.length > 0) {
-				categoryObjects.push({
-					name: "Other",
-					technologies: otherTechs,
-					count: otherTechs.length,
-				});
+					// Add "Other" category for uncategorized technologies
+					const categorizedTechs = Object.values(techCategories).flat();
+					const otherTechs = allTechnologies.filter(
+						(tech) => !categorizedTechs.includes(tech)
+					);
+
+					if (otherTechs.length > 0) {
+						categoryObjects.push({
+							name: "Other",
+							technologies: otherTechs,
+							count: otherTechs.length,
+						});
+					}
+
+					setCategories(categoryObjects);
+				} else {
+					// If no projects were fetched, add some fallback projects
+					console.log("No projects fetched, adding fallback projects");
+					setProjects([
+						{
+							id: 1,
+							title: "Portfolio Website",
+							description:
+								"My personal portfolio website built with React and Tailwind CSS",
+							image:
+								"https://ui-avatars.com/api/?name=Portfolio&background=0D1117&color=fff&size=256",
+							technologies: [
+								"React",
+								"JavaScript",
+								"Tailwind CSS",
+								"Framer Motion",
+							],
+							liveLink: "#",
+							githubLink: "https://github.com/ShashwatThakur0/React-Portfolio",
+							stars: 5,
+							forks: 2,
+							updatedAt: new Date().toISOString(),
+						},
+						{
+							id: 2,
+							title: "E-Commerce Platform",
+							description:
+								"A full-stack e-commerce platform with user authentication and payment processing",
+							image:
+								"https://ui-avatars.com/api/?name=E-Commerce&background=0D1117&color=fff&size=256",
+							technologies: [
+								"React",
+								"Node.js",
+								"Express",
+								"MongoDB",
+								"Stripe",
+							],
+							liveLink: "#",
+							githubLink: "#",
+							stars: 10,
+							forks: 3,
+							updatedAt: new Date().toISOString(),
+						},
+						{
+							id: 3,
+							title: "Task Management App",
+							description:
+								"A task management application with drag-and-drop functionality",
+							image:
+								"https://ui-avatars.com/api/?name=Task-App&background=0D1117&color=fff&size=256",
+							technologies: ["React", "TypeScript", "Redux", "Firebase"],
+							liveLink: "#",
+							githubLink: "#",
+							stars: 8,
+							forks: 1,
+							updatedAt: new Date().toISOString(),
+						},
+					]);
+
+					// Set some default categories
+					setCategories([
+						{
+							name: "Frontend",
+							technologies: [
+								"React",
+								"JavaScript",
+								"TypeScript",
+								"Tailwind CSS",
+							],
+							count: 4,
+						},
+						{
+							name: "Backend",
+							technologies: ["Node.js", "Express", "MongoDB"],
+							count: 3,
+						},
+					]);
+				}
+			} catch (error) {
+				console.error("Error loading projects:", error);
+				// Add fallback projects in case of error
+				setProjects([
+					{
+						id: 1,
+						title: "Portfolio Website",
+						description:
+							"My personal portfolio website built with React and Tailwind CSS",
+						image:
+							"https://ui-avatars.com/api/?name=Portfolio&background=0D1117&color=fff&size=256",
+						technologies: [
+							"React",
+							"JavaScript",
+							"Tailwind CSS",
+							"Framer Motion",
+						],
+						liveLink: "#",
+						githubLink: "https://github.com/ShashwatThakur0/React-Portfolio",
+						stars: 5,
+						forks: 2,
+						updatedAt: new Date().toISOString(),
+					},
+					{
+						id: 2,
+						title: "E-Commerce Platform",
+						description:
+							"A full-stack e-commerce platform with user authentication and payment processing",
+						image:
+							"https://ui-avatars.com/api/?name=E-Commerce&background=0D1117&color=fff&size=256",
+						technologies: ["React", "Node.js", "Express", "MongoDB", "Stripe"],
+						liveLink: "#",
+						githubLink: "#",
+						stars: 10,
+						forks: 3,
+						updatedAt: new Date().toISOString(),
+					},
+				]);
+			} finally {
+				setLoading(false);
 			}
-
-			setCategories(categoryObjects);
-			setLoading(false); // Set loading to false when done
 		};
 
-		loadProjects(); // Call the load function
-	}, []); // Empty dependency array means this runs once on mount
+		// Call the loadProjects function
+		loadProjects();
+	}, []);
 
 	// Handle project selection
 	const handleProjectClick = (project) => {
@@ -894,8 +966,8 @@ const Projects = () => {
 
 	return (
 		<div id="projects" className="relative min-h-screen py-24 overflow-hidden">
-			{/* Background animation */}
-			<SimpleParticles />
+			{/* Background gradient */}
+			<div className="absolute inset-0 bg-gradient-to-b from-black via-gray-900 to-black -z-10"></div>
 
 			<div className="container mx-auto px-4 md:px-8 max-w-6xl relative z-10">
 				<div className="space-y-16">
@@ -909,29 +981,31 @@ const Projects = () => {
 						>
 							MY WORK
 						</motion.div>
+
 						<motion.h2
 							initial={{ opacity: 0, y: 20 }}
 							animate={{ opacity: 1, y: 0 }}
 							transition={{ duration: 0.5, delay: 0.1 }}
-							className="text-5xl md:text-6xl font-bold tracking-tight text-white mb-4"
+							className="text-6xl font-bold tracking-tight text-white mb-4"
 						>
-							Featured Projects
+							Projects
 						</motion.h2>
+
 						<motion.div
 							initial={{ opacity: 0, scaleX: 0 }}
 							animate={{ opacity: 1, scaleX: 1 }}
 							transition={{ duration: 0.5, delay: 0.2 }}
 							className="w-24 h-1.5 bg-gradient-to-r from-[#98ff98]/50 to-[#4ade80]/50 mx-auto mb-8 rounded-full"
 						/>
+
 						<motion.p
 							initial={{ opacity: 0, y: 20 }}
 							animate={{ opacity: 1, y: 0 }}
 							transition={{ duration: 0.5, delay: 0.3 }}
-							className="max-w-2xl mx-auto text-gray-400 text-lg"
+							className="max-w-2xl mx-auto text-gray-300 text-lg"
 						>
-							Explore my latest projects and open-source contributions. Each
-							project represents my passion for creating elegant solutions to
-							complex problems.
+							Explore my latest projects and see what I've been working on. Each
+							project represents a unique challenge and solution.
 						</motion.p>
 					</div>
 
@@ -1297,7 +1371,7 @@ const Projects = () => {
 							className="bg-white/5 backdrop-blur-sm rounded-xl p-6 text-center border border-white/10"
 						>
 							<h4 className="text-3xl font-bold text-white mb-2">
-								{projects.length}
+								{projects.length || 0}
 							</h4>
 							<p className="text-gray-400">Total Projects</p>
 						</motion.div>
@@ -1308,7 +1382,10 @@ const Projects = () => {
 							className="bg-white/5 backdrop-blur-sm rounded-xl p-6 text-center border border-white/10"
 						>
 							<h4 className="text-3xl font-bold text-white mb-2">
-								{projects.reduce((sum, project) => sum + project.stars, 0)}
+								{projects.reduce(
+									(sum, project) => sum + (project.stars || 0),
+									0
+								)}
 							</h4>
 							<p className="text-gray-400">GitHub Stars</p>
 						</motion.div>
@@ -1319,7 +1396,7 @@ const Projects = () => {
 							className="bg-white/5 backdrop-blur-sm rounded-xl p-6 text-center border border-white/10"
 						>
 							<h4 className="text-3xl font-bold text-white mb-2">
-								{uniqueTechnologies.length}
+								{uniqueTechnologies?.length || 0}
 							</h4>
 							<p className="text-gray-400">Technologies</p>
 						</motion.div>
@@ -1330,7 +1407,10 @@ const Projects = () => {
 							className="bg-white/5 backdrop-blur-sm rounded-xl p-6 text-center border border-white/10"
 						>
 							<h4 className="text-3xl font-bold text-white mb-2">
-								{projects.reduce((sum, project) => sum + project.forks, 0)}
+								{projects.reduce(
+									(sum, project) => sum + (project.forks || 0),
+									0
+								)}
 							</h4>
 							<p className="text-gray-400">Forks</p>
 						</motion.div>

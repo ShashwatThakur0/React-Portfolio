@@ -10,31 +10,23 @@ const Home = () => {
 
 		console.log("Button clicked - attempting to scroll to projects section");
 
-		// Try multiple approaches to ensure it works
-		// Approach 1: Use the global function
-		if (typeof window.scrollToSection === "function") {
-			console.log("Using global scrollToSection function");
-			window.scrollToSection("projects");
-			return;
-		}
-
-		// Approach 2: Direct DOM manipulation
+		// Simplify the approach to ensure it works reliably
 		const projectsSection = document.getElementById("projects");
 		if (projectsSection) {
-			console.log("Using direct DOM manipulation");
+			console.log("Found projects section, scrolling to it");
 			const yOffset = -80;
 			const y =
 				projectsSection.getBoundingClientRect().top +
 				window.pageYOffset +
 				yOffset;
 			window.scrollTo({ top: y, behavior: "smooth" });
-			return;
+		} else {
+			console.log("Projects section not found, trying global function");
+			// Try the global function as fallback
+			if (typeof window.scrollToSection === "function") {
+				window.scrollToSection("projects");
+			}
 		}
-
-		// Approach 3: Fallback to a fixed position if section not found
-		console.log("Section not found, using fallback");
-		const viewportHeight = window.innerHeight;
-		window.scrollTo({ top: viewportHeight * 2, behavior: "smooth" });
 	};
 
 	// Add a direct event listener to the button after component mounts
@@ -48,33 +40,10 @@ const Home = () => {
 				button.parentNode.replaceChild(newButton, button);
 
 				// Add the new listener
-				newButton.addEventListener(
-					"click",
-					(e) => {
-						e.preventDefault();
-						e.stopPropagation();
-						console.log("Direct button click detected");
-
-						const projectsSection = document.getElementById("projects");
-						if (projectsSection) {
-							const yOffset = -80;
-							const y =
-								projectsSection.getBoundingClientRect().top +
-								window.pageYOffset +
-								yOffset;
-							window.scrollTo({ top: y, behavior: "smooth" });
-						} else {
-							// Fallback
-							window.scrollTo({
-								top: window.innerHeight * 2,
-								behavior: "smooth",
-							});
-						}
-
-						return false;
-					},
-					true
-				);
+				newButton.addEventListener("click", handleButtonClick, {
+					capture: true,
+					passive: false,
+				});
 			}
 		};
 
