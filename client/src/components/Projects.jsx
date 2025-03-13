@@ -8,6 +8,7 @@ import {
 	useSpring,
 } from "framer-motion";
 import { fetchGithubProjects } from "../services/github"; // GitHub API service
+import ScrollVelocity from "./ScrollVelocity"; // Import ScrollVelocity component
 
 // Debounce function to limit frequent function calls
 const debounce = (func, wait) => {
@@ -969,6 +970,19 @@ const Projects = () => {
 			{/* Background gradient */}
 			<div className="absolute inset-0 bg-gradient-to-b from-black via-gray-900 to-black -z-10"></div>
 
+			{/* Scroll Velocity Text */}
+			<div className="relative mb-16 overflow-hidden">
+				<div className="absolute inset-0 bg-gradient-to-r from-black via-transparent to-black z-10"></div>
+				<ScrollVelocity
+					texts={["React Bits", "Scroll Down"]}
+					velocity={100}
+					className="text-white/20 font-bold"
+					numCopies={6}
+					velocityMapping={{ input: [0, 1000], output: [0, 5] }}
+					parallaxStyle={{ background: "transparent" }}
+				/>
+			</div>
+
 			<div className="container mx-auto px-4 md:px-8 max-w-6xl relative z-10">
 				<div className="space-y-16">
 					{/* Section Header */}
@@ -1415,30 +1429,6 @@ const Projects = () => {
 							<p className="text-gray-400">Forks</p>
 						</motion.div>
 					</div>
-
-					{/* Call to Action */}
-					<motion.div
-						initial={{ opacity: 0, y: 20 }}
-						animate={{ opacity: 1, y: 0 }}
-						className="bg-gradient-to-r from-[#98ff98]/20 to-[#4ade80]/20 backdrop-blur-sm rounded-2xl p-8 text-center border border-[#98ff98]/30 mt-16"
-					>
-						<h3 className="text-2xl font-bold text-white mb-4">
-							Interested in collaborating?
-						</h3>
-						<p className="text-gray-300 mb-6 max-w-2xl mx-auto">
-							I'm always open to discussing new projects, creative ideas or
-							opportunities to be part of your vision.
-						</p>
-						<motion.a
-							href="#contact"
-							whileHover={{ scale: 1.05 }}
-							whileTap={{ scale: 0.95 }}
-							className="inline-block px-8 py-3 bg-[#98ff98] text-gray-900 rounded-lg font-medium hover:bg-[#7aff7a] transition-all duration-300 shadow-lg hover:shadow-[#98ff98]/20"
-							onClick={() => window.scrollToSection("contact")}
-						>
-							Let's Connect
-						</motion.a>
-					</motion.div>
 				</div>
 			</div>
 

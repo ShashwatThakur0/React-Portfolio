@@ -1,0 +1,42 @@
+.parallax {
+	position: relative;
+	overflow: hidden;
+	padding: 1rem 0;
+	background: linear-gradient(
+		to right,
+		rgba(0, 0, 0, 0.1),
+		transparent,
+		rgba(0, 0, 0, 0.1)
+	);
+}
+
+.scroller {
+	display: flex;
+	white-space: nowrap;
+	text-align: center;
+	font-family: sans-serif;
+	font-size: 2.25rem;
+	font-weight: bold;
+	text-transform: uppercase;
+	letter-spacing: -0.02em;
+	filter: drop-shadow(0 2px 4px rgba(152, 255, 152, 0.1));
+}
+
+.scroller span {
+	flex-shrink: 0;
+	padding: 0 1rem;
+	text-shadow: 0 0 10px rgba(152, 255, 152, 0.1);
+	transition: all 0.3s ease;
+}
+
+.scroller span:hover {
+	color: rgba(152, 255, 152, 0.3);
+	text-shadow: 0 0 20px rgba(152, 255, 152, 0.2);
+}
+
+@media (min-width: 768px) {
+	.scroller {
+		font-size: 5rem;
+		line-height: 5rem;
+	}
+}
