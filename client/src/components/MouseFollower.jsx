@@ -4,14 +4,14 @@ import CircularText from "./CircularText";
 const MouseFollower = () => {
 	const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
-	const handleMouseMove = (e) => {
-		setMousePosition({
-			x: e.clientX - 40, // Reduced from 60 to 40 for smaller size
-			y: e.clientY - 40, // Reduced from 60 to 40 for smaller size
-		});
-	};
-
 	useEffect(() => {
+		const handleMouseMove = (e) => {
+			setMousePosition({
+				x: e.clientX - 30,
+				y: e.clientY - 30,
+			});
+		};
+
 		window.addEventListener("mousemove", handleMouseMove);
 		return () => window.removeEventListener("mousemove", handleMouseMove);
 	}, []);

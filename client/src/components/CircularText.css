@@ -1,16 +1,10 @@
 .circular-text {
-	margin: 0 auto;
 	border-radius: 50%;
-	width: 80px;
+	width: 60px;
 	position: fixed;
-	height: 80px;
-	font-weight: bold;
+	height: 60px;
 	color: #98ff98;
 	opacity: 0.8;
-	text-align: center;
-	cursor: pointer;
-	transform-origin: 50% 50%;
-	-webkit-transform-origin: 50% 50%;
 	pointer-events: none;
 	mix-blend-mode: difference;
 	z-index: 100;
@@ -23,7 +17,7 @@
 	right: 0;
 	top: 0;
 	bottom: 0;
-	font-size: 12px;
+	font-size: 10px;
 	font-weight: 600;
 	letter-spacing: 0.5px;
 	transition: all 0.5s cubic-bezier(0, 0, 0, 1);
