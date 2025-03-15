@@ -1,6 +1,7 @@
 // Import required dependencies from framer-motion for animations and React for refs
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
+import FlowingMenu from "./FlowingMenu";
 
 // Floating Element Component
 const FloatingElement = ({
@@ -117,7 +118,15 @@ const TiltCard = ({ children, className }) => {
 };
 
 // Animated Skill Bar Component
-const SkillBar = ({ name, level, icon, projects, description, delay = 0 }) => {
+const SkillBar = ({
+	name,
+	level,
+	icon,
+	projects,
+	description,
+	delay = 0,
+	isSelected,
+}) => {
 	const barRef = useRef(null);
 	const { scrollYProgress } = useScroll({
 		target: barRef,
@@ -141,23 +150,37 @@ const SkillBar = ({ name, level, icon, projects, description, delay = 0 }) => {
 			whileInView={{ opacity: 1, y: 0 }}
 			viewport={{ once: true }}
 			transition={{ duration: 0.5, delay }}
-			className="mb-8"
+			className={`mb-8 ${
+				isSelected ? "scale-105 transition-all duration-300" : ""
+			}`}
 			onMouseEnter={() => setIsHovered(true)}
 			onMouseLeave={() => setIsHovered(false)}
 		>
-			<div className="flex justify-between items-center mb-2">
+			<div
+				className={`flex justify-between items-center mb-2 ${
+					isSelected
+						? "bg-[#98ff98]/10 p-2 rounded-lg border border-[#98ff98]/30"
+						: ""
+				}`}
+			>
 				<div className="flex items-center">
 					<motion.span
 						className="text-xl mr-2"
 						animate={{
-							scale: isHovered ? [1, 1.2, 1] : 1,
-							rotate: isHovered ? [0, 5, -5, 0] : 0,
+							scale: isHovered || isSelected ? [1, 1.2, 1] : 1,
+							rotate: isHovered || isSelected ? [0, 5, -5, 0] : 0,
 						}}
 						transition={{ duration: 0.5 }}
 					>
 						{icon}
 					</motion.span>
-					<span className="text-white font-medium">{name}</span>
+					<span
+						className={`font-medium ${
+							isSelected ? "text-[#98ff98]" : "text-white"
+						}`}
+					>
+						{name}
+					</span>
 				</div>
 				<div className="flex items-center space-x-2">
 					<span className="text-[#98ff98] font-bold">{level}%</span>
@@ -167,7 +190,11 @@ const SkillBar = ({ name, level, icon, projects, description, delay = 0 }) => {
 
 			<div className="h-2 bg-white/10 rounded-full overflow-hidden">
 				<motion.div
-					className="h-full bg-gradient-to-r from-[#98ff98]/80 to-[#4ade80]/80"
+					className={`h-full bg-gradient-to-r ${
+						isSelected
+							? "from-[#98ff98] to-[#4ade80]"
+							: "from-[#98ff98]/80 to-[#4ade80]/80"
+					}`}
 					style={{ scaleX, transformOrigin: "left" }}
 				/>
 			</div>
@@ -176,8 +203,8 @@ const SkillBar = ({ name, level, icon, projects, description, delay = 0 }) => {
 				className="mt-2 text-sm text-gray-400"
 				initial={{ height: 0, opacity: 0 }}
 				animate={{
-					height: isHovered ? "auto" : 0,
-					opacity: isHovered ? 1 : 0,
+					height: isHovered || isSelected ? "auto" : 0,
+					opacity: isHovered || isSelected ? 1 : 0,
 				}}
 				transition={{ duration: 0.3 }}
 			>
@@ -216,6 +243,8 @@ const Skills = () => {
 					projects: 15,
 					description:
 						"Component-based UI development with modern React practices",
+					image:
+						"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/1200px-React-icon.svg.png",
 				},
 				{
 					name: "JavaScript",
@@ -224,6 +253,8 @@ const Skills = () => {
 					projects: 20,
 					description:
 						"ES6+, async programming, and modern JavaScript features",
+					image:
+						"https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/JavaScript-logo.png/800px-JavaScript-logo.png",
 				},
 				{
 					name: "HTML5 & CSS3",
@@ -232,6 +263,8 @@ const Skills = () => {
 					projects: 25,
 					description:
 						"Semantic markup and modern CSS techniques including Flexbox and Grid",
+					image:
+						"https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/HTML5_logo_and_wordmark.svg/1200px-HTML5_logo_and_wordmark.svg.png",
 				},
 				{
 					name: "Tailwind CSS",
@@ -239,6 +272,8 @@ const Skills = () => {
 					icon: "🌊",
 					projects: 12,
 					description: "Utility-first CSS framework for rapid UI development",
+					image:
+						"https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Tailwind_CSS_Logo.svg/2048px-Tailwind_CSS_Logo.svg.png",
 				},
 				{
 					name: "Responsive Design",
@@ -246,6 +281,7 @@ const Skills = () => {
 					icon: "📱",
 					projects: 18,
 					description: "Mobile-first approach and cross-device compatibility",
+					image: "https://cdn-icons-png.flaticon.com/512/6347/6347307.png",
 				},
 			],
 		},
@@ -262,6 +298,8 @@ const Skills = () => {
 					projects: 10,
 					description:
 						"Server-side JavaScript with Express.js and RESTful APIs",
+					image:
+						"https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Node.js_logo.svg/1200px-Node.js_logo.svg.png",
 				},
 				{
 					name: "MongoDB",
@@ -269,6 +307,8 @@ const Skills = () => {
 					icon: "🍃",
 					projects: 8,
 					description: "NoSQL database design and optimization",
+					image:
+						"https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/MongoDB_Logo.svg/2560px-MongoDB_Logo.svg.png",
 				},
 				{
 					name: "API Development",
@@ -276,6 +316,8 @@ const Skills = () => {
 					icon: "🔌",
 					projects: 12,
 					description: "RESTful and GraphQL API design and implementation",
+					image:
+						"https://cdn.liveapi.com/website/img/product-icons/128x128/rest-api.png",
 				},
 				{
 					name: "Authentication",
@@ -283,6 +325,7 @@ const Skills = () => {
 					icon: "🔐",
 					projects: 10,
 					description: "JWT, OAuth, and secure user authentication systems",
+					image: "https://cdn-icons-png.flaticon.com/512/6911/6911466.png",
 				},
 			],
 		},
@@ -298,6 +341,8 @@ const Skills = () => {
 					icon: "📚",
 					projects: 30,
 					description: "Version control and collaborative development",
+					image:
+						"https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
 				},
 				{
 					name: "VS Code",
@@ -305,6 +350,8 @@ const Skills = () => {
 					icon: "👨‍💻",
 					projects: 40,
 					description: "Advanced IDE usage and custom configurations",
+					image:
+						"https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Visual_Studio_Code_1.35_icon.svg/2048px-Visual_Studio_Code_1.35_icon.svg.png",
 				},
 				{
 					name: "Webpack",
@@ -312,6 +359,8 @@ const Skills = () => {
 					icon: "📦",
 					projects: 15,
 					description: "Module bundling and build optimization",
+					image:
+						"https://raw.githubusercontent.com/webpack/media/master/logo/icon-square-big.png",
 				},
 				{
 					name: "DevTools",
@@ -319,6 +368,7 @@ const Skills = () => {
 					icon: "🔧",
 					projects: 35,
 					description: "Browser debugging and performance optimization",
+					image: "https://developer.chrome.com/images/meta/chromium-47x48.png",
 				},
 			],
 		},
@@ -334,6 +384,7 @@ const Skills = () => {
 					icon: "🧩",
 					projects: 50,
 					description: "Analytical thinking and creative solution development",
+					image: "https://cdn-icons-png.flaticon.com/512/1077/1077198.png",
 				},
 				{
 					name: "Communication",
@@ -341,6 +392,7 @@ const Skills = () => {
 					icon: "💬",
 					projects: 40,
 					description: "Clear and effective technical communication",
+					image: "https://cdn-icons-png.flaticon.com/512/745/745205.png",
 				},
 				{
 					name: "Team Work",
@@ -348,6 +400,7 @@ const Skills = () => {
 					icon: "👥",
 					projects: 25,
 					description: "Collaborative development and peer programming",
+					image: "https://cdn-icons-png.flaticon.com/512/5188/5188421.png",
 				},
 				{
 					name: "Time Management",
@@ -355,9 +408,15 @@ const Skills = () => {
 					icon: "⏰",
 					projects: 30,
 					description: "Project planning and deadline management",
+					image: "https://cdn-icons-png.flaticon.com/512/2972/2972531.png",
 				},
 			],
 		},
+	};
+
+	// Handle skill click
+	const handleSkillClick = (skillName) => {
+		setSelectedSkill(skillName === selectedSkill ? null : skillName);
 	};
 
 	return (
@@ -468,7 +527,7 @@ const Skills = () => {
 						</div>
 					</FloatingElement>
 
-					{/* Skills Grid */}
+					{/* Skills FlowingMenus by Category */}
 					<div className="grid gap-12">
 						{(activeCategory === "all"
 							? Object.entries(skillCategories)
@@ -519,15 +578,36 @@ const Skills = () => {
 												</div>
 											</TiltCard>
 
-											<div className="space-y-2">
-												{skills.map((skill, index) => (
-													<SkillBar
-														key={skill.name}
-														{...skill}
-														delay={index * 0.1}
+											{/* FlowingMenu for this category's skills */}
+											<motion.div
+												initial={{ opacity: 0, y: 30 }}
+												whileInView={{ opacity: 1, y: 0 }}
+												viewport={{ once: true }}
+												transition={{ duration: 0.5 }}
+												className={`relative bg-gradient-to-br ${color} backdrop-blur-sm rounded-xl p-6 border ${borderColor}`}
+											>
+												<div className="text-white text-xl font-semibold mb-6 text-center">
+													<span className="text-[#98ff98]">Skills</span> in{" "}
+													{category}
+												</div>
+												<div
+													style={{
+														height: skills.length * 70 + "px",
+														position: "relative",
+													}}
+													className="rounded-lg overflow-hidden"
+												>
+													<FlowingMenu
+														items={skills.map((skill) => ({
+															text: skill.name,
+															icon: skill.icon,
+															description: `${skill.description} (${skill.projects} projects)`,
+															image: skill.image,
+														}))}
+														onItemClick={handleSkillClick}
 													/>
-												))}
-											</div>
+												</div>
+											</motion.div>
 										</div>
 									</motion.div>
 								</FloatingElement>
