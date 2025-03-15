@@ -142,6 +142,20 @@ const SkillBar = ({
 	);
 
 	const [isHovered, setIsHovered] = useState(false);
+	const [isMobile, setIsMobile] = useState(false);
+
+	useEffect(() => {
+		const checkMobile = () => {
+			setIsMobile(window.innerWidth < 768);
+		};
+
+		checkMobile();
+		window.addEventListener("resize", checkMobile);
+
+		return () => {
+			window.removeEventListener("resize", checkMobile);
+		};
+	}, []);
 
 	return (
 		<motion.div
@@ -150,7 +164,7 @@ const SkillBar = ({
 			whileInView={{ opacity: 1, y: 0 }}
 			viewport={{ once: true }}
 			transition={{ duration: 0.5, delay }}
-			className={`mb-8 ${
+			className={`mb-6 md:mb-8 ${
 				isSelected ? "scale-105 transition-all duration-300" : ""
 			}`}
 			onMouseEnter={() => setIsHovered(true)}
@@ -159,13 +173,13 @@ const SkillBar = ({
 			<div
 				className={`flex justify-between items-center mb-2 ${
 					isSelected
-						? "bg-[#98ff98]/10 p-2 rounded-lg border border-[#98ff98]/30"
+						? "bg-green-100 p-2 rounded-lg border border-green-300"
 						: ""
 				}`}
 			>
 				<div className="flex items-center">
 					<motion.span
-						className="text-xl mr-2"
+						className="text-lg md:text-xl mr-2"
 						animate={{
 							scale: isHovered || isSelected ? [1, 1.2, 1] : 1,
 							rotate: isHovered || isSelected ? [0, 5, -5, 0] : 0,
@@ -175,16 +189,18 @@ const SkillBar = ({
 						{icon}
 					</motion.span>
 					<span
-						className={`font-medium ${
-							isSelected ? "text-[#98ff98]" : "text-gray-800"
+						className={`font-medium text-sm md:text-base ${
+							isSelected ? "text-green-600" : "text-gray-800"
 						}`}
 					>
 						{name}
 					</span>
 				</div>
-				<div className="flex items-center space-x-2">
+				<div className="flex items-center space-x-2 text-sm md:text-base">
 					<span className="text-green-600 font-bold">{level}%</span>
-					<span className="text-gray-500 text-sm">({projects} projects)</span>
+					<span className="text-gray-500 text-xs md:text-sm">
+						({projects} projects)
+					</span>
 				</div>
 			</div>
 
@@ -200,11 +216,11 @@ const SkillBar = ({
 			</div>
 
 			<motion.div
-				className="mt-2 text-sm text-gray-600"
+				className="mt-2 text-xs md:text-sm text-gray-600"
 				initial={{ height: 0, opacity: 0 }}
 				animate={{
-					height: isHovered || isSelected ? "auto" : 0,
-					opacity: isHovered || isSelected ? 1 : 0,
+					height: isMobile || isHovered || isSelected ? "auto" : 0,
+					opacity: isMobile || isHovered || isSelected ? 1 : 0,
 				}}
 				transition={{ duration: 0.3 }}
 			>
@@ -219,6 +235,20 @@ const Skills = () => {
 	const containerRef = useRef(null);
 	const [selectedSkill, setSelectedSkill] = useState(null);
 	const { scrollYProgress } = useScroll();
+	const [isMobile, setIsMobile] = useState(false);
+
+	useEffect(() => {
+		const checkMobile = () => {
+			setIsMobile(window.innerWidth < 768);
+		};
+
+		checkMobile();
+		window.addEventListener("resize", checkMobile);
+
+		return () => {
+			window.removeEventListener("resize", checkMobile);
+		};
+	}, []);
 
 	// Create scroll-driven animations
 	const backgroundY = useTransform(scrollYProgress, [0, 1], [0, -100]);
@@ -478,7 +508,7 @@ const Skills = () => {
 								initial={{ opacity: 0, y: 20 }}
 								animate={{ opacity: 1, y: 0 }}
 								transition={{ duration: 0.5, delay: 0.1 }}
-								className="text-6xl font-bold tracking-tight text-gray-800 mb-4"
+								className="text-4xl md:text-6xl font-bold tracking-tight text-gray-800 mb-4"
 							>
 								Skills & Expertise
 							</motion.h2>
@@ -496,12 +526,12 @@ const Skills = () => {
 
 					{/* Category Navigation */}
 					<FloatingElement yOffset={10} xOffset={5}>
-						<div className="flex flex-wrap justify-center gap-4 mb-16">
+						<div className="flex flex-wrap justify-center gap-2 md:gap-4 mb-8 md:mb-16">
 							<motion.button
 								whileHover={{ scale: 1.05, y: -2 }}
 								whileTap={{ scale: 0.95 }}
 								onClick={() => setActiveCategory("all")}
-								className={`px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+								className={`px-3 md:px-6 py-1.5 md:py-2 rounded-full text-xs md:text-sm font-medium transition-all duration-300 ${
 									activeCategory === "all"
 										? "bg-green-500 text-white"
 										: "bg-gray-100 text-gray-700 hover:bg-gray-200"
@@ -515,7 +545,7 @@ const Skills = () => {
 									whileHover={{ scale: 1.05, y: -2 }}
 									whileTap={{ scale: 0.95 }}
 									onClick={() => setActiveCategory(category)}
-									className={`px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+									className={`px-3 md:px-6 py-1.5 md:py-2 rounded-full text-xs md:text-sm font-medium transition-all duration-300 ${
 										activeCategory === category
 											? "bg-green-500 text-white"
 											: "bg-gray-100 text-gray-700 hover:bg-gray-200"
@@ -528,7 +558,7 @@ const Skills = () => {
 					</FloatingElement>
 
 					{/* Skills FlowingMenus by Category */}
-					<div className="grid gap-12">
+					<div className="grid gap-6 md:gap-12">
 						{(activeCategory === "all"
 							? Object.entries(skillCategories)
 							: [[activeCategory, skillCategories[activeCategory]]]
@@ -552,11 +582,11 @@ const Skills = () => {
 									>
 										<div className="relative">
 											<TiltCard
-												className={`p-6 rounded-2xl bg-gradient-to-br ${color} backdrop-blur-sm border ${borderColor} hover:border-green-400 transition-all duration-300 mb-8`}
+												className={`p-4 md:p-6 rounded-2xl bg-gradient-to-br ${color} backdrop-blur-sm border ${borderColor} hover:border-green-400 transition-all duration-300 mb-4 md:mb-8`}
 											>
-												<div className="flex items-center gap-4">
+												<div className="flex items-center gap-2 md:gap-4">
 													<motion.div
-														className="text-4xl"
+														className="text-2xl md:text-4xl"
 														animate={{
 															rotate: [0, 10, -10, 0],
 															scale: [1, 1.1, 1],
@@ -570,10 +600,12 @@ const Skills = () => {
 														{icon}
 													</motion.div>
 													<div>
-														<h3 className="text-2xl font-bold text-gray-800">
+														<h3 className="text-xl md:text-2xl font-bold text-gray-800">
 															{category}
 														</h3>
-														<p className="text-gray-600 mt-1">{description}</p>
+														<p className="text-sm md:text-base text-gray-600 mt-1">
+															{description}
+														</p>
 													</div>
 												</div>
 											</TiltCard>
@@ -584,15 +616,15 @@ const Skills = () => {
 												whileInView={{ opacity: 1, y: 0 }}
 												viewport={{ once: true }}
 												transition={{ duration: 0.5 }}
-												className={`relative bg-gradient-to-br ${color} backdrop-blur-sm rounded-xl p-6 border ${borderColor}`}
+												className={`relative bg-gradient-to-br ${color} backdrop-blur-sm rounded-xl p-4 md:p-6 border ${borderColor}`}
 											>
-												<div className="text-gray-800 text-xl font-semibold mb-6 text-center">
+												<div className="text-gray-800 text-lg md:text-xl font-semibold mb-4 md:mb-6 text-center">
 													<span className="text-green-600">Skills</span> in{" "}
 													{category}
 												</div>
 												<div
 													style={{
-														height: skills.length * 70 + "px",
+														height: `${skills.length * (isMobile ? 90 : 70)}px`,
 														position: "relative",
 													}}
 													className="rounded-lg overflow-hidden"
