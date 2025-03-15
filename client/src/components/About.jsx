@@ -103,40 +103,6 @@ const AnimatedCounter = ({ value, duration = 2 }) => {
 	return <span ref={countRef}>{count}</span>;
 };
 
-// Animated Progress Bar Component
-const ProgressBar = ({ value, label, color }) => {
-	const barRef = useRef(null);
-	const { scrollYProgress } = useScroll({
-		target: barRef,
-		offset: ["start end", "end center"],
-	});
-
-	const scaleX = useSpring(
-		useTransform(scrollYProgress, [0, 1], [0, value / 100]),
-		{
-			stiffness: 100,
-			damping: 30,
-		}
-	);
-
-	return (
-		<div ref={barRef} className="mb-6">
-			<div className="flex justify-between mb-2">
-				<span className="text-white font-medium">{label}</span>
-				<span className="text-gray-400">
-					<AnimatedCounter value={value} />%
-				</span>
-			</div>
-			<div className="h-2 bg-white/10 rounded-full overflow-hidden">
-				<motion.div
-					className={`h-full ${color}`}
-					style={{ scaleX, transformOrigin: "left" }}
-				/>
-			</div>
-		</div>
-	);
-};
-
 // Scroll Reveal Component
 const ScrollReveal = ({
 	children,
@@ -208,7 +174,6 @@ const About = () => {
 	const profileRef = useRef(null);
 	const timelineRef = useRef(null);
 	const statsRef = useRef(null);
-	const skillsRef = useRef(null);
 
 	// Timeline scroll animation - simplified direct approach
 	const timelineScrollRef = useRef(null);
@@ -221,7 +186,6 @@ const About = () => {
 	const profileInView = useInView(profileRef, { once: true, amount: 0.1 });
 	const timelineInView = useInView(timelineRef, { once: true, amount: 0.1 });
 	const statsInView = useInView(statsRef, { once: true, amount: 0.1 });
-	const skillsInView = useInView(skillsRef, { once: true, amount: 0.1 });
 
 	// Mouse position for interactive background
 	const [mousePosition, setMousePosition] = useState({ x: 0.5, y: 0.5 });
@@ -277,15 +241,6 @@ const About = () => {
 				"Web Dev",
 			],
 		},
-	];
-
-	// Professional skills data
-	const skills = [
-		{ name: "Frontend Development", level: 90, color: "bg-blue-500" },
-		{ name: "Backend Development", level: 85, color: "bg-purple-500" },
-		{ name: "UI/UX Design", level: 80, color: "bg-green-500" },
-		{ name: "Database Management", level: 75, color: "bg-yellow-500" },
-		{ name: "DevOps", level: 70, color: "bg-red-500" },
 	];
 
 	const stats = [
@@ -475,42 +430,6 @@ const About = () => {
 										</div>
 									</div>
 								</TiltCard>
-							))}
-						</div>
-					</div>
-
-					{/* Skills Section */}
-					<div ref={skillsRef} className="max-w-4xl mx-auto mt-24">
-						<ScrollReveal delay={0.1} direction="up">
-							<h3 className="text-3xl md:text-4xl font-bold text-white mb-12 relative text-center">
-								Professional Skills
-								{/* Animated underline */}
-								{skillsInView && (
-									<motion.div
-										className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 h-1 bg-gradient-to-r from-[#98ff98] to-transparent"
-										initial={{ width: 0 }}
-										animate={{ width: "40%" }}
-										transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
-									/>
-								)}
-							</h3>
-						</ScrollReveal>
-
-						<div className="space-y-8 px-4">
-							{skills.map((skill, index) => (
-								<ScrollReveal
-									key={skill.name}
-									delay={0.2 + index * 0.1}
-									direction="right"
-								>
-									<div className="mb-8">
-										<ProgressBar
-											value={skill.level}
-											label={skill.name}
-											color={skill.color}
-										/>
-									</div>
-								</ScrollReveal>
 							))}
 						</div>
 					</div>
