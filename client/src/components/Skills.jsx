@@ -142,20 +142,6 @@ const SkillBar = ({
 	);
 
 	const [isHovered, setIsHovered] = useState(false);
-	const [isMobile, setIsMobile] = useState(false);
-
-	useEffect(() => {
-		const checkMobile = () => {
-			setIsMobile(window.innerWidth < 768);
-		};
-
-		checkMobile();
-		window.addEventListener("resize", checkMobile);
-
-		return () => {
-			window.removeEventListener("resize", checkMobile);
-		};
-	}, []);
 
 	return (
 		<motion.div
@@ -164,7 +150,7 @@ const SkillBar = ({
 			whileInView={{ opacity: 1, y: 0 }}
 			viewport={{ once: true }}
 			transition={{ duration: 0.5, delay }}
-			className={`mb-6 md:mb-8 ${
+			className={`mb-8 ${
 				isSelected ? "scale-105 transition-all duration-300" : ""
 			}`}
 			onMouseEnter={() => setIsHovered(true)}
@@ -173,13 +159,13 @@ const SkillBar = ({
 			<div
 				className={`flex justify-between items-center mb-2 ${
 					isSelected
-						? "bg-green-100 p-2 rounded-lg border border-green-300"
+						? "bg-[#98ff98]/10 p-2 rounded-lg border border-[#98ff98]/30"
 						: ""
 				}`}
 			>
 				<div className="flex items-center">
 					<motion.span
-						className="text-lg md:text-xl mr-2"
+						className="text-xl mr-2"
 						animate={{
 							scale: isHovered || isSelected ? [1, 1.2, 1] : 1,
 							rotate: isHovered || isSelected ? [0, 5, -5, 0] : 0,
@@ -189,38 +175,36 @@ const SkillBar = ({
 						{icon}
 					</motion.span>
 					<span
-						className={`font-medium text-sm md:text-base ${
-							isSelected ? "text-green-600" : "text-gray-800"
+						className={`font-medium ${
+							isSelected ? "text-[#98ff98]" : "text-white"
 						}`}
 					>
 						{name}
 					</span>
 				</div>
-				<div className="flex items-center space-x-2 text-sm md:text-base">
-					<span className="text-green-600 font-bold">{level}%</span>
-					<span className="text-gray-500 text-xs md:text-sm">
-						({projects} projects)
-					</span>
+				<div className="flex items-center space-x-2">
+					<span className="text-[#98ff98] font-bold">{level}%</span>
+					<span className="text-gray-400 text-sm">({projects} projects)</span>
 				</div>
 			</div>
 
-			<div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+			<div className="h-2 bg-white/10 rounded-full overflow-hidden">
 				<motion.div
 					className={`h-full bg-gradient-to-r ${
 						isSelected
-							? "from-green-500 to-green-400"
-							: "from-green-400 to-green-300"
+							? "from-[#98ff98] to-[#4ade80]"
+							: "from-[#98ff98]/80 to-[#4ade80]/80"
 					}`}
 					style={{ scaleX, transformOrigin: "left" }}
 				/>
 			</div>
 
 			<motion.div
-				className="mt-2 text-xs md:text-sm text-gray-600"
+				className="mt-2 text-sm text-gray-400"
 				initial={{ height: 0, opacity: 0 }}
 				animate={{
-					height: isMobile || isHovered || isSelected ? "auto" : 0,
-					opacity: isMobile || isHovered || isSelected ? 1 : 0,
+					height: isHovered || isSelected ? "auto" : 0,
+					opacity: isHovered || isSelected ? 1 : 0,
 				}}
 				transition={{ duration: 0.3 }}
 			>
@@ -235,20 +219,6 @@ const Skills = () => {
 	const containerRef = useRef(null);
 	const [selectedSkill, setSelectedSkill] = useState(null);
 	const { scrollYProgress } = useScroll();
-	const [isMobile, setIsMobile] = useState(false);
-
-	useEffect(() => {
-		const checkMobile = () => {
-			setIsMobile(window.innerWidth < 768);
-		};
-
-		checkMobile();
-		window.addEventListener("resize", checkMobile);
-
-		return () => {
-			window.removeEventListener("resize", checkMobile);
-		};
-	}, []);
 
 	// Create scroll-driven animations
 	const backgroundY = useTransform(scrollYProgress, [0, 1], [0, -100]);
@@ -452,7 +422,7 @@ const Skills = () => {
 	return (
 		<div
 			ref={containerRef}
-			className="relative min-h-screen bg-white py-24 overflow-hidden"
+			className="relative min-h-screen bg-gradient-to-b from-gray-900 via-black to-gray-900 py-24 overflow-hidden"
 		>
 			{/* Animated background */}
 			<motion.div
@@ -624,7 +594,7 @@ const Skills = () => {
 												</div>
 												<div
 													style={{
-														height: `${skills.length * (isMobile ? 90 : 70)}px`,
+														height: skills.length * 70 + "px",
 														position: "relative",
 													}}
 													className="rounded-lg overflow-hidden"
