@@ -98,12 +98,16 @@ function App() {
 						>
 							<Home />
 						</motion.section>
+						<div
+							className="relative z-0 bg-white w-full"
+							style={{ height: "40px" }}
+						></div>
 						<motion.section
 							id="about"
 							ref={(el) => (sectionsRef.current[1] = el)}
 							key="about"
 							variants={pageVariants}
-							className="section min-h-screen relative bg-gradient-to-b from-black via-gray-900 to-black"
+							className="section min-h-screen relative bg-gradient-to-b from-black via-gray-900 to-black rounded-t-[40px] -mt-10 z-10"
 							initial={{ opacity: 0, y: 50, scale: 0.95 }}
 							style={{ opacity: 0, transform: "translateY(50px) scale(0.95)" }}
 							transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
@@ -127,7 +131,7 @@ function App() {
 							ref={(el) => (sectionsRef.current[3] = el)}
 							key="projects"
 							variants={pageVariants}
-							className="section min-h-screen relative bg-gradient-to-b from-black via-gray-900 to-black"
+							className="section min-h-screen relative bg-gradient-to-b from-black via-gray-900 to-black rounded-b-[40px] mb-10 z-10"
 							initial={{ opacity: 0, y: 50, scale: 0.95 }}
 							style={{
 								opacity: 0,
@@ -138,6 +142,10 @@ function App() {
 						>
 							<Projects />
 						</motion.section>
+						<div
+							className="relative z-0 bg-white w-full -mt-20"
+							style={{ height: "40px" }}
+						></div>
 						<motion.section
 							id="contact"
 							ref={(el) => (sectionsRef.current[4] = el)}
