@@ -176,31 +176,31 @@ const SkillBar = ({
 					</motion.span>
 					<span
 						className={`font-medium ${
-							isSelected ? "text-[#98ff98]" : "text-white"
+							isSelected ? "text-[#98ff98]" : "text-gray-800"
 						}`}
 					>
 						{name}
 					</span>
 				</div>
 				<div className="flex items-center space-x-2">
-					<span className="text-[#98ff98] font-bold">{level}%</span>
-					<span className="text-gray-400 text-sm">({projects} projects)</span>
+					<span className="text-green-600 font-bold">{level}%</span>
+					<span className="text-gray-500 text-sm">({projects} projects)</span>
 				</div>
 			</div>
 
-			<div className="h-2 bg-white/10 rounded-full overflow-hidden">
+			<div className="h-2 bg-gray-100 rounded-full overflow-hidden">
 				<motion.div
 					className={`h-full bg-gradient-to-r ${
 						isSelected
-							? "from-[#98ff98] to-[#4ade80]"
-							: "from-[#98ff98]/80 to-[#4ade80]/80"
+							? "from-green-500 to-green-400"
+							: "from-green-400 to-green-300"
 					}`}
 					style={{ scaleX, transformOrigin: "left" }}
 				/>
 			</div>
 
 			<motion.div
-				className="mt-2 text-sm text-gray-400"
+				className="mt-2 text-sm text-gray-600"
 				initial={{ height: 0, opacity: 0 }}
 				animate={{
 					height: isHovered || isSelected ? "auto" : 0,
@@ -231,8 +231,8 @@ const Skills = () => {
 	const skillCategories = {
 		"Frontend Development": {
 			icon: "🎨",
-			color: "from-blue-500/20 to-blue-600/20",
-			borderColor: "border-blue-500/20",
+			color: "from-blue-50 to-blue-100",
+			borderColor: "border-blue-200",
 			description:
 				"Creating beautiful, responsive, and interactive user interfaces",
 			skills: [
@@ -287,8 +287,8 @@ const Skills = () => {
 		},
 		"Backend Development": {
 			icon: "⚙️",
-			color: "from-purple-500/20 to-purple-600/20",
-			borderColor: "border-purple-500/20",
+			color: "from-purple-50 to-purple-100",
+			borderColor: "border-purple-200",
 			description: "Building robust and scalable server-side applications",
 			skills: [
 				{
@@ -331,8 +331,8 @@ const Skills = () => {
 		},
 		"Development Tools": {
 			icon: "🛠",
-			color: "from-green-500/20 to-green-600/20",
-			borderColor: "border-green-500/20",
+			color: "from-green-50 to-green-100",
+			borderColor: "border-green-200",
 			description: "Mastering tools that enhance development workflow",
 			skills: [
 				{
@@ -374,8 +374,8 @@ const Skills = () => {
 		},
 		"Soft Skills": {
 			icon: "🤝",
-			color: "from-yellow-500/20 to-yellow-600/20",
-			borderColor: "border-yellow-500/20",
+			color: "from-amber-50 to-amber-100",
+			borderColor: "border-amber-200",
 			description: "Essential non-technical skills for successful development",
 			skills: [
 				{
@@ -422,7 +422,7 @@ const Skills = () => {
 	return (
 		<div
 			ref={containerRef}
-			className="relative min-h-screen bg-gradient-to-b from-gray-900 via-black to-gray-900 py-24 overflow-hidden"
+			className="relative min-h-screen bg-white py-24 overflow-hidden"
 		>
 			{/* Animated background */}
 			<motion.div
@@ -447,15 +447,15 @@ const Skills = () => {
 			{/* Floating background elements */}
 			<ParallaxBackground
 				speed={-0.2}
-				className="top-1/4 -left-20 w-64 h-64 rounded-full bg-[#98ff98]/5 blur-3xl"
+				className="top-1/4 -left-20 w-64 h-64 rounded-full bg-green-100 blur-3xl"
 			/>
 			<ParallaxBackground
 				speed={0.3}
-				className="bottom-1/4 -right-20 w-80 h-80 rounded-full bg-blue-500/5 blur-3xl"
+				className="bottom-1/4 -right-20 w-80 h-80 rounded-full bg-blue-100 blur-3xl"
 			/>
 			<ParallaxBackground
 				speed={0.15}
-				className="top-3/4 left-1/3 w-40 h-40 rounded-full bg-purple-500/5 blur-3xl"
+				className="top-3/4 left-1/3 w-40 h-40 rounded-full bg-purple-100 blur-3xl"
 			/>
 
 			<div className="container mx-auto px-4 md:px-8 max-w-6xl relative z-10">
@@ -467,7 +467,7 @@ const Skills = () => {
 								initial={{ opacity: 0, y: 20 }}
 								animate={{ opacity: 1, y: 0 }}
 								transition={{ duration: 0.5 }}
-								className="inline-block px-4 py-1.5 bg-gradient-to-r from-[#98ff98]/20 to-[#4ade80]/20 backdrop-blur-sm rounded-full text-sm text-white/90 font-medium mb-4 border border-[#98ff98]/30"
+								className="inline-block px-4 py-1.5 bg-gradient-to-r from-green-100 to-green-200 backdrop-blur-sm rounded-full text-sm text-gray-800 font-medium mb-4 border border-green-300"
 							>
 								WHAT I CAN DO
 							</motion.div>
@@ -478,7 +478,7 @@ const Skills = () => {
 								initial={{ opacity: 0, y: 20 }}
 								animate={{ opacity: 1, y: 0 }}
 								transition={{ duration: 0.5, delay: 0.1 }}
-								className="text-6xl font-bold tracking-tight text-white mb-4"
+								className="text-6xl font-bold tracking-tight text-gray-800 mb-4"
 							>
 								Skills & Expertise
 							</motion.h2>
@@ -489,7 +489,7 @@ const Skills = () => {
 								initial={{ opacity: 0, scaleX: 0 }}
 								animate={{ opacity: 1, scaleX: 1 }}
 								transition={{ duration: 0.5, delay: 0.2 }}
-								className="w-24 h-1.5 bg-gradient-to-r from-[#98ff98]/50 to-[#4ade80]/50 mx-auto mb-8 rounded-full"
+								className="w-24 h-1.5 bg-gradient-to-r from-green-400 to-green-300 mx-auto mb-8 rounded-full"
 							/>
 						</FloatingElement>
 					</div>
@@ -503,8 +503,8 @@ const Skills = () => {
 								onClick={() => setActiveCategory("all")}
 								className={`px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
 									activeCategory === "all"
-										? "bg-[#98ff98] text-gray-900"
-										: "bg-white/10 text-white hover:bg-white/20"
+										? "bg-green-500 text-white"
+										: "bg-gray-100 text-gray-700 hover:bg-gray-200"
 								}`}
 							>
 								All Skills
@@ -517,8 +517,8 @@ const Skills = () => {
 									onClick={() => setActiveCategory(category)}
 									className={`px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
 										activeCategory === category
-											? "bg-[#98ff98] text-gray-900"
-											: "bg-white/10 text-white hover:bg-white/20"
+											? "bg-green-500 text-white"
+											: "bg-gray-100 text-gray-700 hover:bg-gray-200"
 									}`}
 								>
 									{category}
@@ -552,7 +552,7 @@ const Skills = () => {
 									>
 										<div className="relative">
 											<TiltCard
-												className={`p-6 rounded-2xl bg-gradient-to-br ${color} backdrop-blur-sm border ${borderColor} hover:border-[#98ff98]/30 transition-all duration-300 mb-8`}
+												className={`p-6 rounded-2xl bg-gradient-to-br ${color} backdrop-blur-sm border ${borderColor} hover:border-green-400 transition-all duration-300 mb-8`}
 											>
 												<div className="flex items-center gap-4">
 													<motion.div
@@ -570,10 +570,10 @@ const Skills = () => {
 														{icon}
 													</motion.div>
 													<div>
-														<h3 className="text-2xl font-bold text-white">
+														<h3 className="text-2xl font-bold text-gray-800">
 															{category}
 														</h3>
-														<p className="text-gray-300 mt-1">{description}</p>
+														<p className="text-gray-600 mt-1">{description}</p>
 													</div>
 												</div>
 											</TiltCard>
@@ -586,8 +586,8 @@ const Skills = () => {
 												transition={{ duration: 0.5 }}
 												className={`relative bg-gradient-to-br ${color} backdrop-blur-sm rounded-xl p-6 border ${borderColor}`}
 											>
-												<div className="text-white text-xl font-semibold mb-6 text-center">
-													<span className="text-[#98ff98]">Skills</span> in{" "}
+												<div className="text-gray-800 text-xl font-semibold mb-6 text-center">
+													<span className="text-green-600">Skills</span> in{" "}
 													{category}
 												</div>
 												<div
