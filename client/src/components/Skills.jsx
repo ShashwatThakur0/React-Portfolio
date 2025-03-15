@@ -107,7 +107,7 @@ const TiltCard = ({ children, className }) => {
 						background: `
               radial-gradient(
                 circle at ${mousePosition.x * 100}% ${mousePosition.y * 100}%,
-                rgba(74, 222, 128, 0.2) 0%,
+                rgba(74, 222, 128, 0.15) 0%,
                 transparent 60%
               )
             `,
@@ -161,13 +161,13 @@ const SkillBar = ({
 			<div
 				className={`flex justify-between items-center mb-2 ${
 					isSelected
-						? "bg-green-400/10 p-2 rounded-lg border border-green-400/30 shadow-lg shadow-green-400/10"
+						? "bg-green-50 p-2 rounded-lg border border-green-200 shadow-lg shadow-green-100"
 						: ""
 				}`}
 			>
 				<div className="flex items-center">
 					<motion.div
-						className="text-xl mr-2 p-2 rounded-full bg-green-400/10 flex items-center justify-center"
+						className="text-xl mr-2 p-2 rounded-full bg-green-50 flex items-center justify-center text-green-600 border border-green-100"
 						animate={{
 							scale: isHovered || isSelected ? [1, 1.2, 1] : 1,
 							rotate: isHovered || isSelected ? [0, 5, -5, 0] : 0,
@@ -178,33 +178,33 @@ const SkillBar = ({
 					</motion.div>
 					<span
 						className={`font-medium ${
-							isSelected ? "text-green-400" : "text-white"
+							isSelected ? "text-green-600" : "text-gray-700"
 						} text-lg transition-colors duration-300`}
 					>
 						{name}
 					</span>
 				</div>
 				<div className="flex items-center space-x-2">
-					<span className="text-green-400 font-bold">{level}%</span>
-					<span className="text-gray-400 text-sm bg-black/20 px-2 py-0.5 rounded-full">
+					<span className="text-green-600 font-bold">{level}%</span>
+					<span className="text-gray-600 text-sm bg-gray-100 px-2 py-0.5 rounded-full border border-gray-200">
 						{projects} projects
 					</span>
 				</div>
 			</div>
 
-			<div className="h-2.5 bg-black/20 rounded-full overflow-hidden backdrop-blur-sm shadow-inner">
+			<div className="h-2.5 bg-gray-100 rounded-full overflow-hidden shadow-inner border border-gray-200">
 				<motion.div
 					className={`h-full bg-gradient-to-r ${
 						isSelected
-							? "from-green-400 to-green-300 shadow-lg shadow-green-400/20"
-							: "from-green-400/80 to-green-300/80"
+							? "from-green-500 to-green-400 shadow-lg shadow-green-100"
+							: "from-green-400 to-green-300"
 					}`}
 					style={{ scaleX, transformOrigin: "left" }}
 				/>
 			</div>
 
 			<motion.div
-				className="mt-3 text-sm text-gray-300 bg-black/10 p-2 rounded-lg backdrop-blur-sm border border-gray-700/50"
+				className="mt-3 text-sm text-gray-600 bg-gray-50 p-3 rounded-lg border border-gray-200"
 				initial={{ height: 0, opacity: 0 }}
 				animate={{
 					height: isHovered || isSelected ? "auto" : 0,
@@ -232,11 +232,12 @@ const Skills = () => {
 		[1, 0.8, 0.8, 0.6]
 	);
 
+	// Update color schemes for light theme
 	const skillCategories = {
 		"Frontend Development": {
 			icon: "🎨",
-			color: "from-blue-400/10 to-blue-300/10",
-			borderColor: "border-blue-400/30",
+			color: "from-blue-50 to-blue-100",
+			borderColor: "border-blue-200",
 			description:
 				"Creating beautiful, responsive, and interactive user interfaces",
 			skills: [
@@ -291,8 +292,8 @@ const Skills = () => {
 		},
 		"Backend Development": {
 			icon: "⚙️",
-			color: "from-purple-400/10 to-purple-300/10",
-			borderColor: "border-purple-400/30",
+			color: "from-purple-50 to-purple-100",
+			borderColor: "border-purple-200",
 			description: "Building robust and scalable server-side applications",
 			skills: [
 				{
@@ -335,8 +336,8 @@ const Skills = () => {
 		},
 		"Development Tools": {
 			icon: "🛠",
-			color: "from-green-400/10 to-green-300/10",
-			borderColor: "border-green-400/30",
+			color: "from-green-50 to-green-100",
+			borderColor: "border-green-200",
 			description: "Mastering tools that enhance development workflow",
 			skills: [
 				{
@@ -378,8 +379,8 @@ const Skills = () => {
 		},
 		"Soft Skills": {
 			icon: "🤝",
-			color: "from-amber-400/10 to-amber-300/10",
-			borderColor: "border-amber-400/30",
+			color: "from-amber-50 to-amber-100",
+			borderColor: "border-amber-200",
 			description: "Essential non-technical skills for successful development",
 			skills: [
 				{
@@ -426,21 +427,21 @@ const Skills = () => {
 	return (
 		<div
 			ref={containerRef}
-			className="relative min-h-screen bg-gradient-to-b from-gray-900 via-black to-gray-900 py-24 overflow-hidden"
+			className="relative min-h-screen bg-gradient-to-b from-white via-gray-50 to-white py-24 overflow-hidden"
 		>
-			{/* Animated background with enhanced glow effects */}
+			{/* Light theme background elements */}
 			<motion.div
 				className="absolute inset-0 overflow-hidden pointer-events-none"
 				style={{ y: backgroundY, opacity: backgroundOpacity }}
 			>
-				<div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiMyMjIiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PHBhdGggZD0iTTM2IDM0djZoNnYtNmgtNnptMCAwdjZoNnYtNmgtNnoiLz48L2c+PC9nPjwvc3ZnPg==')]" />
+				<div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNlZWUiIGZpbGwtb3BhY2l0eT0iMC41Ij48cGF0aCBkPSJNMzYgMzR2Nmg2di02aC02em0wIDB2Nmg2di02aC02eiIvPjwvZz48L2c+PC9zdmc+')]" />
 				<motion.div
 					animate={{
 						background: [
-							"radial-gradient(circle at 0% 0%, rgba(74,222,128,0.15) 0%, transparent 50%)",
-							"radial-gradient(circle at 100% 100%, rgba(74,222,128,0.15) 0%, transparent 50%)",
-							"radial-gradient(circle at 0% 100%, rgba(74,222,128,0.15) 0%, transparent 50%)",
-							"radial-gradient(circle at 100% 0%, rgba(74,222,128,0.15) 0%, transparent 50%)",
+							"radial-gradient(circle at 0% 0%, rgba(74,222,128,0.08) 0%, transparent 50%)",
+							"radial-gradient(circle at 100% 100%, rgba(74,222,128,0.08) 0%, transparent 50%)",
+							"radial-gradient(circle at 0% 100%, rgba(74,222,128,0.08) 0%, transparent 50%)",
+							"radial-gradient(circle at 100% 0%, rgba(74,222,128,0.08) 0%, transparent 50%)",
 						],
 					}}
 					transition={{ duration: 10, repeat: Infinity }}
@@ -448,30 +449,30 @@ const Skills = () => {
 				/>
 			</motion.div>
 
-			{/* Floating background elements with enhanced colors */}
+			{/* Light theme floating background elements */}
 			<ParallaxBackground
 				speed={-0.2}
-				className="top-1/4 -left-20 w-64 h-64 rounded-full bg-green-400/10 blur-3xl"
+				className="top-1/4 -left-20 w-64 h-64 rounded-full bg-green-100/30 blur-3xl"
 			/>
 			<ParallaxBackground
 				speed={0.3}
-				className="bottom-1/4 -right-20 w-80 h-80 rounded-full bg-blue-400/10 blur-3xl"
+				className="bottom-1/4 -right-20 w-80 h-80 rounded-full bg-blue-100/30 blur-3xl"
 			/>
 			<ParallaxBackground
 				speed={0.15}
-				className="top-3/4 left-1/3 w-40 h-40 rounded-full bg-purple-400/10 blur-3xl"
+				className="top-3/4 left-1/3 w-40 h-40 rounded-full bg-purple-100/30 blur-3xl"
 			/>
 
 			<div className="container mx-auto px-4 md:px-8 max-w-6xl relative z-10">
 				<div className="space-y-24">
-					{/* Enhanced Section Header */}
+					{/* Light theme section header */}
 					<div className="text-center">
 						<FloatingElement yOffset={20} delay={0.1}>
 							<motion.div
 								initial={{ opacity: 0, y: 20 }}
 								animate={{ opacity: 1, y: 0 }}
 								transition={{ duration: 0.5 }}
-								className="inline-block px-4 py-1.5 bg-gradient-to-r from-green-400/20 to-green-300/20 backdrop-blur-sm rounded-full text-sm text-green-300 font-medium mb-4 border border-green-400/30 shadow-lg shadow-green-400/5"
+								className="inline-block px-4 py-1.5 bg-gradient-to-r from-green-50 to-green-100 rounded-full text-sm text-green-600 font-medium mb-4 border border-green-200 shadow-md"
 							>
 								WHAT I CAN DO
 							</motion.div>
@@ -482,7 +483,7 @@ const Skills = () => {
 								initial={{ opacity: 0, y: 20 }}
 								animate={{ opacity: 1, y: 0 }}
 								transition={{ duration: 0.5, delay: 0.1 }}
-								className="text-4xl md:text-6xl font-bold tracking-tight bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent mb-4"
+								className="text-4xl md:text-6xl font-bold tracking-tight bg-gradient-to-r from-gray-700 to-gray-900 bg-clip-text text-transparent mb-4"
 							>
 								Skills & Expertise
 							</motion.h2>
@@ -493,23 +494,23 @@ const Skills = () => {
 								initial={{ opacity: 0, scaleX: 0 }}
 								animate={{ opacity: 1, scaleX: 1 }}
 								transition={{ duration: 0.5, delay: 0.2 }}
-								className="w-24 h-1.5 bg-gradient-to-r from-green-400 to-green-300 mx-auto mb-8 rounded-full shadow-lg shadow-green-400/20"
+								className="w-24 h-1.5 bg-gradient-to-r from-green-400 to-green-300 mx-auto mb-8 rounded-full shadow-md"
 							/>
 						</FloatingElement>
 					</div>
 
-					{/* Enhanced Category Navigation */}
+					{/* Light theme category navigation */}
 					<FloatingElement yOffset={10} xOffset={5}>
 						<div className="relative flex flex-wrap justify-center gap-2 md:gap-4 mb-8 md:mb-16">
-							<div className="absolute inset-0 bg-gradient-to-r from-green-400/5 via-blue-400/5 to-green-400/5 blur-xl rounded-full -z-10"></div>
+							<div className="absolute inset-0 bg-gradient-to-r from-green-50 via-blue-50 to-green-50 blur-xl rounded-full -z-10"></div>
 							<motion.button
 								whileHover={{ scale: 1.05, y: -2 }}
 								whileTap={{ scale: 0.95 }}
 								onClick={() => setActiveCategory("all")}
 								className={`px-4 md:px-6 py-2 md:py-2.5 rounded-full text-xs md:text-sm font-medium transition-all duration-300 ${
 									activeCategory === "all"
-										? "bg-gradient-to-r from-green-500 to-green-400 text-white shadow-lg shadow-green-500/20"
-										: "bg-white/5 text-gray-300 hover:bg-white/10 border border-gray-700 hover:border-green-400/50"
+										? "bg-gradient-to-r from-green-500 to-green-400 text-white shadow-md"
+										: "bg-white text-gray-700 hover:bg-gray-50 border border-gray-200 hover:border-green-300"
 								}`}
 							>
 								All Skills
@@ -522,8 +523,8 @@ const Skills = () => {
 									onClick={() => setActiveCategory(category)}
 									className={`px-4 md:px-6 py-2 md:py-2.5 rounded-full text-xs md:text-sm font-medium transition-all duration-300 ${
 										activeCategory === category
-											? "bg-gradient-to-r from-green-500 to-green-400 text-white shadow-lg shadow-green-500/20"
-											: "bg-white/5 text-gray-300 hover:bg-white/10 border border-gray-700 hover:border-green-400/50"
+											? "bg-gradient-to-r from-green-500 to-green-400 text-white shadow-md"
+											: "bg-white text-gray-700 hover:bg-gray-50 border border-gray-200 hover:border-green-300"
 									}`}
 								>
 									<span className="mr-2">{skillCategories[category].icon}</span>
@@ -533,7 +534,7 @@ const Skills = () => {
 						</div>
 					</FloatingElement>
 
-					{/* Skills FlowingMenus by Category with enhanced styling */}
+					{/* Light theme skills grid */}
 					<div className="grid gap-6 md:gap-12">
 						{(activeCategory === "all"
 							? Object.entries(skillCategories)
@@ -557,13 +558,13 @@ const Skills = () => {
 										className="relative"
 									>
 										<div className="relative">
-											{/* Enhanced category header card */}
+											{/* Light theme category header card */}
 											<TiltCard
-												className={`p-5 md:p-7 rounded-xl bg-gradient-to-br ${color} backdrop-blur-sm border ${borderColor} hover:border-green-400/50 transition-all duration-300 mb-6 md:mb-10 shadow-lg group`}
+												className={`p-5 md:p-7 rounded-xl bg-gradient-to-br ${color} backdrop-blur-sm border ${borderColor} hover:border-green-300 transition-all duration-300 mb-6 md:mb-10 shadow-md group`}
 											>
 												<div className="flex items-center gap-3 md:gap-5">
 													<motion.div
-														className="w-14 h-14 md:w-16 md:h-16 flex items-center justify-center rounded-xl bg-white/10 text-3xl md:text-4xl shadow-lg group-hover:bg-white/20 transition-colors duration-300"
+														className="w-14 h-14 md:w-16 md:h-16 flex items-center justify-center rounded-xl bg-white/60 text-3xl md:text-4xl shadow-md group-hover:bg-white/80 transition-colors duration-300"
 														animate={{
 															rotate: [0, 5, -5, 0],
 															scale: [1, 1.05, 1],
@@ -577,15 +578,15 @@ const Skills = () => {
 														{icon}
 													</motion.div>
 													<div>
-														<h3 className="text-xl md:text-2xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent group-hover:from-white group-hover:to-green-100 transition-all duration-300">
+														<h3 className="text-xl md:text-2xl font-bold bg-gradient-to-r from-gray-700 to-gray-900 bg-clip-text text-transparent group-hover:from-green-600 group-hover:to-green-800 transition-all duration-300">
 															{category}
 														</h3>
-														<p className="text-sm md:text-base text-gray-200 mt-1 opacity-80 group-hover:opacity-100 transition-opacity duration-300">
+														<p className="text-sm md:text-base text-gray-600 mt-1 group-hover:text-gray-800 transition-color duration-300">
 															{description}
 														</p>
 													</div>
 													<motion.div
-														className="ml-auto p-1.5 rounded-full bg-white/5 border border-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+														className="ml-auto p-1.5 rounded-full bg-white/60 border border-gray-100 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
 														animate={{
 															scale: [1, 1.1, 1],
 														}}
@@ -601,7 +602,7 @@ const Skills = () => {
 															viewBox="0 0 24 24"
 															strokeWidth={1.5}
 															stroke="currentColor"
-															className="w-5 h-5 text-green-400"
+															className="w-5 h-5 text-green-600"
 														>
 															<path
 																strokeLinecap="round"
@@ -613,16 +614,16 @@ const Skills = () => {
 												</div>
 											</TiltCard>
 
-											{/* Enhanced FlowingMenu container */}
+											{/* Light theme FlowingMenu container */}
 											<motion.div
 												initial={{ opacity: 0, y: 30 }}
 												whileInView={{ opacity: 1, y: 0 }}
 												viewport={{ once: true }}
 												transition={{ duration: 0.5 }}
-												className={`relative bg-gradient-to-br ${color} backdrop-blur-sm rounded-xl p-5 md:p-7 border ${borderColor} shadow-xl`}
+												className={`relative bg-gradient-to-br ${color} backdrop-blur-sm rounded-xl p-5 md:p-7 border ${borderColor} shadow-md`}
 											>
-												<div className="text-white text-lg md:text-xl font-semibold mb-6 md:mb-8 text-center bg-white/10 py-2 px-4 rounded-lg backdrop-blur-sm border border-white/10">
-													<span className="text-green-400">Skills</span> in{" "}
+												<div className="text-gray-700 text-lg md:text-xl font-semibold mb-6 md:mb-8 text-center bg-white/60 py-2 px-4 rounded-lg backdrop-blur-sm border border-gray-200">
+													<span className="text-green-600">Skills</span> in{" "}
 													{category}
 												</div>
 												<div
