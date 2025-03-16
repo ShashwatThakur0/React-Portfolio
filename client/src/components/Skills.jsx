@@ -655,39 +655,43 @@ const Skills = () => {
 			</div>
 
 			{/* Tech Stack Showcase - Scrolling */}
-			<div className="relative mt-20  overflow-hidden">
+			<div className="relative mt-20 overflow-hidden">
 				{/* Line 1 */}
 				<ScrollVelocity
 					texts={[
 						"React ⚛️ Node.js 🟢 MongoDB 🍃 JavaScript 📜 TypeScript 🔷 HTML5 📝 CSS3 🎨 Git 📚",
 					]}
 					velocity={60}
-					className="text-gray-700 font-semibold "
+					className="text-gray-700 font-semibold"
 					numCopies={3}
 					velocityMapping={{ input: [0, 1000], output: [0, 3] }}
 				/>
 
 				{/* Line 2 */}
-				<ScrollVelocity
-					texts={[
-						"Redux 🔄 GraphQL 📊 Tailwind CSS 🌊 Firebase 🔥 Docker 🐋 AWS ☁️ Next.js ▲ Express 🚂",
-					]}
-					velocity={-40}
-					className="text-gray-700 font-semibold "
-					numCopies={3}
-					velocityMapping={{ input: [0, 1000], output: [0, 3] }}
-				/>
+				<div className="-mt-11">
+					<ScrollVelocity
+						texts={[
+							"Redux 🔄 GraphQL 📊 Tailwind CSS 🌊 Firebase 🔥 Docker 🐋 AWS ☁️ Next.js ▲ Express 🚂",
+						]}
+						velocity={-40}
+						className="text-gray-700 font-semibold"
+						numCopies={3}
+						velocityMapping={{ input: [0, 1000], output: [0, 3] }}
+					/>
+				</div>
 
 				{/* Line 3 */}
-				<ScrollVelocity
-					texts={[
-						"PostgreSQL 🐘 REST API 🔄 SASS 💅 Jest 🧪 Webpack 📦 Figma 🎨 Authentication 🔐",
-					]}
-					velocity={60}
-					className="text-gray-700 font-semibold"
-					numCopies={3}
-					velocityMapping={{ input: [0, 1000], output: [0, 3] }}
-				/>
+				<div className="-mt-11">
+					<ScrollVelocity
+						texts={[
+							"PostgreSQL 🐘 REST API 🔄 SASS 💅 Jest 🧪 Webpack 📦 Figma 🎨 Authentication 🔐",
+						]}
+						velocity={60}
+						className="text-gray-700 font-semibold"
+						numCopies={3}
+						velocityMapping={{ input: [0, 1000], output: [0, 3] }}
+					/>
+				</div>
 			</div>
 		</div>
 	);
