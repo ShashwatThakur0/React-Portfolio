@@ -1,13 +1,9 @@
 .parallax {
 	position: relative;
 	overflow: hidden;
-	padding: 1rem 0;
-	background: linear-gradient(
-		to right,
-		rgba(0, 0, 0, 0.1),
-		transparent,
-		rgba(0, 0, 0, 0.1)
-	);
+	padding: 2rem 0;
+	background: transparent;
+	width: 100%;
 }
 
 .scroller {
@@ -15,28 +11,55 @@
 	white-space: nowrap;
 	text-align: center;
 	font-family: sans-serif;
-	font-size: 2.25rem;
-	font-weight: bold;
-	text-transform: uppercase;
-	letter-spacing: -0.02em;
-	filter: drop-shadow(0 2px 4px rgba(152, 255, 152, 0.1));
+	font-size: 1.5rem;
+	font-weight: 600;
+	letter-spacing: 0;
+	gap: 1rem;
 }
 
 .scroller span {
 	flex-shrink: 0;
-	padding: 0 1rem;
-	text-shadow: 0 0 10px rgba(152, 255, 152, 0.1);
+	padding: 0.5rem 1.5rem;
+	margin: 0 0.5rem;
+	display: inline-flex;
+	align-items: center;
+	transition: all 0.3s ease;
+	position: relative;
+}
+
+.scroller span::after {
+	content: "";
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background-color: #f9fafb;
+	border-radius: 1.5rem;
+	border: 1px solid #e5e7eb;
+	z-index: -1;
+	transform: scale(0.98);
 	transition: all 0.3s ease;
 }
 
 .scroller span:hover {
-	color: rgba(152, 255, 152, 0.3);
-	text-shadow: 0 0 20px rgba(152, 255, 152, 0.2);
+	color: rgba(16, 185, 129, 1);
+	transform: translateY(-2px);
+}
+
+.scroller span:hover::after {
+	transform: scale(1);
+	border-color: rgba(16, 185, 129, 0.3);
+	box-shadow: 0 4px 12px rgba(16, 185, 129, 0.1);
 }
 
 @media (min-width: 768px) {
 	.scroller {
-		font-size: 5rem;
-		line-height: 5rem;
+		font-size: 1.75rem;
+	}
+
+	.scroller span {
+		padding: 0.5rem 2rem;
+		margin: 0 0.75rem;
 	}
 }

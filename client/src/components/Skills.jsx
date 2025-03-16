@@ -654,16 +654,39 @@ const Skills = () => {
 				</div>
 			</div>
 
-			{/* Scroll Velocity Text - Added at the end */}
-			<div className="relative mt-20 mb-0 overflow-hidden">
-				<div className="absolute inset-0 bg-gradient-to-r from-white via-transparent to-white z-10"></div>
+			{/* Tech Stack Showcase - Scrolling */}
+			<div className="relative mt-20  overflow-hidden">
+				{/* Line 1 */}
 				<ScrollVelocity
-					texts={["Innovative Solutions", "Technical Excellence"]}
-					velocity={100}
-					className="text-gray-400 font-bold"
-					numCopies={6}
-					velocityMapping={{ input: [0, 1000], output: [0, 5] }}
-					parallaxStyle={{ background: "transparent" }}
+					texts={[
+						"React ⚛️ Node.js 🟢 MongoDB 🍃 JavaScript 📜 TypeScript 🔷 HTML5 📝 CSS3 🎨 Git 📚",
+					]}
+					velocity={60}
+					className="text-gray-700 font-semibold "
+					numCopies={3}
+					velocityMapping={{ input: [0, 1000], output: [0, 3] }}
+				/>
+
+				{/* Line 2 */}
+				<ScrollVelocity
+					texts={[
+						"Redux 🔄 GraphQL 📊 Tailwind CSS 🌊 Firebase 🔥 Docker 🐋 AWS ☁️ Next.js ▲ Express 🚂",
+					]}
+					velocity={-40}
+					className="text-gray-700 font-semibold "
+					numCopies={3}
+					velocityMapping={{ input: [0, 1000], output: [0, 3] }}
+				/>
+
+				{/* Line 3 */}
+				<ScrollVelocity
+					texts={[
+						"PostgreSQL 🐘 REST API 🔄 SASS 💅 Jest 🧪 Webpack 📦 Figma 🎨 Authentication 🔐",
+					]}
+					velocity={60}
+					className="text-gray-700 font-semibold"
+					numCopies={3}
+					velocityMapping={{ input: [0, 1000], output: [0, 3] }}
 				/>
 			</div>
 		</div>
