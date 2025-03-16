@@ -971,19 +971,6 @@ const Projects = () => {
 			{/* Background gradient */}
 			<div className="absolute inset-0 bg-gradient-to-b from-black via-gray-900 to-black -z-10"></div>
 
-			{/* Scroll Velocity Text */}
-			<div className="relative mb-16 overflow-hidden">
-				<div className="absolute inset-0 bg-gradient-to-r from-black via-transparent to-black z-10"></div>
-				<ScrollVelocity
-					texts={["React Bits", "Scroll Down"]}
-					velocity={100}
-					className="text-white/20 font-bold"
-					numCopies={6}
-					velocityMapping={{ input: [0, 1000], output: [0, 5] }}
-					parallaxStyle={{ background: "transparent" }}
-				/>
-			</div>
-
 			<div className="container mx-auto px-4 md:px-8 max-w-6xl relative z-10">
 				<div className="space-y-16">
 					{/* Section Header */}

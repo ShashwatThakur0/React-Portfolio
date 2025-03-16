@@ -2,6 +2,7 @@
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
 import FlowingMenu from "./FlowingMenu";
+import ScrollVelocity from "./ScrollVelocity";
 
 // Floating Element Component
 const FloatingElement = ({
@@ -651,6 +652,19 @@ const Skills = () => {
 						)}
 					</div>
 				</div>
+			</div>
+
+			{/* Scroll Velocity Text - Added at the end */}
+			<div className="relative mt-20 mb-0 overflow-hidden">
+				<div className="absolute inset-0 bg-gradient-to-r from-white via-transparent to-white z-10"></div>
+				<ScrollVelocity
+					texts={["Innovative Solutions", "Technical Excellence"]}
+					velocity={100}
+					className="text-gray-400 font-bold"
+					numCopies={6}
+					velocityMapping={{ input: [0, 1000], output: [0, 5] }}
+					parallaxStyle={{ background: "transparent" }}
+				/>
 			</div>
 		</div>
 	);
