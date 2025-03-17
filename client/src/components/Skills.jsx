@@ -21,14 +21,14 @@ const FloatingElement = ({
 	// Create smooth transformations based on scroll position
 	const y = useTransform(scrollYProgress, [0, 1], [yOffset, -yOffset]);
 	const x = useTransform(scrollYProgress, [0, 1], [xOffset, -xOffset]);
-	const scale = useTransform(scrollYProgress, [0, 0.5, 1], [0.95, 1.05, 0.95]);
-	const rotate = useTransform(scrollYProgress, [0, 1], [0, xOffset * 0.05]);
+	const scale = useTransform(scrollYProgress, [0, 0.5, 1], [0.98, 1.02, 0.98]);
+	const rotate = useTransform(scrollYProgress, [0, 1], [0, xOffset * 0.03]);
 
 	// Apply spring physics for smoother motion
-	const springY = useSpring(y, { stiffness: 100, damping: 30 });
-	const springX = useSpring(x, { stiffness: 100, damping: 30 });
-	const springRotate = useSpring(rotate, { stiffness: 100, damping: 30 });
-	const springScale = useSpring(scale, { stiffness: 100, damping: 30 });
+	const springY = useSpring(y, { stiffness: 80, damping: 25 });
+	const springX = useSpring(x, { stiffness: 80, damping: 25 });
+	const springRotate = useSpring(rotate, { stiffness: 80, damping: 25 });
+	const springScale = useSpring(scale, { stiffness: 80, damping: 25 });
 
 	return (
 		<motion.div
@@ -38,11 +38,12 @@ const FloatingElement = ({
 				x: springX,
 				rotate: springRotate,
 				scale: springScale,
+				willChange: "transform",
 			}}
 			initial={{ opacity: 0, y: 20 }}
 			whileInView={{ opacity: 1, y: 0 }}
-			viewport={{ once: false, margin: "-100px" }}
-			transition={{ duration: 0.8, delay }}
+			viewport={{ once: true, margin: "-100px" }}
+			transition={{ duration: 0.6, delay }}
 			className={className}
 		>
 			{children}
@@ -59,7 +60,7 @@ const ParallaxBackground = ({ speed = 0.2, className }) => {
 	return (
 		<motion.div
 			ref={ref}
-			style={{ y }}
+			style={{ y, willChange: "transform" }}
 			className={`absolute pointer-events-none ${className}`}
 		/>
 	);
@@ -89,13 +90,14 @@ const TiltCard = ({ children, className }) => {
 				transform: isHovered
 					? `
               perspective(1000px)
-              rotateX(${(mousePosition.y - 0.5) * 14}deg)
-              rotateY(${(mousePosition.x - 0.5) * -14}deg)
-              translateZ(20px)
-              scale(1.02)
+              rotateX(${(mousePosition.y - 0.5) * 10}deg)
+              rotateY(${(mousePosition.x - 0.5) * -10}deg)
+              translateZ(15px)
+              scale(1.01)
             `
 					: "perspective(1000px) rotateX(0) rotateY(0) translateZ(0)",
 				transition: "transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
+				willChange: "transform",
 			}}
 			className={className}
 			whileHover={{ boxShadow: "0 10px 30px rgba(74, 222, 128, 0.15)" }}
@@ -139,8 +141,8 @@ const SkillBar = ({
 	const scaleX = useSpring(
 		useTransform(scrollYProgress, [0, 1], [0, level / 100]),
 		{
-			stiffness: 100,
-			damping: 30,
+			stiffness: 70,
+			damping: 20,
 		}
 	);
 
@@ -149,15 +151,16 @@ const SkillBar = ({
 	return (
 		<motion.div
 			ref={barRef}
-			initial={{ opacity: 0, y: 20 }}
+			initial={{ opacity: 0, y: 15 }}
 			whileInView={{ opacity: 1, y: 0 }}
 			viewport={{ once: true }}
-			transition={{ duration: 0.5, delay }}
+			transition={{ duration: 0.4, delay }}
 			className={`mb-8 ${
 				isSelected ? "scale-105 transition-all duration-300" : ""
 			}`}
 			onMouseEnter={() => setIsHovered(true)}
 			onMouseLeave={() => setIsHovered(false)}
+			style={{ willChange: isHovered ? "transform, opacity" : "auto" }}
 		>
 			<div
 				className={`flex justify-between items-center mb-2 ${
@@ -170,10 +173,11 @@ const SkillBar = ({
 					<motion.div
 						className="text-xl mr-2 p-2 rounded-full bg-green-50 flex items-center justify-center text-green-600 border border-green-100"
 						animate={{
-							scale: isHovered || isSelected ? [1, 1.2, 1] : 1,
-							rotate: isHovered || isSelected ? [0, 5, -5, 0] : 0,
+							scale: isHovered || isSelected ? [1, 1.1, 1] : 1,
+							rotate: isHovered || isSelected ? [0, 5, 0] : 0,
 						}}
 						transition={{ duration: 0.5 }}
+						style={{ willChange: isHovered ? "transform" : "auto" }}
 					>
 						{icon}
 					</motion.div>
@@ -200,7 +204,7 @@ const SkillBar = ({
 							? "from-green-500 to-green-400 shadow-lg shadow-green-100"
 							: "from-green-400 to-green-300"
 					}`}
-					style={{ scaleX, transformOrigin: "left" }}
+					style={{ scaleX, transformOrigin: "left", willChange: "transform" }}
 				/>
 			</div>
 
@@ -212,6 +216,7 @@ const SkillBar = ({
 					opacity: isHovered || isSelected ? 1 : 0,
 				}}
 				transition={{ duration: 0.3 }}
+				style={{ willChange: isHovered ? "height, opacity" : "auto" }}
 			>
 				{description}
 			</motion.div>
@@ -344,7 +349,7 @@ const Skills = () => {
 				{
 					name: "Git & GitHub",
 					level: 92,
-					icon: "📚",
+					icon: "��",
 					projects: 30,
 					description: "Version control and collaborative development",
 					image:
@@ -496,6 +501,7 @@ const Skills = () => {
 								animate={{ opacity: 1, scaleX: 1 }}
 								transition={{ duration: 0.5, delay: 0.2 }}
 								className="w-24 h-1.5 bg-gradient-to-r from-green-400 to-green-300 mx-auto mb-8 rounded-full shadow-md"
+								style={{ willChange: "transform, opacity" }}
 							/>
 						</FloatingElement>
 					</div>
@@ -513,6 +519,7 @@ const Skills = () => {
 										? "bg-gradient-to-r from-green-500 to-green-400 text-white shadow-md"
 										: "bg-white text-gray-700 hover:bg-gray-50 border border-gray-200 hover:border-green-300"
 								}`}
+								style={{ willChange: "transform" }}
 							>
 								All Skills
 							</motion.button>
@@ -527,6 +534,7 @@ const Skills = () => {
 											? "bg-gradient-to-r from-green-500 to-green-400 text-white shadow-md"
 											: "bg-white text-gray-700 hover:bg-gray-50 border border-gray-200 hover:border-green-300"
 									}`}
+									style={{ willChange: "transform" }}
 								>
 									<span className="mr-2">{skillCategories[category].icon}</span>
 									{category}
@@ -547,16 +555,17 @@ const Skills = () => {
 							) => (
 								<FloatingElement
 									key={category}
-									yOffset={30}
-									xOffset={categoryIndex % 2 === 0 ? 10 : -10}
-									delay={categoryIndex * 0.1}
+									yOffset={20}
+									xOffset={categoryIndex % 2 === 0 ? 8 : -8}
+									delay={categoryIndex * 0.08}
 								>
 									<motion.div
-										initial={{ opacity: 0, y: 30 }}
+										initial={{ opacity: 0, y: 20 }}
 										whileInView={{ opacity: 1, y: 0 }}
 										viewport={{ once: true }}
-										transition={{ duration: 0.5, delay: categoryIndex * 0.1 }}
+										transition={{ duration: 0.5, delay: categoryIndex * 0.08 }}
 										className="relative"
+										style={{ willChange: "transform, opacity" }}
 									>
 										<div className="relative">
 											{/* Light theme category header card */}
@@ -567,14 +576,15 @@ const Skills = () => {
 													<motion.div
 														className="w-14 h-14 md:w-16 md:h-16 flex items-center justify-center rounded-xl bg-white/60 text-3xl md:text-4xl shadow-md group-hover:bg-white/80 transition-colors duration-300"
 														animate={{
-															rotate: [0, 5, -5, 0],
-															scale: [1, 1.05, 1],
+															rotate: [0, 3, -3, 0],
+															scale: [1, 1.03, 1],
 														}}
 														transition={{
-															duration: 3,
+															duration: 4,
 															repeat: Infinity,
 															repeatType: "reverse",
 														}}
+														style={{ willChange: "transform" }}
 													>
 														{icon}
 													</motion.div>
@@ -589,13 +599,14 @@ const Skills = () => {
 													<motion.div
 														className="ml-auto p-1.5 rounded-full bg-white/60 border border-gray-100 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
 														animate={{
-															scale: [1, 1.1, 1],
+															scale: [1, 1.08, 1],
 														}}
 														transition={{
-															duration: 1.5,
+															duration: 2,
 															repeat: Infinity,
 															repeatType: "reverse",
 														}}
+														style={{ willChange: "transform" }}
 													>
 														<svg
 															xmlns="http://www.w3.org/2000/svg"
@@ -617,11 +628,12 @@ const Skills = () => {
 
 											{/* Light theme FlowingMenu container */}
 											<motion.div
-												initial={{ opacity: 0, y: 30 }}
+												initial={{ opacity: 0, y: 20 }}
 												whileInView={{ opacity: 1, y: 0 }}
 												viewport={{ once: true }}
 												transition={{ duration: 0.5 }}
 												className={`relative bg-gradient-to-br ${color} backdrop-blur-sm rounded-xl p-5 md:p-7 border ${borderColor} shadow-md`}
+												style={{ willChange: "transform, opacity" }}
 											>
 												<div className="text-gray-700 text-lg md:text-xl font-semibold mb-6 md:mb-8 text-center bg-white/60 py-2 px-4 rounded-lg backdrop-blur-sm border border-gray-200">
 													<span className="text-green-600">Skills</span> in{" "}
@@ -661,10 +673,10 @@ const Skills = () => {
 					texts={[
 						"React ⚛️ Node.js 🟢 MongoDB 🍃 JavaScript 📜 TypeScript 🔷 HTML5 📝 CSS3 🎨 Git 📚",
 					]}
-					velocity={60}
+					velocity={40}
 					className="text-gray-700 font-semibold"
 					numCopies={3}
-					velocityMapping={{ input: [0, 1000], output: [0, 3] }}
+					velocityMapping={{ input: [0, 1000], output: [0, 2] }}
 				/>
 
 				{/* Line 2 */}
@@ -673,10 +685,10 @@ const Skills = () => {
 						texts={[
 							"Redux 🔄 GraphQL 📊 Tailwind CSS 🌊 Firebase 🔥 Docker 🐋 AWS ☁️ Next.js ▲ Express 🚂",
 						]}
-						velocity={-40}
+						velocity={-30}
 						className="text-gray-700 font-semibold"
 						numCopies={3}
-						velocityMapping={{ input: [0, 1000], output: [0, 3] }}
+						velocityMapping={{ input: [0, 1000], output: [0, 2] }}
 					/>
 				</div>
 
@@ -686,10 +698,10 @@ const Skills = () => {
 						texts={[
 							"PostgreSQL 🐘 REST API 🔄 SASS 💅 Jest 🧪 Webpack 📦 Figma 🎨 Authentication 🔐",
 						]}
-						velocity={60}
+						velocity={40}
 						className="text-gray-700 font-semibold"
 						numCopies={3}
-						velocityMapping={{ input: [0, 1000], output: [0, 3] }}
+						velocityMapping={{ input: [0, 1000], output: [0, 2] }}
 					/>
 				</div>
 			</div>

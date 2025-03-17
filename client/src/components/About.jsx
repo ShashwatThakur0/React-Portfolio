@@ -451,7 +451,10 @@ const About = () => {
 							</p>
 						</div>
 
-						<div ref={timelineScrollRef} className="relative max-w-4xl mx-auto">
+						<div
+							ref={timelineScrollRef}
+							className="relative max-w-4xl mx-auto will-change-transform"
+						>
 							{/* Timeline line */}
 							<div
 								className="absolute left-10 top-0 bottom-0 w-0.5 bg-gray-800/50"
@@ -474,25 +477,27 @@ const About = () => {
 									height: "100%",
 									borderRadius: "4px",
 									zIndex: 5,
+									willChange: "transform",
 								}}
 							/>
 
-							{/* Add animated dots that travel down the timeline */}
+							{/* Add animated dots that travel down the timeline - simplified animation */}
 							<motion.div
 								className="absolute left-10 top-0 w-2 h-2 rounded-full bg-[#98ff98] transform -translate-x-1/2 z-6"
 								style={{
 									boxShadow: "0 0 10px rgba(152, 255, 152, 0.8)",
 									y: ["0%", "100%"],
 									opacity: [0, 1, 0],
+									willChange: "transform, opacity",
 								}}
 								transition={{
 									y: {
-										duration: 8,
+										duration: 12,
 										repeat: Infinity,
 										ease: "linear",
 									},
 									opacity: {
-										duration: 8,
+										duration: 12,
 										repeat: Infinity,
 										times: [0, 0.1, 1],
 										ease: "linear",
@@ -504,50 +509,51 @@ const About = () => {
 							{timeline.map((item, index) => (
 								<ScrollReveal
 									key={item.title}
-									delay={0.2 + index * 0.2}
+									delay={0.2 + index * 0.15}
 									direction="left"
 									className="relative pl-20 mb-24"
 								>
-									{/* Timeline Dot with pulse effect - improved alignment */}
+									{/* Timeline Dot with simplified pulse effect */}
 									<motion.div
 										className={`absolute left-10 top-8 w-8 h-8 rounded-full bg-gradient-to-br ${item.color} border-2 border-white/30 transform -translate-x-1/2 z-10 flex items-center justify-center`}
 										whileHover={{
-											scale: 1.5,
+											scale: 1.2,
 											boxShadow: "0 0 20px rgba(152, 255, 152, 0.5)",
 										}}
 										animate={
 											timelineInView
 												? {
-														scale: [1, 1.2, 1],
+														scale: [1, 1.1, 1],
 														boxShadow: [
 															"0 0 0 0 rgba(152, 255, 152, 0)",
-															"0 0 20px rgba(152, 255, 152, 0.5)",
+															"0 0 15px rgba(152, 255, 152, 0.5)",
 															"0 0 0 0 rgba(152, 255, 152, 0)",
 														],
 												  }
 												: {}
 										}
 										transition={{
-											duration: 3,
-											repeat: Infinity,
-											repeatType: "loop",
+											duration: 4,
+											repeat: 0,
 											ease: "easeInOut",
 										}}
+										style={{ willChange: "transform" }}
 									>
-										{/* Inner dot for more modern look */}
+										{/* Inner dot with simplified animation */}
 										<motion.div
 											className="w-3 h-3 rounded-full bg-white"
 											animate={{
-												scale: [1, 1.5, 1],
-												opacity: [0.5, 1, 0.5],
+												scale: [1, 1.3, 1],
+												opacity: [0.6, 1, 0.6],
 											}}
 											transition={{
-												duration: 2,
+												duration: 3,
 												repeat: Infinity,
 												repeatType: "loop",
 												ease: "easeInOut",
-												delay: index * 0.2,
+												delay: index * 0.1,
 											}}
+											style={{ willChange: "transform, opacity" }}
 										/>
 									</motion.div>
 
@@ -558,18 +564,19 @@ const About = () => {
 											width: "10px",
 											transform: "translateX(3px)",
 											transformOrigin: "left",
+											willChange: "transform",
 										}}
 										initial={{ scaleX: 0 }}
 										animate={{ scaleX: 1 }}
-										transition={{ duration: 0.5, delay: 0.3 + index * 0.2 }}
+										transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
 									/>
 
 									<TiltCard
 										className={`p-8 md:p-10 rounded-xl bg-gradient-to-br ${item.color} backdrop-blur-sm border border-white/10 hover:border-[#98ff98]/30 transition-all duration-500 shadow-lg overflow-hidden group ml-2`}
 									>
-										{/* Add a subtle animated gradient overlay */}
+										{/* Simplified gradient overlay with less intensive animation */}
 										<motion.div
-											className="absolute inset-0 opacity-30 group-hover:opacity-50 transition-opacity duration-500"
+											className="absolute inset-0 opacity-20 group-hover:opacity-40 transition-opacity duration-500"
 											style={{
 												background: `linear-gradient(120deg, transparent 30%, ${
 													item.type === "education"
@@ -577,14 +584,15 @@ const About = () => {
 														: "rgba(100, 200, 255, 0.2)"
 												} 50%, transparent 70%)`,
 												backgroundSize: "200% 100%",
+												willChange: "background-position",
 											}}
 											animate={{
-												backgroundPosition: ["0% 0%", "100% 0%", "0% 0%"],
+												backgroundPosition: ["0% 0%", "100% 0%"],
 											}}
 											transition={{
-												duration: 5,
+												duration: 8,
 												repeat: Infinity,
-												repeatType: "loop",
+												repeatType: "reverse",
 												ease: "linear",
 											}}
 										/>
@@ -610,7 +618,7 @@ const About = () => {
 														>
 															{item.type}
 														</motion.span>
-														{/* Add the year as a badge */}
+														{/* Year badge */}
 														<motion.span
 															className="text-sm font-normal bg-black/50 px-3 py-1 rounded-full text-white/80"
 															whileHover={{
@@ -630,47 +638,49 @@ const About = () => {
 												animate={
 													timelineInView
 														? {
-																scale: [1, 1.2, 1],
-																rotate: [0, 10, -10, 0],
+																scale: [1, 1.1, 1],
 														  }
 														: {}
 												}
 												transition={{
-													duration: 2,
-													delay: index * 0.3,
-													repeat: Infinity,
-													repeatType: "reverse",
+													duration: 3,
+													delay: index * 0.2,
+													repeat: 0,
 												}}
 												whileHover={{
-													scale: 1.5,
-													rotate: [0, 15, -15, 0],
+													scale: 1.3,
+													rotate: [0, 10, 0],
 													transition: { duration: 0.5 },
 												}}
+												style={{ willChange: "transform" }}
 											>
 												{item.icon}
 											</motion.div>
 										</div>
 
-										{/* Skills/Keywords */}
+										{/* Skills/Keywords - simplified animation */}
 										<div className="mt-8">
 											<div className="flex flex-wrap gap-4">
 												{item.skills.map((skill, i) => (
 													<motion.span
 														key={skill}
 														className="inline-block px-4 py-2 bg-black/30 text-base font-medium text-white/80 rounded-full border border-white/10 group-hover:border-[#98ff98]/30 transition-all duration-300"
-														initial={{ opacity: 0, y: 20 }}
+														initial={{ opacity: 0, y: 10 }}
 														animate={
 															timelineInView
 																? { opacity: 1, y: 0 }
-																: { opacity: 0, y: 20 }
+																: { opacity: 0, y: 10 }
 														}
-														transition={{ delay: 0.5 + i * 0.1 + index * 0.2 }}
+														transition={{
+															delay: 0.3 + i * 0.05,
+															duration: 0.5,
+														}}
 														whileHover={{
 															backgroundColor: "rgba(152, 255, 152, 0.2)",
 															scale: 1.05,
 															color: "#ffffff",
-															boxShadow: "0 0 10px rgba(152, 255, 152, 0.3)",
 														}}
+														style={{ willChange: "transform, opacity" }}
 													>
 														{skill}
 													</motion.span>
@@ -678,8 +688,8 @@ const About = () => {
 											</div>
 										</div>
 
-										{/* Add a hover effect glow */}
-										<motion.div className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-gradient-to-br from-[#98ff98]/5 to-transparent rounded-xl transition-opacity duration-500" />
+										{/* Simplified hover glow effect */}
+										<motion.div className="absolute inset-0 opacity-0 group-hover:opacity-100 bg-gradient-to-br from-[#98ff98]/5 to-transparent rounded-xl transition-opacity duration-300" />
 									</TiltCard>
 								</ScrollReveal>
 							))}
