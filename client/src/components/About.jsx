@@ -40,8 +40,8 @@ const TiltCard = ({ children, className }) => {
 				transition: "transform 0.3s ease",
 			}}
 			whileHover={{
-				boxShadow: "0 10px 30px -15px rgba(152, 255, 152, 0.3)",
-				borderColor: "rgba(152, 255, 152, 0.5)",
+				boxShadow: "0 10px 30px -15px rgba(79, 70, 229, 0.3)",
+				borderColor: "rgba(79, 70, 229, 0.5)",
 			}}
 			className={className}
 		>
@@ -54,7 +54,7 @@ const TiltCard = ({ children, className }) => {
 							background: `
               radial-gradient(
                 circle at ${mousePosition.x * 100}% ${mousePosition.y * 100}%,
-                rgba(152, 255, 152, 0.3) 0%,
+                rgba(79, 70, 229, 0.3) 0%,
                 transparent 50%
               )
             `,
@@ -66,8 +66,8 @@ const TiltCard = ({ children, className }) => {
 						initial={{ opacity: 0 }}
 						animate={{ opacity: 1 }}
 						style={{
-							borderColor: "rgba(152, 255, 152, 0.3)",
-							boxShadow: "0 0 15px rgba(152, 255, 152, 0.3)",
+							borderColor: "rgba(79, 70, 229, 0.3)",
+							boxShadow: "0 0 15px rgba(79, 70, 229, 0.3)",
 						}}
 					/>
 				</>
@@ -251,37 +251,35 @@ const About = () => {
 	];
 
 	return (
-		<motion.div
+		<section
+			id="about"
+			className="relative min-h-screen py-20 overflow-hidden section-bg"
 			ref={containerRef}
-			style={{
-				scale,
-				opacity: opacity,
-				perspective: perspective,
-				rotateX: rotateX,
-			}}
-			className="relative min-h-screen bg-gradient-to-b from-gray-900 via-black to-gray-900 py-24 overflow-hidden"
-			initial={{ opacity: 0 }}
-			animate={{ opacity: 1 }}
-			transition={{ duration: 1 }}
 		>
-			{/* Background with parallax effect */}
-			<div className="absolute inset-0 overflow-hidden">
-				<motion.div
-					className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiMyMjIiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PHBhdGggZD0iTTM2IDM0djZoNnYtNmgtNnptMCAwdjZoNnYtNmgtNnoiLz48L2c+PC9nPjwvc3ZnPg==')]"
-					style={{ y: backgroundY, opacity: 0.5 }}
-				/>
-				<motion.div
-					className="absolute inset-0"
-					style={{
-						background: `radial-gradient(circle at ${mousePosition.x * 100}% ${
-							mousePosition.y * 100
-						}%, rgba(152, 255, 152, 0.15) 0%, transparent 40%)`,
-						opacity: 0.8,
-					}}
-				/>
-			</div>
+			{/* Enhanced Background Elements */}
+			<div className="bg-accent-1"></div>
+			<div className="bg-accent-2"></div>
 
-			<div className="container mx-auto px-4 md:px-8 max-w-6xl relative z-10">
+			<div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl">
+				{/* Section Title */}
+				<motion.div
+					className="text-center mb-16"
+					style={{ opacity, scale }}
+					initial={{ opacity: 0, y: 20 }}
+					whileInView={{ opacity: 1, y: 0 }}
+					viewport={{ once: true }}
+					transition={{ duration: 0.6 }}
+				>
+					<h2 className="text-3xl md:text-4xl font-bold mb-4">
+						About <span className="text-indigo-400">Me</span>
+					</h2>
+					<div className="h-1 w-20 bg-gradient-to-r from-indigo-500 to-cyan-500 mx-auto rounded-full"></div>
+					<p className="text-neutral-300 mt-6 max-w-2xl mx-auto">
+						Crafting digital experiences through clean, efficient code and
+						engaging designs.
+					</p>
+				</motion.div>
+
 				<div className="space-y-32">
 					{/* Section Header with staggered animation */}
 					<div className="text-center mb-8">
@@ -413,10 +411,10 @@ const About = () => {
 							{stats.map((stat, index) => (
 								<TiltCard
 									key={index}
-									className="p-8 rounded-2xl bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm border border-gray-700/50 hover:border-[#98ff98]/30 transition-all duration-300"
+									className="p-8 rounded-2xl bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm border border-gray-700/50 hover:border-indigo-500/30 transition-all duration-300"
 								>
 									<div className="text-center">
-										<div className="w-20 h-20 rounded-full bg-[#98ff98]/10 flex items-center justify-center mx-auto mb-6">
+										<div className="w-20 h-20 rounded-full bg-indigo-500/10 flex items-center justify-center mx-auto mb-6">
 											<span className="text-4xl">{stat.icon}</span>
 										</div>
 										<div className="relative">
@@ -697,7 +695,7 @@ const About = () => {
 					</div>
 				</div>
 			</div>
-		</motion.div>
+		</section>
 	);
 };
 

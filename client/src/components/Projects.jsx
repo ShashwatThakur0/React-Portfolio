@@ -121,7 +121,7 @@ const ProjectCard = ({ project, index, isSelected, onClick }) => {
 				backfaceVisibility: "hidden",
 			}}
 			className={`group relative bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-2xl overflow-hidden border border-white/10 hover:border-white/20 transition-all duration-500 ${
-				isSelected ? "ring-2 ring-[#98ff98] scale-[1.02]" : ""
+				isSelected ? "ring-2 ring-indigo-500 scale-[1.02]" : ""
 			}`}
 			whileHover={{ scale: 1.02 }}
 		>
@@ -132,7 +132,7 @@ const ProjectCard = ({ project, index, isSelected, onClick }) => {
 					background: `
 						radial-gradient(
 							circle at ${mousePosition.x * 100}% ${mousePosition.y * 100}%,
-							rgba(152, 255, 152, 0.15) 0%,
+							rgba(79, 70, 229, 0.15) 0%,
 							transparent 50%
 						)
 					`,
@@ -967,50 +967,33 @@ const Projects = () => {
 	}
 
 	return (
-		<div id="projects" className="relative min-h-screen py-24 overflow-hidden">
-			{/* Background gradient */}
-			<div className="absolute inset-0 bg-gradient-to-b from-black via-gray-900 to-black -z-10"></div>
+		<section
+			id="projects"
+			className="relative min-h-screen py-20 overflow-hidden section-bg"
+		>
+			{/* Enhanced Background Elements */}
+			<div className="bg-accent-1"></div>
+			<div className="bg-accent-2"></div>
 
-			<div className="container mx-auto px-4 md:px-8 max-w-6xl relative z-10">
+			<div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl">
+				{/* Section Title */}
+				<motion.div
+					className="text-center mb-16"
+					initial={{ opacity: 0, y: 20 }}
+					whileInView={{ opacity: 1, y: 0 }}
+					viewport={{ once: true }}
+					transition={{ duration: 0.6 }}
+				>
+					<h2 className="text-3xl md:text-4xl font-bold mb-4">
+						My <span className="text-indigo-400">Projects</span>
+					</h2>
+					<div className="h-1 w-20 bg-gradient-to-r from-indigo-500 to-cyan-500 mx-auto rounded-full"></div>
+					<p className="text-neutral-300 mt-6 max-w-2xl mx-auto">
+						A showcase of my recent work and the problems I've solved.
+					</p>
+				</motion.div>
+
 				<div className="space-y-16">
-					{/* Section Header */}
-					<div className="text-center">
-						<motion.div
-							initial={{ opacity: 0, y: 20 }}
-							animate={{ opacity: 1, y: 0 }}
-							transition={{ duration: 0.5 }}
-							className="inline-block px-4 py-1.5 bg-gradient-to-r from-[#98ff98]/20 to-[#4ade80]/20 backdrop-blur-sm rounded-full text-sm text-white/90 font-medium mb-4 border border-[#98ff98]/30"
-						>
-							MY WORK
-						</motion.div>
-
-						<motion.h2
-							initial={{ opacity: 0, y: 20 }}
-							animate={{ opacity: 1, y: 0 }}
-							transition={{ duration: 0.5, delay: 0.1 }}
-							className="text-6xl font-bold tracking-tight text-white mb-4"
-						>
-							Projects
-						</motion.h2>
-
-						<motion.div
-							initial={{ opacity: 0, scaleX: 0 }}
-							animate={{ opacity: 1, scaleX: 1 }}
-							transition={{ duration: 0.5, delay: 0.2 }}
-							className="w-24 h-1.5 bg-gradient-to-r from-[#98ff98]/50 to-[#4ade80]/50 mx-auto mb-8 rounded-full"
-						/>
-
-						<motion.p
-							initial={{ opacity: 0, y: 20 }}
-							animate={{ opacity: 1, y: 0 }}
-							transition={{ duration: 0.5, delay: 0.3 }}
-							className="max-w-2xl mx-auto text-gray-300 text-lg"
-						>
-							Explore my latest projects and see what I've been working on. Each
-							project represents a unique challenge and solution.
-						</motion.p>
-					</div>
-
 					{/* Featured Project Showcase */}
 					<div className="relative">
 						<div className="flex justify-between items-center mb-8">
@@ -1426,7 +1409,7 @@ const Projects = () => {
 					<ProjectModal project={selectedProject} onClose={closeModal} />
 				)}
 			</AnimatePresence>
-		</div>
+		</section>
 	);
 };
 

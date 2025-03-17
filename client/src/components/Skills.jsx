@@ -100,7 +100,7 @@ const TiltCard = ({ children, className }) => {
 				willChange: "transform",
 			}}
 			className={className}
-			whileHover={{ boxShadow: "0 10px 30px rgba(74, 222, 128, 0.15)" }}
+			whileHover={{ boxShadow: "0 10px 30px rgba(79, 70, 229, 0.15)" }}
 		>
 			{children}
 			{isHovered && (
@@ -110,7 +110,7 @@ const TiltCard = ({ children, className }) => {
 						background: `
               radial-gradient(
                 circle at ${mousePosition.x * 100}% ${mousePosition.y * 100}%,
-                rgba(74, 222, 128, 0.15) 0%,
+                rgba(79, 70, 229, 0.15) 0%,
                 transparent 60%
               )
             `,
@@ -431,45 +431,33 @@ const Skills = () => {
 	};
 
 	return (
-		<div
-			ref={containerRef}
-			className="relative min-h-screen bg-gradient-to-b from-white via-gray-50 to-white py-24 overflow-hidden"
+		<section
+			id="skills"
+			className="relative min-h-screen py-20 overflow-hidden section-bg"
 		>
-			{/* Light theme background elements */}
-			<motion.div
-				className="absolute inset-0 overflow-hidden pointer-events-none"
-				style={{ y: backgroundY, opacity: backgroundOpacity }}
-			>
-				<div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNlZWUiIGZpbGwtb3BhY2l0eT0iMC41Ij48cGF0aCBkPSJNMzYgMzR2Nmg2di02aC02em0wIDB2Nmg2di02aC02eiIvPjwvZz48L2c+PC9zdmc+')]" />
+			{/* Enhanced Background Elements */}
+			<div className="bg-accent-1"></div>
+			<div className="bg-accent-2"></div>
+
+			<div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl">
+				{/* Section Title */}
 				<motion.div
-					animate={{
-						background: [
-							"radial-gradient(circle at 0% 0%, rgba(74,222,128,0.08) 0%, transparent 50%)",
-							"radial-gradient(circle at 100% 100%, rgba(74,222,128,0.08) 0%, transparent 50%)",
-							"radial-gradient(circle at 0% 100%, rgba(74,222,128,0.08) 0%, transparent 50%)",
-							"radial-gradient(circle at 100% 0%, rgba(74,222,128,0.08) 0%, transparent 50%)",
-						],
-					}}
-					transition={{ duration: 10, repeat: Infinity }}
-					className="absolute inset-0"
-				/>
-			</motion.div>
+					className="text-center mb-16"
+					initial={{ opacity: 0, y: 20 }}
+					whileInView={{ opacity: 1, y: 0 }}
+					viewport={{ once: true }}
+					transition={{ duration: 0.6 }}
+				>
+					<h2 className="text-3xl md:text-4xl font-bold mb-4">
+						Technical <span className="text-indigo-400">Skills</span>
+					</h2>
+					<div className="h-1 w-20 bg-gradient-to-r from-indigo-500 to-cyan-500 mx-auto rounded-full"></div>
+					<p className="text-neutral-300 mt-6 max-w-2xl mx-auto">
+						A comprehensive overview of my technical expertise and proficiency
+						levels.
+					</p>
+				</motion.div>
 
-			{/* Light theme floating background elements */}
-			<ParallaxBackground
-				speed={-0.2}
-				className="top-1/4 -left-20 w-64 h-64 rounded-full bg-green-100/30 blur-3xl"
-			/>
-			<ParallaxBackground
-				speed={0.3}
-				className="bottom-1/4 -right-20 w-80 h-80 rounded-full bg-blue-100/30 blur-3xl"
-			/>
-			<ParallaxBackground
-				speed={0.15}
-				className="top-3/4 left-1/3 w-40 h-40 rounded-full bg-purple-100/30 blur-3xl"
-			/>
-
-			<div className="container mx-auto px-4 md:px-8 max-w-6xl relative z-10">
 				<div className="space-y-24">
 					{/* Light theme section header */}
 					<div className="text-center">
@@ -705,7 +693,7 @@ const Skills = () => {
 					/>
 				</div>
 			</div>
-		</div>
+		</section>
 	);
 };
 
