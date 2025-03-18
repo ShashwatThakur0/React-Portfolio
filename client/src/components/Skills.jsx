@@ -453,8 +453,8 @@ const Skills = () => {
 					hue={180}
 					xOffset={0.2}
 					speed={0.8}
-					intensity={0.9}
-					size={1.2}
+					intensity={0.12}
+					size={0.35}
 				/>
 			</div>
 

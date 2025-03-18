@@ -270,7 +270,13 @@ const About = () => {
 					zIndex: 0,
 				}}
 			>
-				<Lightning hue={220} xOffset={0} speed={1} intensity={1} size={1} />
+				<Lightning
+					hue={220}
+					xOffset={0}
+					speed={1}
+					intensity={0.15}
+					size={0.4}
+				/>
 			</div>
 
 			{/* Enhanced Background Elements */}

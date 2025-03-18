@@ -989,8 +989,8 @@ const Projects = () => {
 					hue={120}
 					xOffset={-0.3}
 					speed={1.2}
-					intensity={0.8}
-					size={0.9}
+					intensity={0.13}
+					size={0.38}
 				/>
 			</div>
 
