@@ -274,8 +274,8 @@ const About = () => {
 					hue={220}
 					xOffset={0}
 					speed={1}
-					intensity={0.15}
-					size={0.4}
+					intensity={0.08}
+					size={0.25}
 				/>
 			</div>
 
