@@ -121,10 +121,10 @@ const ProjectCard = ({ project, index, isSelected, onClick }) => {
 				willChange: "transform",
 				backfaceVisibility: "hidden",
 			}}
-			className={`group relative bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-2xl overflow-hidden border border-white/10 hover:border-white/20 transition-all duration-500 ${
-				isSelected ? "ring-2 ring-indigo-500 scale-[1.02]" : ""
+			className={`group relative bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-2xl overflow-hidden border border-white/10 hover:border-white/20 transition-all duration-500 shadow-lg shadow-black/10 hover:shadow-xl hover:shadow-black/20 ${
+				isSelected ? "ring-2 ring-[#98ff98] scale-[1.02]" : ""
 			}`}
-			whileHover={{ scale: 1.02 }}
+			whileHover={{ scale: 1.03 }}
 		>
 			{/* Animated Gradient Background */}
 			<div
@@ -142,7 +142,7 @@ const ProjectCard = ({ project, index, isSelected, onClick }) => {
 			/>
 
 			{/* Project Preview */}
-			<div className="relative h-48 overflow-hidden">
+			<div className="relative h-52 overflow-hidden">
 				<motion.div
 					className="absolute inset-0 bg-gradient-to-br from-[#98ff98]/20 to-[#4ade80]/20"
 					animate={{
@@ -166,13 +166,13 @@ const ProjectCard = ({ project, index, isSelected, onClick }) => {
 					transition={{ duration: 0.3 }}
 				>
 					<div className="relative">
-						<div className="text-6xl font-bold text-white/10 blur-sm absolute inset-0 flex items-center justify-center">
+						<div className="text-7xl font-bold text-white/10 blur-sm absolute inset-0 flex items-center justify-center">
 							{project.title
 								.split(" ")
 								.map((word) => word[0])
 								.join("")}
 						</div>
-						<div className="text-6xl font-bold text-white/30 relative">
+						<div className="text-7xl font-bold text-white/40 relative">
 							{project.title
 								.split(" ")
 								.map((word) => word[0])
@@ -183,7 +183,7 @@ const ProjectCard = ({ project, index, isSelected, onClick }) => {
 
 				{/* Floating particles effect */}
 				<div className="absolute inset-0 overflow-hidden">
-					{Array.from({ length: 5 }).map((_, i) => (
+					{Array.from({ length: 8 }).map((_, i) => (
 						<motion.div
 							key={i}
 							className="absolute w-2 h-2 rounded-full bg-[#98ff98]/30"
@@ -970,9 +970,9 @@ const Projects = () => {
 	return (
 		<section
 			id="projects"
-			className="relative min-h-screen py-20 overflow-hidden section-bg"
+			className="relative min-h-screen py-24 overflow-hidden section-bg"
 		>
-			{/* Lightning Effect */}
+			{/* Lightning Effect - Enhanced */}
 			<div
 				style={{
 					width: "100%",
@@ -989,46 +989,56 @@ const Projects = () => {
 					hue={120}
 					xOffset={-0.3}
 					speed={1.2}
-					intensity={0.07}
-					size={0.22}
+					intensity={0.09}
+					size={0.25}
 				/>
 			</div>
 
 			{/* Enhanced Background Elements */}
-			<div className="bg-accent-1"></div>
-			<div className="bg-accent-2"></div>
+			<div className="bg-accent-1 opacity-70"></div>
+			<div className="bg-accent-2 opacity-70"></div>
 
-			<div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl">
-				{/* Section Title */}
+			{/* Decorative gradient orbs - NEW */}
+			<div className="absolute top-[15%] right-[5%] w-64 h-64 rounded-full bg-gradient-to-br from-indigo-600/10 to-purple-600/10 blur-3xl"></div>
+			<div className="absolute bottom-[15%] left-[5%] w-72 h-72 rounded-full bg-gradient-to-br from-emerald-600/10 to-teal-600/10 blur-3xl"></div>
+
+			<div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
+				{/* Section Title - Enhanced */}
 				<motion.div
-					className="text-center mb-16"
+					className="text-center mb-20"
 					initial={{ opacity: 0, y: 20 }}
 					whileInView={{ opacity: 1, y: 0 }}
 					viewport={{ once: true }}
-					transition={{ duration: 0.6 }}
+					transition={{ duration: 0.7 }}
 				>
-					<h2 className="text-3xl md:text-4xl font-bold mb-4">
-						My <span className="text-indigo-400">Projects</span>
+					<h2 className="text-4xl md:text-5xl font-bold mb-4">
+						My{" "}
+						<span className="bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">
+							Projects
+						</span>
 					</h2>
-					<div className="h-1 w-20 bg-gradient-to-r from-indigo-500 to-cyan-500 mx-auto rounded-full"></div>
-					<p className="text-neutral-300 mt-6 max-w-2xl mx-auto">
+					<div className="h-1 w-24 bg-gradient-to-r from-indigo-500 to-cyan-500 mx-auto rounded-full mb-6"></div>
+					<p className="text-neutral-300 mt-6 max-w-2xl mx-auto text-lg">
 						A showcase of my recent work and the problems I've solved.
 					</p>
 				</motion.div>
 
-				<div className="space-y-16">
-					{/* Featured Project Showcase */}
+				<div className="space-y-20">
+					{/* Featured Project Showcase - Enhanced */}
 					<div className="relative">
-						<div className="flex justify-between items-center mb-8">
-							<h3 className="text-2xl font-bold text-white">
-								Spotlight Projects
+						<div className="flex justify-between items-center mb-10">
+							<h3 className="text-2xl md:text-3xl font-bold text-white">
+								<span className="text-transparent bg-clip-text bg-gradient-to-r from-[#98ff98] to-emerald-500">
+									Spotlight
+								</span>{" "}
+								Projects
 							</h3>
-							<div className="flex space-x-2">
+							<div className="flex space-x-3">
 								<motion.button
-									whileHover={{ scale: 1.05 }}
-									whileTap={{ scale: 0.95 }}
+									whileHover={{ scale: 1.1 }}
+									whileTap={{ scale: 0.9 }}
 									onClick={() => scrollCarousel("left")}
-									className="p-2 rounded-full bg-white/10 text-white hover:bg-white/20"
+									className="p-3 rounded-full bg-white/10 text-white hover:bg-white/20 backdrop-blur-sm border border-white/5 hover:border-white/20 transition-all duration-300"
 								>
 									<svg
 										className="w-5 h-5"
@@ -1045,10 +1055,10 @@ const Projects = () => {
 									</svg>
 								</motion.button>
 								<motion.button
-									whileHover={{ scale: 1.05 }}
-									whileTap={{ scale: 0.95 }}
+									whileHover={{ scale: 1.1 }}
+									whileTap={{ scale: 0.9 }}
 									onClick={() => scrollCarousel("right")}
-									className="p-2 rounded-full bg-white/10 text-white hover:bg-white/20"
+									className="p-3 rounded-full bg-white/10 text-white hover:bg-white/20 backdrop-blur-sm border border-white/5 hover:border-white/20 transition-all duration-300"
 								>
 									<svg
 										className="w-5 h-5"
@@ -1069,13 +1079,13 @@ const Projects = () => {
 
 						<div
 							ref={carouselRef}
-							className="overflow-x-auto pb-4 hide-scrollbar flex space-x-6 snap-x snap-mandatory"
+							className="overflow-x-auto pb-6 hide-scrollbar flex space-x-8 snap-x snap-mandatory"
 							style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
 						>
 							{featuredProjects.map((project, index) => (
 								<div
 									key={project.id}
-									className="snap-start min-w-[300px] md:min-w-[400px] flex-shrink-0"
+									className="snap-start min-w-[330px] md:min-w-[430px] flex-shrink-0"
 								>
 									<ProjectCard
 										project={project}
@@ -1088,18 +1098,18 @@ const Projects = () => {
 						</div>
 					</div>
 
-					{/* View Toggle and Filters */}
-					<div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
-						<div className="flex items-center space-x-4">
-							<h3 className="text-xl font-bold text-white">All Projects</h3>
-							<div className="flex p-1 bg-white/10 rounded-lg">
+					{/* View Toggle and Filters - Enhanced */}
+					<div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10">
+						<div className="flex items-center space-x-5">
+							<h3 className="text-2xl font-bold text-white">All Projects</h3>
+							<div className="flex p-1 bg-white/10 backdrop-blur-sm rounded-lg border border-white/5">
 								<motion.button
 									whileHover={{ scale: 1.05 }}
 									whileTap={{ scale: 0.95 }}
 									onClick={() => setView("grid")}
-									className={`p-2 rounded ${
+									className={`p-2.5 rounded ${
 										view === "grid"
-											? "bg-[#98ff98] text-gray-900"
+											? "bg-gradient-to-r from-[#98ff98] to-emerald-500 text-gray-900"
 											: "text-white"
 									}`}
 								>
@@ -1121,9 +1131,9 @@ const Projects = () => {
 									whileHover={{ scale: 1.05 }}
 									whileTap={{ scale: 0.95 }}
 									onClick={() => setView("list")}
-									className={`p-2 rounded ${
+									className={`p-2.5 rounded ${
 										view === "list"
-											? "bg-[#98ff98] text-gray-900"
+											? "bg-gradient-to-r from-[#98ff98] to-emerald-500 text-gray-900"
 											: "text-white"
 									}`}
 								>
@@ -1145,45 +1155,45 @@ const Projects = () => {
 						</div>
 					</div>
 
-					{/* Category Filters */}
+					{/* Category Filters - Enhanced */}
 					<div className="space-y-6">
 						<div className="flex flex-wrap gap-3">
 							<motion.button
-								whileHover={{ scale: 1.05, y: -2 }}
+								whileHover={{ scale: 1.05, y: -3 }}
 								whileTap={{ scale: 0.95 }}
 								onClick={() => setFilter("all")}
-								className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
+								className={`px-5 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 shadow-sm ${
 									filter === "all"
-										? "bg-[#98ff98] text-gray-900"
-										: "bg-white/10 text-white hover:bg-white/20"
+										? "bg-gradient-to-r from-[#98ff98] to-emerald-500 text-gray-900 shadow-emerald-500/20"
+										: "bg-white/10 text-white hover:bg-white/20 backdrop-blur-sm border border-white/5 hover:border-white/20"
 								}`}
 							>
 								All Projects
 							</motion.button>
 							<motion.button
-								whileHover={{ scale: 1.05, y: -2 }}
+								whileHover={{ scale: 1.05, y: -3 }}
 								whileTap={{ scale: 0.95 }}
 								onClick={() => setFilter("featured")}
-								className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
+								className={`px-5 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 shadow-sm ${
 									filter === "featured"
-										? "bg-[#98ff98] text-gray-900"
-										: "bg-white/10 text-white hover:bg-white/20"
+										? "bg-gradient-to-r from-[#98ff98] to-emerald-500 text-gray-900 shadow-emerald-500/20"
+										: "bg-white/10 text-white hover:bg-white/20 backdrop-blur-sm border border-white/5 hover:border-white/20"
 								}`}
 							>
 								Featured
 							</motion.button>
 
-							{/* Category buttons */}
+							{/* Category buttons - Enhanced */}
 							{categories.map((category) => (
 								<motion.button
 									key={category.name}
-									whileHover={{ scale: 1.05, y: -2 }}
+									whileHover={{ scale: 1.05, y: -3 }}
 									whileTap={{ scale: 0.95 }}
 									onClick={() => setFilter(category.name)}
-									className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
+									className={`px-5 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 shadow-sm ${
 										filter === category.name
-											? "bg-[#98ff98] text-gray-900"
-											: "bg-white/10 text-white hover:bg-white/20"
+											? "bg-gradient-to-r from-[#98ff98] to-emerald-500 text-gray-900 shadow-emerald-500/20"
+											: "bg-white/10 text-white hover:bg-white/20 backdrop-blur-sm border border-white/5 hover:border-white/20"
 									}`}
 								>
 									{category.name} ({category.count})
@@ -1191,26 +1201,26 @@ const Projects = () => {
 							))}
 						</div>
 
-						{/* Technology tags (only show if a category is selected) */}
+						{/* Technology tags - Enhanced */}
 						{categories.find((cat) => cat.name === filter) && (
 							<motion.div
 								initial={{ opacity: 0, height: 0 }}
 								animate={{ opacity: 1, height: "auto" }}
 								exit={{ opacity: 0, height: 0 }}
-								className="flex flex-wrap gap-2"
+								className="flex flex-wrap gap-2.5 p-4 bg-white/5 backdrop-blur-sm rounded-xl border border-white/5"
 							>
 								{categories
 									.find((cat) => cat.name === filter)
 									.technologies.map((tech) => (
 										<motion.button
 											key={tech}
-											whileHover={{ scale: 1.05 }}
+											whileHover={{ scale: 1.05, y: -2 }}
 											whileTap={{ scale: 0.95 }}
 											onClick={() => setFilter(tech)}
-											className={`px-3 py-1 rounded-full text-xs font-medium transition-all duration-300 ${
+											className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-all duration-300 ${
 												filter === tech
-													? "bg-[#98ff98] text-gray-900"
-													: "bg-white/5 text-white/80 hover:bg-white/10"
+													? "bg-gradient-to-r from-[#98ff98] to-emerald-500 text-gray-900 shadow-sm shadow-emerald-500/20"
+													: "bg-white/5 text-white/80 hover:bg-white/10 border border-white/5 hover:border-white/20"
 											}`}
 										>
 											{tech}
@@ -1220,7 +1230,7 @@ const Projects = () => {
 						)}
 					</div>
 
-					{/* Projects Grid/List */}
+					{/* Projects Grid/List - Enhanced */}
 					<AnimatePresence mode="wait">
 						{view === "grid" ? (
 							<motion.div
@@ -1229,7 +1239,7 @@ const Projects = () => {
 								animate={{ opacity: 1 }}
 								exit={{ opacity: 0 }}
 								layout
-								className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
+								className="grid md:grid-cols-2 lg:grid-cols-3 gap-10"
 							>
 								{filteredProjects.map((project, index) => (
 									<ProjectCard
@@ -1370,15 +1380,15 @@ const Projects = () => {
 						</motion.div>
 					)}
 
-					{/* Project Stats */}
-					<div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-16">
+					{/* Project Stats - Enhanced */}
+					<div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-20">
 						<motion.div
 							initial={{ opacity: 0, y: 20 }}
 							animate={{ opacity: 1, y: 0 }}
-							transition={{ delay: 0.1 }}
-							className="bg-white/5 backdrop-blur-sm rounded-xl p-6 text-center border border-white/10"
+							transition={{ delay: 0.1, duration: 0.6 }}
+							className="bg-gradient-to-br from-white/8 to-white/4 backdrop-blur-sm rounded-xl p-8 text-center border border-white/10 hover:border-white/20 transition-colors shadow-xl shadow-black/5"
 						>
-							<h4 className="text-3xl font-bold text-white mb-2">
+							<h4 className="text-3xl md:text-4xl font-bold text-white mb-3">
 								{projects.length || 0}
 							</h4>
 							<p className="text-gray-400">Total Projects</p>
@@ -1386,10 +1396,10 @@ const Projects = () => {
 						<motion.div
 							initial={{ opacity: 0, y: 20 }}
 							animate={{ opacity: 1, y: 0 }}
-							transition={{ delay: 0.2 }}
-							className="bg-white/5 backdrop-blur-sm rounded-xl p-6 text-center border border-white/10"
+							transition={{ delay: 0.2, duration: 0.6 }}
+							className="bg-gradient-to-br from-white/8 to-white/4 backdrop-blur-sm rounded-xl p-8 text-center border border-white/10 hover:border-white/20 transition-colors shadow-xl shadow-black/5"
 						>
-							<h4 className="text-3xl font-bold text-white mb-2">
+							<h4 className="text-3xl md:text-4xl font-bold text-white mb-3">
 								{projects.reduce(
 									(sum, project) => sum + (project.stars || 0),
 									0
@@ -1400,10 +1410,10 @@ const Projects = () => {
 						<motion.div
 							initial={{ opacity: 0, y: 20 }}
 							animate={{ opacity: 1, y: 0 }}
-							transition={{ delay: 0.3 }}
-							className="bg-white/5 backdrop-blur-sm rounded-xl p-6 text-center border border-white/10"
+							transition={{ delay: 0.3, duration: 0.6 }}
+							className="bg-gradient-to-br from-white/8 to-white/4 backdrop-blur-sm rounded-xl p-8 text-center border border-white/10 hover:border-white/20 transition-colors shadow-xl shadow-black/5"
 						>
-							<h4 className="text-3xl font-bold text-white mb-2">
+							<h4 className="text-3xl md:text-4xl font-bold text-white mb-3">
 								{uniqueTechnologies?.length || 0}
 							</h4>
 							<p className="text-gray-400">Technologies</p>
@@ -1411,10 +1421,10 @@ const Projects = () => {
 						<motion.div
 							initial={{ opacity: 0, y: 20 }}
 							animate={{ opacity: 1, y: 0 }}
-							transition={{ delay: 0.4 }}
-							className="bg-white/5 backdrop-blur-sm rounded-xl p-6 text-center border border-white/10"
+							transition={{ delay: 0.4, duration: 0.6 }}
+							className="bg-gradient-to-br from-white/8 to-white/4 backdrop-blur-sm rounded-xl p-8 text-center border border-white/10 hover:border-white/20 transition-colors shadow-xl shadow-black/5"
 						>
-							<h4 className="text-3xl font-bold text-white mb-2">
+							<h4 className="text-3xl md:text-4xl font-bold text-white mb-3">
 								{projects.reduce(
 									(sum, project) => sum + (project.forks || 0),
 									0
