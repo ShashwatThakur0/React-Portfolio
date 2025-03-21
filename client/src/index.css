@@ -240,17 +240,71 @@ html {
 	scroll-margin-top: 100px;
 	position: relative;
 	isolation: isolate;
+	background: linear-gradient(
+		to bottom,
+		rgba(26, 31, 54, 0.98),
+		rgba(13, 17, 32, 0.99)
+	);
+	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+	animation: gradientShift 15s ease infinite;
+}
+
+@keyframes gradientShift {
+	0% {
+		background: linear-gradient(
+			to bottom,
+			rgba(26, 31, 54, 0.98),
+			rgba(13, 17, 32, 0.99)
+		);
+	}
+	50% {
+		background: linear-gradient(
+			to bottom,
+			rgba(30, 41, 59, 0.98),
+			rgba(15, 23, 42, 0.99)
+		);
+	}
+	100% {
+		background: linear-gradient(
+			to bottom,
+			rgba(26, 31, 54, 0.98),
+			rgba(13, 17, 32, 0.99)
+		);
+	}
 }
 
 #projects .container {
 	position: relative;
 	z-index: 2;
+	text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+	backdrop-filter: blur(12px);
+	-webkit-backdrop-filter: blur(12px);
+	padding: 2rem;
+	border-radius: 1rem;
+	background: rgba(26, 31, 54, 0.6);
+	border: 1px solid rgba(255, 255, 255, 0.15);
+	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
 }
 
 /* Ensure project cards and interactive elements are clickable */
 #projects .container * {
 	position: relative;
 	z-index: 3;
+	transition: all 0.3s ease-in-out;
+}
+
+#projects h1,
+#projects h2,
+#projects h3 {
+	color: rgba(255, 255, 255, 0.95);
+	text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5), 0 4px 8px rgba(0, 0, 0, 0.3);
+	letter-spacing: 0.5px;
+}
+
+#projects p {
+	color: rgba(255, 255, 255, 0.85);
+	text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+	line-height: 1.6;
 }
 
 /* Remove any conflicting animations in projects section */
@@ -320,6 +374,45 @@ html {
 	backdrop-filter: blur(10px);
 	-webkit-backdrop-filter: blur(10px);
 	border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.project-card {
+	position: relative;
+	overflow: hidden;
+	border-radius: 1rem;
+	background: rgba(30, 41, 59, 0.7);
+	border: 1px solid rgba(255, 255, 255, 0.15);
+	transition: all 0.3s ease;
+	backdrop-filter: blur(10px);
+	-webkit-backdrop-filter: blur(10px);
+	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.project-card:hover {
+	transform: translateY(-5px);
+	box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+	border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.project-card img {
+	width: 100%;
+	height: auto;
+	object-fit: cover;
+	border-radius: 0.5rem;
+	transition: transform 0.3s ease;
+}
+
+.project-card:hover img {
+	transform: scale(1.05);
+}
+
+.project-card .content {
+	padding: 1.5rem;
+	background: linear-gradient(
+		to bottom,
+		rgba(30, 41, 59, 0.8),
+		rgba(15, 23, 42, 0.9)
+	);
 }
 
 /* Add subtle hover animations */
