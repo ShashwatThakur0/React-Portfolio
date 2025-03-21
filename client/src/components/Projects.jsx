@@ -10,7 +10,7 @@ import {
 import { fetchGithubProjects } from "../services/github"; // GitHub API service
 import ScrollVelocity from "./ScrollVelocity"; // Import ScrollVelocity component
 import CircularText from "./CircularText"; // Import CircularText component
-
+import LetterGlitch from "./LetterGlitch";
 // Debounce function to limit frequent function calls
 const debounce = (func, wait) => {
 	let timeout;
@@ -969,8 +969,16 @@ const Projects = () => {
 	return (
 		<section
 			id="projects"
-			className="relative min-h-screen py-24 overflow-hidden section-bg"
+			classname="relative min-h-screen py-24 overflow-hidden section-bg"
 		>
+			<div className="absolute inset-0 z-0">
+				<LetterGlitch
+					glitchSpeed={50}
+					centerVignette={true}
+					outerVignette={false}
+					smooth={true}
+				/>
+			</div>
 			{/* Enhanced Background Elements */}
 			<div className="bg-accent-1 opacity-70"></div>
 			<div className="bg-accent-2 opacity-70"></div>
