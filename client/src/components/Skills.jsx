@@ -3,7 +3,6 @@ import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
 import FlowingMenu from "./FlowingMenu";
 import ScrollVelocity from "./ScrollVelocity";
-import Lightning from "./Lightning";
 
 // Floating Element Component
 const FloatingElement = ({
@@ -436,28 +435,6 @@ const Skills = () => {
 			id="skills"
 			className="relative min-h-screen py-20 overflow-hidden section-bg"
 		>
-			{/* Lightning Effect */}
-			<div
-				style={{
-					width: "100%",
-					height: "100%",
-					position: "absolute",
-					top: 0,
-					left: 0,
-					right: 0,
-					bottom: 0,
-					zIndex: 0,
-				}}
-			>
-				<Lightning
-					hue={180}
-					xOffset={0.2}
-					speed={0.8}
-					intensity={0.07}
-					size={0.2}
-				/>
-			</div>
-
 			<div className="bg-accent-1"></div>
 			<div className="bg-accent-2"></div>
 

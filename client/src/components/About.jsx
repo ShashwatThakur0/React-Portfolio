@@ -7,7 +7,6 @@ import {
 	useInView,
 } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
-import Lightning from "./Lightning";
 
 // 3D Tilt Card Component
 const TiltCard = ({ children, className }) => {
@@ -257,28 +256,6 @@ const About = () => {
 			className="relative min-h-screen py-20 overflow-hidden section-bg"
 			ref={containerRef}
 		>
-			{/* Lightning Effect */}
-			<div
-				style={{
-					width: "100%",
-					height: "100%",
-					position: "absolute",
-					top: 0,
-					left: 0,
-					right: 0,
-					bottom: 0,
-					zIndex: 0,
-				}}
-			>
-				<Lightning
-					hue={220}
-					xOffset={0}
-					speed={1}
-					intensity={0.08}
-					size={0.25}
-				/>
-			</div>
-
 			{/* Enhanced Background Elements */}
 			<div className="bg-accent-1"></div>
 			<div className="bg-accent-2"></div>

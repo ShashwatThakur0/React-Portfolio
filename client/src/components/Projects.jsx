@@ -10,7 +10,6 @@ import {
 import { fetchGithubProjects } from "../services/github"; // GitHub API service
 import ScrollVelocity from "./ScrollVelocity"; // Import ScrollVelocity component
 import CircularText from "./CircularText"; // Import CircularText component
-import Lightning from "./Lightning"; // Import Lightning component
 
 // Debounce function to limit frequent function calls
 const debounce = (func, wait) => {
@@ -972,28 +971,6 @@ const Projects = () => {
 			id="projects"
 			className="relative min-h-screen py-24 overflow-hidden section-bg"
 		>
-			{/* Lightning Effect - Enhanced */}
-			<div
-				style={{
-					width: "100%",
-					height: "100%",
-					position: "absolute",
-					top: 0,
-					left: 0,
-					right: 0,
-					bottom: 0,
-					zIndex: 0,
-				}}
-			>
-				<Lightning
-					hue={120}
-					xOffset={-0.3}
-					speed={1.2}
-					intensity={0.09}
-					size={0.25}
-				/>
-			</div>
-
 			{/* Enhanced Background Elements */}
 			<div className="bg-accent-1 opacity-70"></div>
 			<div className="bg-accent-2 opacity-70"></div>
