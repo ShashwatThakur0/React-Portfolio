@@ -30,16 +30,17 @@ function useElementWidth(ref) {
 export const ScrollVelocity = ({
 	scrollContainerRef,
 	texts = [],
-	velocity = 100,
+	velocity = 50,
 	className = "",
-	damping = 50,
-	stiffness = 400,
-	numCopies = 6,
-	velocityMapping = { input: [0, 1000], output: [0, 5] },
+	damping = 80,
+	stiffness = 200,
+	numCopies = 4,
+	velocityMapping = { input: [0, 500], output: [0, 3] },
 	parallaxClassName = "parallax",
 	scrollerClassName = "scroller",
 	parallaxStyle,
 	scrollerStyle,
+	performanceMode = false,
 }) => {
 	function VelocityText({
 		children,
@@ -88,6 +89,7 @@ export const ScrollVelocity = ({
 
 		const directionFactor = useRef(1);
 		useAnimationFrame((t, delta) => {
+			if (performanceMode && delta < 16) return; // Skip frames in performance mode
 			let moveBy = directionFactor.current * baseVelocity * (delta / 1000);
 
 			if (velocityFactor.get() < 0) {
@@ -96,7 +98,11 @@ export const ScrollVelocity = ({
 				directionFactor.current = 1;
 			}
 
-			moveBy += directionFactor.current * moveBy * velocityFactor.get();
+			moveBy +=
+				directionFactor.current *
+				moveBy *
+				velocityFactor.get() *
+				(performanceMode ? 0.5 : 1);
 			baseX.set(baseX.get() + moveBy);
 		});
 

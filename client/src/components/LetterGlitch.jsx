@@ -2,10 +2,15 @@ import { useRef, useEffect } from "react";
 
 const LetterGlitch = ({
 	glitchColors = ["#2b4539", "#61dca3", "#61b3dc"],
-	glitchSpeed = 50,
+	glitchSpeed = 100,
 	centerVignette = false,
 	outerVignette = true,
 	smooth = true,
+	enableColorTransitions = true,
+	enableCharacterUpdates = true,
+	updatePercentage = 0.03,
+	colorTransitionSpeed = 0.03,
+	performanceMode = false,
 }) => {
 	const canvasRef = useRef(null);
 	const animationRef = useRef(null);
@@ -173,31 +178,39 @@ const LetterGlitch = ({
 	};
 
 	const updateLetters = () => {
-		if (!letters.current || letters.current.length === 0) return; // Prevent accessing empty array
+		if (!letters.current || letters.current.length === 0) return;
 
-		const updateCount = Math.max(1, Math.floor(letters.current.length * 0.05));
+		const updateCount = Math.max(
+			1,
+			Math.floor(letters.current.length * updatePercentage)
+		);
 
 		for (let i = 0; i < updateCount; i++) {
 			const index = Math.floor(Math.random() * letters.current.length);
-			if (!letters.current[index]) continue; // Skip if index is invalid
+			if (!letters.current[index]) continue;
 
-			letters.current[index].char = getRandomChar();
-			letters.current[index].targetColor = getRandomColor();
+			if (enableCharacterUpdates) {
+				letters.current[index].char = getRandomChar();
+			}
 
-			if (!smooth) {
-				letters.current[index].color = letters.current[index].targetColor;
-				letters.current[index].colorProgress = 1;
-			} else {
-				letters.current[index].colorProgress = 0;
+			if (enableColorTransitions) {
+				letters.current[index].targetColor = getRandomColor();
+				if (!smooth) {
+					letters.current[index].color = letters.current[index].targetColor;
+					letters.current[index].colorProgress = 1;
+				} else {
+					letters.current[index].colorProgress = 0;
+				}
 			}
 		}
 	};
 
 	const handleSmoothTransitions = () => {
+		if (!enableColorTransitions) return;
 		let needsRedraw = false;
 		letters.current.forEach((letter) => {
 			if (letter.colorProgress < 1) {
-				letter.colorProgress += 0.05;
+				letter.colorProgress += colorTransitionSpeed;
 				if (letter.colorProgress > 1) letter.colorProgress = 1;
 
 				const startRgb = hexToRgb(letter.color);
@@ -224,13 +237,19 @@ const LetterGlitch = ({
 			updateLetters();
 			drawLetters();
 			lastGlitchTime.current = now;
+
+			if (performanceMode) {
+				animationRef.current = setTimeout(animate, glitchSpeed);
+				return;
+			}
 		}
 
-		if (smooth) {
+		if (smooth && !performanceMode) {
 			handleSmoothTransitions();
 		}
 
-		animationRef.current = requestAnimationFrame(animate);
+		if (!performanceMode) {
+			animationRef.current = requestAnimationFrame(animate);
 	};
 
 	useEffect(() => {
