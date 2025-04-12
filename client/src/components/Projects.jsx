@@ -9,7 +9,7 @@ import {
 } from "framer-motion";
 import { fetchGithubProjects } from "../services/github"; // GitHub API service
 import ScrollVelocity from "./ScrollVelocity"; // Import ScrollVelocity component
-import CircularText from "./CircularText"; // Import CircularText component
+
 import LetterGlitch from "./LetterGlitch";
 // Debounce function to limit frequent function calls
 const debounce = (func, wait) => {

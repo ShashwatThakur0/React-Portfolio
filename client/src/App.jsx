@@ -6,7 +6,6 @@ import Skills from "./components/Skills";
 import About from "./components/About";
 import Projects from "./components/Projects";
 import Contact from "./components/Contact";
-import MouseFollower from "./components/MouseFollower";
 
 const pageVariants = {
 	initial: {
@@ -74,7 +73,6 @@ function App() {
 
 	return (
 		<>
-			<MouseFollower />
 			<div className="min-h-screen overflow-hidden max-w-[100vw] bg-gradient-to-b from-gray-900 via-black to-gray-900 text-white">
 				<Navbar />
 				<AnimatePresence mode="wait">
